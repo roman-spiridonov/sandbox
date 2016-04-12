@@ -102,7 +102,7 @@ def dimensions(filename):
 
 
 def _bytes_to_int32(b):
-    """Convert a butes object containing four bytes into an integer."""
+    """Convert a bytes object containing four bytes into an integer."""
     return b[0] | (b[1]<<8) | (b[2]<<16) | (b[3]<<24)
 
 
