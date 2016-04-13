@@ -4,6 +4,8 @@ import unittest
 # Test case - groups together related test functions
 # Fixtures - code run before and/or after each test function (making sure of expected state)
 # Assertions - specific tests/checks for conditions and behaviors
+# One can run tests using nose module:
+# $ nosetests palindrome.py
 
 def analyze_text(filename):
     """Calculate the number of lines and characters in a file.
