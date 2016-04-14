@@ -7,7 +7,8 @@ Usage:
 """
 
 import sys
-from urllib import urlopen
+from urllib.request import urlopen
+# from urllib import urlopen  # Python2 version
 
 
 def fetch_words(url):
@@ -20,12 +21,17 @@ def fetch_words(url):
         A list of strings containing the words from the document.
 
     """
-    story = urlopen(url).read()
-    story_words = []
-    for line in story.split('\n'):
-        line_words = line.split()
-        for word in line_words:
-            story_words.append(word)
+    # Python2 version:
+    # story = urlopen('http://sixty-north.com/c/t.txt').read()
+    # for line in story.split('\n'):
+    #   line_words = line.split()
+
+    with urlopen('http://sixty-north.com/c/t.txt') as story:
+        story_words = []
+        for line in story:
+            line_words = line.decode('utf-8').split()
+            for word in line_words:
+                story_words.append(word)
     return story_words
 
 

@@ -33,7 +33,9 @@ def tuple_sum(A, B):
     # Option 3 (the best)
     return [tuple(x+y for x, y in zip(a, b)) for a, b in zip(A, B)]
 
-
+# # Using lambda functions with multiple arguments
+# print(list(map(lambda x,y: x+y, [2,3],[4,2])))  # Sum of elements in two lists
+# print(list(map(lambda a,b: (a[0]+b[0], a[1]+b[1]), [(2,3),(2,3)],[(4,2),(4,2)])))  # Required task
 
 ## 2: (Problem 0.8.4) Inverse Dictionary
 def inv_dict(d):
