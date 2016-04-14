@@ -21,7 +21,17 @@ def tuple_sum(A, B):
     >>> tuple_sum([(0,1),(-1,0),(2,2)], [(3,4),(5,6),(7,8)])
     [(3, 5), (4, 6), (9, 10)]
     '''
-    return [x+y]
+    # Option 1 (arbitrary # of elements in tuples)
+    # C = []
+    # for i, a in enumerate(A):
+    #     C.append(tuple(map(lambda x,y: x+y, A[i], B[i])))
+    # return C
+
+    # Option 2 (two elements in each tuple)
+    # return [(a[0]+b[0],a[1]+b[1]) for a, b in zip(A,B)]
+
+    # Option 3 (the best)
+    return [tuple(x+y for x, y in zip(a, b)) for a, b in zip(A, B)]
 
 
 
@@ -36,7 +46,11 @@ def inv_dict(d):
     Example:
     >>> inv_dict({'goodbye':  'au revoir', 'thank you': 'merci'}) == {'merci':'thank you', 'au revoir':'goodbye'}
     '''
-    pass
+    # Option 1
+    # return {val: key for key, val in d.items()}
+
+    # Option 2
+    return {d[k]:k for k in d.keys()}
 
 
 
@@ -52,21 +66,32 @@ def row(p, n):
     >>> row(10,4)
     [10, 11, 12, 13]
     '''
-    pass
+    return [x for x in range(p,p+n)]
 
-comprehension_with_row = ...
+# Write a comprehension whose value is a 15-element list of 20-element lists such that the j-th element of the
+# i-th list is i+j
+comprehension_with_row = [row(i, 20) for i in range(15)]
 
-comprehension_without_row = ...
+# Same comprehension but w/o row(p). Hint: replace the call to row(p, n) with the comprehension that forms the
+# body of row(p, n)
+comprehension_without_row = [ [x for x in range(i,i+20)] for i in range(15) ]
 
 
 
 ## 4: (Problem 0.8.10) Probability Exercise 1
-Pr_f_is_even = ...
-Pr_f_is_odd  = ...
+# A function f(x)=x+1 with domain {1, 2, 3, 4, 5, 6} and codomain {2, 3, 4, 5, 6, 7} has the following prob function
+# on its domain: Pr(1) = 0.5, Pr(2) = 0.2, Pr(3) = Pr(5) = Pr(6) = 0.1.
+# What is the probability of getting an even number as an output of f(x)? An odd number?
+P1 = {1: 0.5, 2: 0.2, 3: 0.1, 4: 0, 5: 0.1, 6: 0.1}  # prob distribution
+Pr_f_is_even = sum([P1[x] for x in P1.keys() if (x+1)%2==0])
+Pr_f_is_odd  = sum([P1[x] for x in P1.keys() if (x+1)%2])
 
 
 
 ## 5: (Problem 0.8.11) Probability Exercise 2
-Pr_g_is_1    = ...
-Pr_g_is_0or2 = ...
-
+# A function g(x) = x mod 3 with domain {1, 2, ..., 7} and codomain {0, 1, 2} has the following prob function
+# on its domain: Pr(1) = Pr(2) = Pr(3) = 0.2, Pr(4) = Pr(5) = Pr(6) = Pr(7) = 0.1.
+# What is the prob of getting 1 as an output of g(x)? What is the prob of getting 0 or 2?
+P2 = {1: 0.2, 2: 0.2, 3: 0.2, 4: 0.1, 5: 0.1, 6: 0.1, 7:0.1}  # prob distribution
+Pr_g_is_1    = sum([P2[x] for x in P2.keys() if x%3==1 ])
+Pr_g_is_0or2 = sum([P2[x] for x in P2.keys() if x%3==2 or x%3==0 ])
