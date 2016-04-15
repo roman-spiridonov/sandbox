@@ -6,7 +6,7 @@
 
 
 ## 1: (Task 0.5.1) Minutes in a Week
-minutes_in_week = 40*60
+minutes_in_week = 7*24*60
 
 
 
@@ -17,8 +17,8 @@ remainder_without_mod = 2304811 - (2304811 // 47 * 47)
 
 
 ## 3: (Task 0.5.3) Divisibility
-divisible_by_3 = (673+909) % 3
-# divisible_by_3 = (673+909)/3 == (673+909)//3  # without using %
+# divisible_by_3 = (673+909) % 3
+divisible_by_3 = (673+909)/3 == (673+909)//3  # without using %
 
 
 
@@ -26,7 +26,7 @@ divisible_by_3 = (673+909) % 3
 # Replace the ... with the expression 
 x = -9
 y = 1/2
-expression_val = 2
+expression_val = 1
 
 
 
@@ -45,7 +45,7 @@ first_five_pows_two = { 2**_ for _ in {0,1,2,3,4} }
 # {x*y for x in X1 for y in Y1} evaluates to a nine-element set.
 
 X1 = { 1, 2, 3 }
-Y1 = { 4, 5, 6 }
+Y1 = { 5, 7, 11 }
 
 
 
@@ -65,7 +65,7 @@ Y2 = { 3, 6, 12 }
 S = {1, 2, 3, 4}
 T = {3, 4, 5, 6}
 # Replace { ... } with a one-line set comprehension that evaluates to the intersection of S and T
-S_intersect_T = { x for x in S if x not in T }
+S_intersect_T = { x for x in S if x in T }
 
 
 
@@ -142,7 +142,7 @@ B = [1, 15, 20]
 # Replace [...] with a one-line comprehension that uses zip together with the variables A and B.
 # The comprehension should evaluate to a list whose ith element is the ith element of
 # A plus the ith element of B.
-list_sum_zip = [x[0]+y[1] for x in zip(A,B)]
+list_sum_zip = [x[0]+x[1] for x in zip(A,B)]
 
 
 
@@ -181,11 +181,12 @@ identity_dict = {k:k for k in D}
 ## 24: (Task 0.5.25) Mapping integers to their representation over a given base
 base = 10
 digits = set(range(base))
-I = 215
 # Replace { ... } with a one-line dictionary comprehension
 # Your comprehension should use the variables 'base' and 'digits' so it will work correctly if these
 # are assigned different values (e.g. base = 2 and digits = {0,1})
-representation_dict = { ... }
+
+# representation_dict = { x: [x//base**2, (x//base) - (x//base**2)*base, x-(x//base**2)*base**2 - ((x//base) - (x//base**2)*base)*base] for x in range(base**3) }
+representation_dict = { a*base**2+b*base+c: [a, b, c] for a in digits for b in digits for c in digits }
 
 
 
@@ -193,19 +194,20 @@ representation_dict = { ... }
 id2salary = {0:1000.0, 1:1200.50, 2:990}
 names = ['Larry', 'Curly', 'Moe']
 # Replace { ... } with a one-line dictionary comprehension that uses id2salary and names.
-listdict2dict = { ... }
+# names[id] yields the name, while id2salary[id] yields the salary
+listdict2dict = { names[id]:id2salary[id] for id in id2salary.keys() }
 
 
 
 ## 26: (Task 0.5.28) Procedure nextInts
 # Complete the procedure definition by replacing [ ... ] with a one-line list comprehension
-def nextInts(L): return [ ... ]
+def nextInts(L): return [ i+1 for i in L ]
 
 
 
 ## 27: (Task 0.5.29) Procedure cubes
 # Complete the procedure definition by replacing [ ... ] with a one-line list comprehension
-def cubes(L): return [ ... ] 
+def cubes(L): return [ i**3 for i in L ]
 
 
 
@@ -214,7 +216,7 @@ def cubes(L): return [ ... ]
 # Output: the list L such that L[i] is the value associated in dct with keylist[i]
 # Example: dict2list({'a':'A', 'b':'B', 'c':'C'},['b','c','a']) should equal ['B','C','A']
 # Complete the procedure definition by replacing [ ... ] with a one-line list comprehension
-def dict2list(dct, keylist): return [ ... ]
+def dict2list(dct, keylist): return [ dct[k] for k in keylist ]
 
 
 
@@ -223,11 +225,10 @@ def dict2list(dct, keylist): return [ ... ]
 # Output: the dictionary that maps keylist[i] to L[i] for i=0,1,...len(L)-1
 # Example: list2dict(['A','B','C'],['a','b','c']) should equal {'a':'A', 'b':'B', 'c':'C'}
 # Complete the procedure definition by replacing { ... } with a one-line dictionary comprehension
-def list2dict(L, keylist): return { ... }
+def list2dict(L, keylist): return { k:l for k,l in zip(keylist,L) }
 
 
 
 ## 30: (Task 0.5.32) Generating all three-digit numbers over a given base
 # Complete the procedure definition by replacing { ... } with a one-line set comprehension
-def all_3_digit_numbers(base, digits): return { ... }
-
+def all_3_digit_numbers(base, digits): return {  a*base**2+b*base+c for a in digits for b in digits for c in digits }

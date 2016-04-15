@@ -2,7 +2,10 @@
 # Please fill out this stencil and submit using the provided submission script.
 
 
+from random import randint
+from itertools import chain
 
+STORIES = ['stories_small.txt', 'stories_big.txt']
 
 
 ## 1: (Task 0.6.2) Movie Review
@@ -12,8 +15,7 @@ def movie_review(name):
     Input: the name of a movie
     Output: a string (one of the review options), selected at random using randint
     """
-    return ...
-
+    return ["Wow!", "Brilliant!", "A gem", "The best", "Good"][randint(1, 5)-1]
 
 
 ## 2: (Task 0.6.6) Make Inverse Index
@@ -31,8 +33,19 @@ def makeInverseIndex(strlist):
     >>> makeInverseIndex(['hello world','hello','hello cat','hellolot of cats']) == {'hello': {0, 1, 2}, 'cat': {2}, 'of': {3}, 'world': {0}, 'cats': {3}, 'hellolot': {3}}
     True
     """
-    pass
+    res = {}
+    for i, str in enumerate(strlist):
+        # upd_dict = {word: {i} for word in str.split() if word not in res}  # new keys to index
+        # res.update(upd_dict)
+        res.update({word: {i}.union(res[word] if word in res else set())  # add {i} to existing set, or empty set
+                    for word in str.split()})
+        # for word in str.split():
+        #     if word in res:
+        #         res[word].add(i)
+        #     else:
+        #         res[word] = {i}
 
+    return res
 
 
 ## 3: (Task 0.6.7) Or Search
@@ -52,8 +65,11 @@ def orSearch(inverseIndex, query):
     >>> idx == makeInverseIndex(['Johann Sebastian Bach', 'Johannes Brahms', 'Johann Strauss the Younger', 'Johann Strauss the Elder', ' Johann Christian Bach',  'Carl Philipp Emanuel Bach'])
     True
     """
-    pass
-
+    # res = set()
+    # for word in query:
+    #     res.add(inverseIndex[word])
+    # return res
+    return set(chain.from_iterable(inverseIndex[word] for word in query))
 
 
 ## 4: (Task 0.6.8) And Search
@@ -73,5 +89,29 @@ def andSearch(inverseIndex, query):
     >>> idx == makeInverseIndex(['Johann Sebastian Bach', 'Johannes Brahms', 'Johann Strauss the Younger', 'Johann Strauss the Elder', ' Johann Christian Bach',  'Carl Philipp Emanuel Bach'])
     True
     """
-    pass
 
+    res = {k if all(k in inverseIndex[word] for word in query) else None
+           for k in chain.from_iterable(inverseIndex[word] for word in query)
+           # document ids containing the words based on index
+           }
+    res.discard(None)
+    return res
+
+
+def main():
+    print("Enter list of words separated with spaces as search query: ")
+    input_str = input()
+    query = input_str.split()
+
+    print("Choose file to search: 1 - stories_small.txt, 2 - stories_big.txt")
+    story_id = int(input())-1
+    stories = list(open(STORIES[story_id]))
+    print("Searching through {}...".format(STORIES[story_id]))
+
+    idx = makeInverseIndex(stories)
+    print("orSearch results:", orSearch(idx, query))
+    print("andSearch results:", andSearch(idx, query))
+
+
+if __name__ == "__main__":
+    main()
