@@ -6,18 +6,19 @@
 
 
 ## 1: (Task 0.5.1) Minutes in a Week
-minutes_in_week = ...
+minutes_in_week = 40*60
 
 
 
 ## 2: (Task 0.5.2) Remainder
 #For this task, your expression must use //
-remainder_without_mod = ...
+remainder_without_mod = 2304811 - (2304811 // 47 * 47)
 
 
 
 ## 3: (Task 0.5.3) Divisibility
-divisible_by_3 = ...
+divisible_by_3 = (673+909) % 3
+# divisible_by_3 = (673+909)/3 == (673+909)//3  # without using %
 
 
 
@@ -25,17 +26,17 @@ divisible_by_3 = ...
 # Replace the ... with the expression 
 x = -9
 y = 1/2
-expression_val = ...
+expression_val = 2
 
 
 
 ## 5: (Task 0.5.5) Squares Set Comprehension
-first_five_squares = { ... for _ in {1,2,3,4,5} }
+first_five_squares = { _**2 for _ in {1,2,3,4,5} }
 
 
 
 ## 6: (Task 0.5.6) Powers-of-2 Set Comprehension
-first_five_pows_two = { ... for _ in {0,1,2,3,4} }
+first_five_pows_two = { 2**_ for _ in {0,1,2,3,4} }
 
 
 
@@ -43,8 +44,8 @@ first_five_pows_two = { ... for _ in {0,1,2,3,4} }
 # Assign three-element sets to X1 and Y1 so that
 # {x*y for x in X1 for y in Y1} evaluates to a nine-element set.
 
-X1 = { ..., ..., ... }
-Y1 = { ..., ..., ... }
+X1 = { 1, 2, 3 }
+Y1 = { 4, 5, 6 }
 
 
 
@@ -52,16 +53,19 @@ Y1 = { ..., ..., ... }
 # Assign disjoint three-element sets to X1 and Y1 so that
 # {x*y for x in X1 for y in Y1} evaluates to a five-element set.
 
-X2 = { ..., ..., ... }
-Y2 = { ..., ..., ... }
+X2 = { 2, 4, 8 }
+Y2 = { 3, 6, 12 }
 
-
+# 6, 12, 24
+# 12, 24, 48
+# 24, 48, 812
+# => {6, 12, 24, 48, 812}
 
 ## 9: (Task 0.5.9) Set intersection as a comprehension
 S = {1, 2, 3, 4}
 T = {3, 4, 5, 6}
 # Replace { ... } with a one-line set comprehension that evaluates to the intersection of S and T
-S_intersect_T = { ... }
+S_intersect_T = { x for x in S if x not in T }
 
 
 
@@ -70,13 +74,13 @@ list_of_numbers = [20, 10, 15, 75]
 # Replace ... with a one-line expression that evaluates to the average of list_of_numbers.
 # Your expression should refer to the variable list_of_numbers, and should work
 # for a list of any length greater than zero.
-list_average = ... 
+list_average = sum(list_of_numbers) / len(list_of_numbers)
 
 
 
 ## 11: (Task 0.5.11) Cartesian-product comprehension
 # Replace ... with a double list comprehension over ['A','B','C'] and [1,2,3]
-cartesian_product = ...
+cartesian_product = [ [x, y] for x in {'A','B','C'} for y in {1,2,3}]
 
 
 
@@ -84,40 +88,42 @@ cartesian_product = ...
 LofL = [[.25, .75, .1], [-1, 0], [4, 4, 4, 4]]
 # Replace ... with a one-line expression of the form sum([sum(...) ... ]) that
 # includes a comprehension and evaluates to the sum of all numbers in all the lists.
-LofL_sum = ...
+LofL_sum = sum(sum(x) for x in LofL)
 
 
 
 ## 13: (Task 0.5.14) Three-element tuples summing to zero
 S = {-4, -2, 1, 2, 5, 0}
 # Replace [ ... ] with a one-line list comprehension in which S appears
-zero_sum_list = [ ... ] 
+zero_sum_list = [ (x,y,z) for x in S for y in S for z in S if x+y+z==0 ]
 
 
 
 ## 14: (Task 0.5.15) Nontrivial three-element tuples summing to zero
 S = {-4, -2, 1, 2, 5, 0}
 # Replace [ ... ] with a one-line list comprehension in which S appears
-exclude_zero_list = [ ... ]
+exclude_zero_list = [ (x,y,z) for x in S for y in S for z in S if x+y+z==0 and any([x!=0,y!=0,z!=0]) ]
 
 
 
 ## 15: (Task 0.5.16) One nontrivial three-element tuple summing to zero
 S = {-4, -2, 1, 2, 5, 0}
 # Replace ... with a one-line expression that uses a list comprehension in which S appears
-first_of_tuples_list = ...
+first_of_tuples_list = [ (x,y,z) for x in S for y in S for z in S if x+y+z==0 and any([x!=0,y!=0,z!=0]) ][0]
 
 
 
 ## 16: (Task 0.5.17) List and set differ
 # Assign to example_L a list such that len(example_L) != len(list(set(example_L)))
-example_L = [...]
+example_L = [2, 2, 3]
 
 
 
 ## 17: (Task 0.5.18) Odd numbers
 # Replace {...} with a one-line set comprehension over a range of the form range(n)
-odd_num_list_range = {...}
+odd_num_list_range = {x for x in range(100) if x%2}
+# odd_num_list_range = { x for x in range(1,100,2) }
+
 
 
 
@@ -125,8 +131,9 @@ odd_num_list_range = {...}
 # In the line below, replace ... with an expression that does not include a comprehension.
 # Instead, it should use zip and range.
 # Note: zip() does not return a list. It returns an 'iterator of tuples'
-range_and_zip = ...
-
+L = ['A','B','C','D','E']
+# range_and_zip = [(x,y) for x,y in enumerate(L)]
+range_and_zip = list(zip(range(len(L)),L))
 
 
 ## 19: (Task 0.5.20) Using zip to find elementwise sums
@@ -135,7 +142,7 @@ B = [1, 15, 20]
 # Replace [...] with a one-line comprehension that uses zip together with the variables A and B.
 # The comprehension should evaluate to a list whose ith element is the ith element of
 # A plus the ith element of B.
-list_sum_zip = [...]
+list_sum_zip = [x[0]+y[1] for x in zip(A,B)]
 
 
 
@@ -144,7 +151,7 @@ dlist = [{'James':'Sean', 'director':'Terence'}, {'James':'Roger', 'director':'L
 k = 'James'
 # Replace [...] with a one-line comprehension that uses dlist and k
 # and that evaluates to ['Sean','Roger','Pierce']
-value_list = [...]
+value_list = [ d[k] for d in dlist]
 
 
 
@@ -152,28 +159,29 @@ value_list = [...]
 dlist = [{'Bilbo':'Ian','Frodo':'Elijah'},{'Bilbo':'Martin','Thorin':'Richard'}]
 k = 'Bilbo'
 #Replace [...] with a one-line comprehension 
-value_list_modified_1 = [...] # <-- Use the same expression here
+value_list_modified_1 = [ d.get(k,"NOT PRESENT") for d in dlist ] # <-- Use the same expression here
 k = 'Frodo'
-value_list_modified_2 = [...] # <-- as you do here
+value_list_modified_2 = [ d[k] if k in d else "NOT PRESENT" for d in dlist ] # <-- as you do here
 
 
 
 ## 22: (Task 0.5.23) A dictionary mapping integers to their squares
 # Replace {...} with a one-line dictionary comprehension
-square_dict = {...}
+square_dict = {x: x**2 for x in range(100)}
 
 
 
 ## 23: (Task 0.5.24) Making the identity function
 D = {'red','white','blue'}
 # Replace {...} with a one-line dictionary comprehension
-identity_dict = {...}
+identity_dict = {k:k for k in D}
 
 
 
 ## 24: (Task 0.5.25) Mapping integers to their representation over a given base
 base = 10
 digits = set(range(base))
+I = 215
 # Replace { ... } with a one-line dictionary comprehension
 # Your comprehension should use the variables 'base' and 'digits' so it will work correctly if these
 # are assigned different values (e.g. base = 2 and digits = {0,1})
