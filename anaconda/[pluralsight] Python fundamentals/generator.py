@@ -1,11 +1,12 @@
 """Module for demonstrating generator execution."""
 
+import os
 
 def take(count, iterable):
     """Take items from the front of an iterable.
 
         Args:
-            count: The max number of items to retrieve.
+            count (int): The max number of items to retrieve.
             iterable: The source series.
 
         Yields:
@@ -15,11 +16,11 @@ def take(count, iterable):
     for item in iterable:  # control is transferred to distinct to get the next value
         if counter == count:
             return
-        counter += 1
-        yield item
+    counter += 1
+    yield item
 
 
-def run_take():
+def run_take() -> int:
     items = [2, 4, 6, 8, 10]
     for item in take(3, items):
         print(item)
