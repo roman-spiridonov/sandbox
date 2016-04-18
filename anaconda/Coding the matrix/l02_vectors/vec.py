@@ -15,9 +15,10 @@ def getitem(v,k):
     0
     """
     assert k in v.D
-    pass
+    return v.f.get(k, 0)
+    # return v.f[k] if k in v.f else 0.0
 
-def setitem(v,k,val):
+def setitem(v,d,val):
     """
     Set the element of v with label d to be val.
     setitem(v,d,val) should set the value for key d even if d
@@ -34,8 +35,8 @@ def setitem(v,k,val):
     >>> v['a']
     0
     """
-    assert k in v.D
-    pass
+    assert d in v.D
+    v.f[d] = val
 
 def equal(u,v):
     """
@@ -71,7 +72,10 @@ def equal(u,v):
     False
     """
     assert u.D == v.D
-    pass
+    for k in set(u.f.keys()) | set(v.f.keys()):
+        if u[k] != v[k]:
+            return False
+    return True
 
 def add(u,v):
     """
@@ -108,7 +112,12 @@ def add(u,v):
     True
     """
     assert u.D == v.D
-    pass
+    res = Vec(v.D, {})
+    for k in set(u.f.keys()) | set(v.f.keys()):
+        s = u[k]+v[k]
+        if s != 0:
+            res[k] = s
+    return res
 
 def dot(u,v):
     """
@@ -142,7 +151,11 @@ def dot(u,v):
     12
     """
     assert u.D == v.D
-    pass
+    # res = 0
+    # for k in set(u.f.keys()) | set(v.f.keys()):
+    #     res += u[k]*v[k]
+    # return res
+    return sum(u[k]*v[k] for k in set(u.f) | set(v.f))
 
 def scalar_mul(v, alpha):
     """
@@ -162,7 +175,10 @@ def scalar_mul(v, alpha):
     >>> u == Vec({'x','y','z','w'},{'x':1,'y':2,'z':3,'w':4})
     True
     """
-    pass
+    res = Vec(v.D, {})
+    for k in v.f:
+        res[k] = v[k]*alpha
+    return res
 
 def neg(v):
     """
@@ -179,7 +195,7 @@ def neg(v):
     >>> -Vec({'a','b','c'}, {'a':1}) == Vec({'a','b','c'}, {'a':-1})
     True
     """
-    pass
+    return scalar_mul(v, -1)
 
 ###############################################################################################################################
 
