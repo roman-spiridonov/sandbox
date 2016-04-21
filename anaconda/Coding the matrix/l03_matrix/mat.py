@@ -11,6 +11,7 @@ import sys
 
 sys.path.append('..') # for compatibility with running from console
 from matlib.vec import Vec
+from itertools import chain
 
 #Test your Mat class over R and also over GF(2).  The following tests use only R.
 
@@ -184,7 +185,8 @@ def vector_matrix_mul(v, M):
     # return Vec(M.D[1], {j:sum(v[i]*M[i,j] for i in M.D[0]) for j in M.D[1]})  # not using sparsity => need to rewrite
 
     # Sparse matrix optimization
-    b = Vec(M.D[1], {i:0 for i in M.D[1]})
+    # b = Vec(M.D[1], {i:0 for i in M.D[1]})
+    b = Vec(M.D[1], {})
     for i, j in M.f:
         b[j] = b[j] + v[i]*M[i,j]
     return b
@@ -219,7 +221,8 @@ def matrix_vector_mul(M, v):
     # return Vec(M.D[0], {i:sum(M[i,j]*v[j] for j in M.D[1]) for i in M.D[0]})  # not using sparsity => need to rewrite
 
     # Sparse matrix optimization
-    b = Vec(M.D[0], {i:0 for i in M.D[0]})
+    # b = Vec(M.D[0], {i:0 for i in M.D[0]})
+    b = Vec(M.D[0], {})
     for i, j in M.f:
         b[i] = b[i] + v[j]*M[i,j]
     return b
@@ -254,12 +257,12 @@ def matrix_matrix_mul(A, B):
     # return Mat( (A.D[0],B.D[1]), {(i,j):sum(A[i,k]*B[k,j] for k in A.D[1]) for i in A.D[0] for j in B.D[1]})
 
     # Sparsity optimization
-    res = Mat( (A.D[0],B.D[1]), {(i,j):0 for i in A.D[0] for j in B.D[1]})  # zero-matrix
-    for i, j in zip(A.f,B.f):
-        add = sum(A[i[0],k]*B[k,j[1]] for k in A.D[1])
-        if i[0]==j[1]: # diagonal elements appear twice
-            add = add/2
-        res[i[0],j[1]] = res[i[0],j[1]] + add
+    # res = Mat( (A.D[0],B.D[1]), {(i,j):0 for i in A.D[0] for j in B.D[1]})  # zero-matrix
+    res = Mat( (A.D[0],B.D[1]), {})  # zero-matrix
+    for i, j in {(x[0],y[1]) for x in A.f for y in B.f}:
+        add = sum(A[i,k]*B[k,j] for k in A.D[1])
+        # add = add/2
+        res[i,j] = res[i,j] + add
 
     return res
 
