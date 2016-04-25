@@ -9,6 +9,7 @@ Updated by Nick Gaya, Spring 2013
 Requires: fields matutil
 """
 
+import sys
 sys.path.append('..') # for compatibility with running from console
 from matlib.GF2 import zero, one
 import matlib.mat as mat

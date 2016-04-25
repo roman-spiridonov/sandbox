@@ -1,6 +1,8 @@
 # Copyright 2013 Philip N. Klein
-from vec import Vec
-from mat import Mat
+import sys
+sys.path.append('..')  # for compatibility with running from console
+from matlib.vec import Vec
+from matlib.mat import Mat
 
 def efficient_rowdict2mat(rowdict):
     col_labels = value(rowdict).D

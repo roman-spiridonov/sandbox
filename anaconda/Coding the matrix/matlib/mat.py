@@ -7,7 +7,11 @@ matrix_as_list = [ [1, 2, 3], [10, 20, 30] ]
 row-labels -> matrix.D[0]: 'a', 'b'
 col-labels -> matrix.D[1]: '@', '#', '?'
 """
-from vec import Vec
+import sys
+
+sys.path.append('..')  # for compatibility with running from console
+from matlib.vec import Vec
+from itertools import chain
 
 #Test your Mat class over R and also over GF(2).  The following tests use only R.
 
@@ -51,7 +55,7 @@ def equal(A, B):
     True
     >>> A = Mat(({'a','b'}, {'A','B'}), {('a','B'):2, ('b','A'):1})
     >>> B = Mat(({'a','b'}, {'A','B'}), {('a','B'):2, ('b','A'):1, ('b','B'):0})
-    >>> C = Mat(({'a','b'}, {'A','B'}), {('a',1):2, ('b','A'):1, ('b','B'):5})
+    >>> C = Mat(({'a','b'}, {'A','B'}), {('a','B'):2, ('b','A'):1, ('b','B'):5})
     >>> A == B
     True
     >>> B == A
@@ -178,7 +182,15 @@ def vector_matrix_mul(v, M):
     """
     assert M.D[0] == v.D
     # v*(1*m), A(m*n) => v*A = [ dot(v*,a1), ..., dot(v*,an) ]* => row-vector (1*n)
-    return Vec(M.D[1], {j:sum(v[i]*M[i,j] for i in M.D[0]) for j in M.D[1]})  # TODO: not using sparsity => need to rewrite
+    # return Vec(M.D[1], {j:sum(v[i]*M[i,j] for i in M.D[0]) for j in M.D[1]})  # not using sparsity => need to rewrite
+
+    # Sparse matrix optimization
+    # b = Vec(M.D[1], {i:0 for i in M.D[1]})
+    b = Vec(M.D[1], {})
+    for i, j in M.f:
+        b[j] = b[j] + v[i]*M[i,j]
+    return b
+
 
 def matrix_vector_mul(M, v):
     """
@@ -206,7 +218,14 @@ def matrix_vector_mul(M, v):
     """
     assert M.D[1] == v.D
     # A(m*n), x(n*1) => A*x = [ dot(a1*,v), ..., dot(an*v) ] => column-vector (m*1)
-    return Vec(M.D[0], {i:sum(M[i,j]*v[j] for j in M.D[1]) for i in M.D[0]})  # TODO: not using sparsity => need to rewrite
+    # return Vec(M.D[0], {i:sum(M[i,j]*v[j] for j in M.D[1]) for i in M.D[0]})  # not using sparsity => need to rewrite
+
+    # Sparse matrix optimization
+    # b = Vec(M.D[0], {i:0 for i in M.D[0]})
+    b = Vec(M.D[0], {})
+    for i, j in M.f:
+        b[i] = b[i] + v[j]*M[i,j]
+    return b
 
 def matrix_matrix_mul(A, B):
     """
@@ -235,7 +254,18 @@ def matrix_matrix_mul(A, B):
     True
     """
     assert A.D[1] == B.D[0]
-    return Mat( (A.D[0],B.D[1]), {(i,j):sum(A[i,k]*B[k,j] for k in A.D[1]) for i in A.D[0] for j in B.D[1]})
+    # return Mat( (A.D[0],B.D[1]), {(i,j):sum(A[i,k]*B[k,j] for k in A.D[1]) for i in A.D[0] for j in B.D[1]})
+
+    # Sparsity optimization
+    # res = Mat( (A.D[0],B.D[1]), {(i,j):0 for i in A.D[0] for j in B.D[1]})  # zero-matrix
+    res = Mat( (A.D[0],B.D[1]), {})  # zero-matrix
+    for i, j in {(x[0],y[1]) for x in A.f for y in B.f}:
+        add = sum(A[i,k]*B[k,j] for k in A.D[1])
+        # add = add/2
+        res[i,j] = res[i,j] + add
+
+    return res
+
 
 ################################################################################
 

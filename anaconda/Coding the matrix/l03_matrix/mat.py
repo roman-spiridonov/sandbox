@@ -9,7 +9,7 @@ col-labels -> matrix.D[1]: '@', '#', '?'
 """
 import sys
 
-sys.path.append('..') # for compatibility with running from console
+sys.path.append('..')  # for compatibility with running from console
 from matlib.vec import Vec
 from itertools import chain
 
