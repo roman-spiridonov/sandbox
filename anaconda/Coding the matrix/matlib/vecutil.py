@@ -1,5 +1,7 @@
 # Copyright 2013 Philip N. Klein
-from vec import Vec
+import sys
+sys.path.append('..')  # for compatibility with running from console
+from matlib.vec import Vec
 
 def list2vec(L):
     """Given a list L of field elements, return a Vec with domain {0...len(L)-1}
