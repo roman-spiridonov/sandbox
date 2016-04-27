@@ -10,25 +10,25 @@ Requires: fields matutil
 """
 
 import sys
-sys.path.append('..') # for compatibility with running from console
-from matlib.GF2 import zero, one
-import matlib.mat as mat
+sys.path.append('..\\matlib') # for compatibility with running from console
+from GF2 import zero, one
+import mat as mat
 import random
 
 def str2bits(inp):
     """
-    Convert a string into a list of bits, with each character's bits in order
+    Convert a string into a list of bits (8 bit per char), with each character's bits in order
     of increasing significance.
     """
-    bs = [1<<i for i in range(8)]
-    return [one if ord(s)&b else zero for s in inp for b in bs]
+    bs = [1<<i for i in range(8)]  # 2^i for i=0..7
+    return [one if ord(s)&b else zero for s in inp for b in bs]   # ord(s)&b yields (b+1)-th bit
 
 def bits2str(inp):
     """
-    Convert a list of bits into a string.  If the number of bits is not a
-    multiple of 8, the last group of bits will be padded with zeros.
+    Convert a list of bits into a string, assuming each character is 8-bit.
+    If the number of bits is not a multiple of 8, the last group of bits will be padded with zeros.
     """
-    bs = [1<<i for i in range(8)]
+    bs = [1<<i for i in range(8)]  # 2^i for i=0..7
     return ''.join(chr(sum(bv if bit else 0 for bv,bit in zip(bs, inp[i:i+8]))) for i in range(0, len(inp), 8))
 
 def bits2mat(bits,nrows=4,trans=False):
