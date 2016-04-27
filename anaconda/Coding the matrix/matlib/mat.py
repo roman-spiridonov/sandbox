@@ -7,10 +7,7 @@ matrix_as_list = [ [1, 2, 3], [10, 20, 30] ]
 row-labels -> matrix.D[0]: 'a', 'b'
 col-labels -> matrix.D[1]: '@', '#', '?'
 """
-import sys
-
-sys.path.append('..')  # for compatibility with running from console
-from matlib.vec import Vec
+from vec import Vec  # not matlib.vec for compatibility with solve
 from itertools import chain
 
 #Test your Mat class over R and also over GF(2).  The following tests use only R.

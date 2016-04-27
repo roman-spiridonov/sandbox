@@ -3,8 +3,7 @@
 
 import sys
 import os
-sys.path.append('..')  # for compatibility with running from console
-sys.path.insert(0, os.path.abspath('..\\matlib'))
+sys.path.insert(0, os.path.abspath('..\\matlib'))  # for compatibility with running from console
 
 from GF2 import one
 from math import sqrt, pi
@@ -188,8 +187,6 @@ def vec2rep(veclist, v):
         True
     '''
     x = solve(coldict2mat(veclist), v)
-    print(x)
-    print(coldict2mat(veclist))
     return x
 
 

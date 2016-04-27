@@ -2,9 +2,9 @@
 # Please fill out this stencil and submit using the provided submission script.
 
 import sys
-sys.path.append('..')  # for compatibility with running from console
-from matlib.vec import Vec
-from matlib.mat import Mat
+sys.path.append('..\\matlib')  # for compatibility with running from console
+from vec import Vec
+from mat import Mat
 
 
 

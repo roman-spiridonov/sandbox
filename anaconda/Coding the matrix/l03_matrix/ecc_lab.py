@@ -2,13 +2,13 @@
 # Please fill out this stencil and submit using the provided submission script.
 
 import sys
-sys.path.append('..')  # for compatibility with running from console
-from matlib.vec import Vec
-from matlib.mat import Mat
-from matlib.bitutil import bits2mat, str2bits, noise
-from matlib.GF2 import one
-from matlib.matutil import listlist2mat
-from matlib.mat import transpose
+sys.path.append('..\\matlib')  # for compatibility with running from console
+from vec import Vec
+from mat import Mat
+from bitutil import bits2mat, str2bits, noise
+from GF2 import one
+from matutil import listlist2mat
+from mat import transpose
 
 ## Task 1
 """ Create an instance of Mat representing the generator matrix G. You can use
