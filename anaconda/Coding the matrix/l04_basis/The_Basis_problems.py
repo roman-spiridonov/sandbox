@@ -20,9 +20,9 @@ from vecutil import list2vec
 #
 # For example, [1, 3, 5] would mean 1*[2,0,4,0] + 3*[0,1,0,1] + 5*[0,0,-1,-1]
 
-rep_1 = [...]
-rep_2 = [...]
-rep_3 = [...]
+rep_1 = [1, 1, 0]
+rep_2 = [1/2, 1, 1]
+rep_3 = [0, 1, -1]
 
 
 
@@ -30,7 +30,7 @@ rep_3 = [...]
 # For each part, please provide your solution as a list of the coefficients for
 # the generators of V.
 
-lin_comb_coefficients_1 = [...]
+lin_comb_coefficients_1 = [2, -1, 1]
 lin_comb_coefficients_2 = [...]
 lin_comb_coefficients_3 = [...]
 lin_comb_coefficients_4 = [...]
@@ -42,7 +42,7 @@ lin_comb_coefficients_4 = [...]
 # For each part, please provide your solution as a list of the coefficients for
 # the generators of V.
 
-gf2_rep_1 = [...]
+gf2_rep_1 = [one, 0, one, 0]
 gf2_rep_2 = [...]
 gf2_rep_3 = [...]
 
@@ -53,10 +53,10 @@ gf2_rep_3 = [...]
 # For each part, please provide your solution as a list of the coefficients for
 # the generators of V.
 
-gf2_lc_rep_1 = [...]
-gf2_lc_rep_2 = [...]
-gf2_lc_rep_3 = [...]
-gf2_lc_rep_4 = [...]
+gf2_lc_rep_1 = [0, 0, 0, 0, one, one, 0, 0]  # sum(vi) = path, hence v5 + v6 - path from c to d
+gf2_lc_rep_2 = [0, 0, 0, 0, 0, 0, one, one]
+gf2_lc_rep_3 = [one, 0, 0, one, 0, 0, 0, 0]
+gf2_lc_rep_4 = [0, 0, 0, one, 0, one, 0, 0]
 
 
 
@@ -86,20 +86,20 @@ linear_dep_R_3 = [...]
 # For example, if you want to say that w equals 2*u+3*v, you would
 # assign 'w' to sum_to, assign 2 to u_coeff, and assign 3 to v_coeff.
 # (In this case, it would not matter what was assigned to w_coeff.)
-sum_to = ...
-u_coeff = ...
-v_coeff = ...
-w_coeff = ...
+sum_to = 'v'
+u_coeff = 1
+v_coeff = 1
+w_coeff = 1
 
 
 
 ## 8: (Problem 5.14.8) 4 linearly dependent vectors, every 3 are independent
 # Please use the Vec class to represent your vectors
 
-indep_vec_1 = Vec({...}, {...})
-indep_vec_2 = Vec({...}, {...})
-indep_vec_3 = Vec({...}, {...})
-indep_vec_4 = Vec({...}, {...})
+indep_vec_1 = Vec({0, 1, 2}, {0:1, 1:1, 2:0})
+indep_vec_2 = Vec({0, 1, 2}, {0:0, 1:1, 2:1})
+indep_vec_3 = Vec({0, 1, 2}, {0:1, 1:0, 2:1})
+indep_vec_4 = Vec({0, 1, 2}, {0:1, 1:1, 2:1})
 
 
 
@@ -117,34 +117,34 @@ zero_comb_3 = [...]
 # In each subproblem, give your solution as a list of coefficients selected from {0, one}
 
 # [coeff of v1, coeff of v2, coeff of v3, coeff of v4, coeff of v5]
-sum_to_zero_1 = [...]
+sum_to_zero_1 = [0, one, 0, one, one]  # form a cycle => sum to 0
 
 # [coeff of v1, coeff of v2, coeff of v3, coeff of v4, coeff of v5, coeff of v7, coeff of v8]
-sum_to_zero_2 = [...]
+sum_to_zero_2 = [0, one, 0, one, one, 0, 0]  # subset is lineary dep => the initial combination is lineary dep
 
 # [coeff of v1, coeff of v2, coeff of v3, coeff of v4, coeff of v6]
-sum_to_zero_3 = [...]
+sum_to_zero_3 = [one, 0, one, one, one]
 
 # [coeff of v1, coeff of v2, coeff of v3, coeff of v5, coeff of v6, coeff of v7, coeff of v8]
-sum_to_zero_4 = [...]
+sum_to_zero_4 = [one, one, one, one, one, 0, 0]
 
 
 
 ## 11: (Problem 5.14.11) Exchange Lemma for Vectors over $\R$
 ## Please express your answer as a list of ints, such as [1,0,0,0,0]
 
-exchange_1 = [...]
-exchange_2 = [...]
-exchange_3 = [...]
+exchange_1 = [0, 0, 1, 0, 0]
+exchange_2 = [0, 0, 0, 1, 0]
+exchange_3 = [0, 0, 1, 0, 0]
 
 
 
 ## 12: (Problem 5.14.12) Exchange Lemma for Vectors over GF(2)
 # Please give the name of the vector you want to replace as a string (e.g. 'v1')
 
-replace_1 = ...
-replace_2 = ...
-replace_3 = ...
+replace_1 = 'v3'  # ejecting v3 while injecting a new edge (GF(2)^N vector) leaves the previously nodes still connected
+replace_2 = 'v1'
+replace_3 = 'v4'
 
 
 
@@ -186,14 +186,15 @@ def vec2rep(veclist, v):
         >>> vec2rep([v0,v1,v2], v)  == Vec({0, 1, 2},{0: 1.5, 1: -0.25, 2: 1.25})
         True
     '''
-    x = solve(coldict2mat(veclist), v)
+    A = coldict2mat(veclist)
+    x = solve(A, v)
+    res = (v - A*x)
+    assert res*res<1e-14  # checking that the solution was found
     return x
-
-
 
 ## 15: (Problem 5.14.15) Superfluous Vector in Python
 def is_superfluous(L, i):
-    '''
+    ''' True if vector L[i] can be ejected without changing the span.
     Input:
         - L: list of vectors as instances of Vec class
         - i: integer in range(len(L))
@@ -218,7 +219,19 @@ def is_superfluous(L, i):
     >>> is_superfluous([Vec({0,1}, {0:1})], 0)
     False
     '''
-    pass
+    if len(L)>1:
+        Lmat = coldict2mat(L[:i] + L[i+1:])
+    elif L[0].f=={}:
+        return True
+    else:
+        return False
+
+    x = solve(Lmat, L[i])
+    # print(Lmat)
+    res = L[i]-Lmat*x
+    if res*res>1e-14:
+        return False
+    return True
 
 
 
@@ -250,7 +263,10 @@ def is_independent(L):
         >>> vlist == [Vec({0, 1, 2},{0: 1}), Vec({0, 1, 2},{1: 1}), Vec({0, 1, 2},{2: 1}), Vec({0, 1, 2},{0: 1, 1: 1, 2: 1}), Vec({0, 1, 2},{1: 1, 2: 1}), Vec({0, 1, 2},{0: 1, 1: 1})]
         True
     '''
-    pass
+    for i in range(len(L)):
+        if is_superfluous(L, i):
+            return False
+    return True
 
 
 
@@ -289,7 +305,26 @@ def subset_basis(T):
         >>> all(is_superfluous([b]+sb, 0) for b in [b0, b1, b2, b3])
         True
     '''
-    pass
+    # Shrink algorithm
+    S = list(T)
+    for i, v in enumerate(S):
+        if is_superfluous(S, i):
+            del S[i]
+    return S
+
+    # Grow algorithm
+    # S = []
+    # n = 0
+    # for v in T:
+    #     S.append(v)
+    #     if is_independent(S):
+    #         n = n+1
+    #         continue
+    #     del S[n]
+    # return S
+
+
+
 
 
 
@@ -318,7 +353,17 @@ def superset_basis(T, L):
         >>> all((not is_independent(sb+[x])) for x in [a0, a1, a2])
         True
     '''
-    pass
+    # Grow algorithm
+    S = T
+    n = len(T)
+    for v in L:
+        S.append(v)
+        if is_independent(S):
+            n = n+1
+            continue
+        del S[n]
+    return S
+
 
 
 
@@ -337,5 +382,10 @@ def exchange(S, A, z):
         >>> exchange(S, A, z) == Vec({0, 1, 2, 3},{0: 0, 1: 0, 2: 1, 3: 0})
         True
     '''
-    pass
-
+    coeffs = vec2rep(S, z)  # vector of coefficients in linear combination of s_i vectors: S*coeffs = z
+    for i,c in enumerate(coeffs.f.values()):
+        if S[i] in A:  # not in protected set
+            continue
+        elif c!=0:  # there exists a non-zero coefficients outside of A
+            break
+    return S[i]  # return the vector, corresponding to a non-zero coef
