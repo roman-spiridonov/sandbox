@@ -1,0 +1,11 @@
+<html>
+<body>
+    {{ object.title }}<br/>
+
+    {{ object.text }}<br/>
+
+    {{ object.pub_date | date:"Y - m - d"}}<br/>
+
+    {% url "news_detail" pk=object.pk %}
+</body>
+</html>
