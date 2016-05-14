@@ -4,19 +4,23 @@
 # version code 05f5a0d767f0+
 # Please fill out this stencil and submit using the provided submission script.
 
+import sys
+import os
+sys.path.insert(0, os.path.abspath('..\\matlib'))  # for compatibility with running from console
+
 from mat import Mat
 from vec import Vec
 import math
 
 ## Task 1
-def identity():
+def identity(labels = {'x','y','u'}):
     '''
     Return the matrix that, when multiplied by a location vector, yields the same location vector.
 
     >>> identity() * Vec({'x','y','u'}, {'x':2, 'y':3, 'u':1}) == Vec({'x','y','u'}, {'x':2, 'y':3, 'u':1})
     True
     '''
-    pass
+    return Mat((labels,labels), {(label,label):1 for label in labels})
 
 ## Task 2
 def translation(alpha,beta):
@@ -28,7 +32,7 @@ def translation(alpha,beta):
     >>> translation(4,-5) * Vec({'x','y','u'}, {'x':2, 'y':3, 'u':1}) == Vec({'x','y','u'}, {'x':6, 'y':-2, 'u':1})
     True
     '''
-    pass
+    return Mat(({'x','y','u'},{'x','y','u'}), {('x','x'):1, ('y','y'):1, ('x','u'):alpha, ('y','u'):beta, ('u','u'):1})
 
 ## Task 3
 def scale(alpha, beta):
@@ -42,7 +46,7 @@ def scale(alpha, beta):
     >>> scale(0,0)*Vec({'x','y','u'}, {'x':1,'y':1,'u':1}) == Vec({'x','y','u'}, {'u':1})
     True
     '''
-    pass
+    return Mat(({'x','y','u'},{'x','y','u'}), {('x','x'):alpha, ('y','y'):beta, ('u','u'):1})
 
 ## Task 4
 def rotation(theta):
@@ -59,18 +63,25 @@ def rotation(theta):
     (rotation(3*math.pi/4) * Vec({'x','y','u'},{'x':4,'y':-3,'u':1}) - Vec({'x','y','u'},{'x':-1/math.sqrt(2), 'y':7/math.sqrt(2), 'u': 1})).is_almost_zero()
     True
     '''
-    pass
+    return Mat(({'x','y','u'},{'x','y','u'}), {('x','x'):math.cos(theta), ('y','x'):math.sin(theta), ('x','y'):-math.sin(theta), ('y','y'):math.cos(theta), ('u','u'):1})
 
 ## Task 5
-def rotate_about(theta, x, y):
+def rotate_about(x, y, theta):
     '''
     Input:  an angle theta (in radians) by which to rotate, and x- and y- coordinates of a point to rotate about
     Output:  Corresponding 3x3 rotation matrix.
     It might be helpful to use procedures you already wrote.
-    >>> rotate_about(3,4, math.pi/3)*Vec({'x','y','u'}, {'x':1, 'y':0, 'u':1}) == Vec({'y', 'x', 'u'},{'y': 0.26794919243112214, 'x': 5.4641016151377535, 'u': 1})
+    >>> (rotate_about(3,4, math.pi/3)*Vec({'x','y','u'}, {'x':1, 'y':0, 'u':1}) - Vec({'y', 'x', 'u'},{'y': 0.26794919243112214, 'x': 5.4641016151377535, 'u': 1})).is_almost_zero()
     True
     '''
-    pass
+    alpha = (1-math.cos(theta))*x+math.sin(theta)*y
+    beta = -math.sin(theta)*x+(1-math.cos(theta))*y
+    # Refer to http://math.stackexchange.com/questions/673108/transformation-matrix-for-rotation-around-a-point-that-is-not-the-origin
+    res = rotation(theta)+translation(alpha,beta)-identity()
+    # res = translation(x,y)*rotation(theta)*translation(-x,-y)
+    # print(res)
+    return res
+
 
 ## Task 6
 def reflect_y():
@@ -83,7 +94,7 @@ def reflect_y():
     >>> reflect_y()* Vec({'x','y','u'}, {'u':1}) == Vec({'x','y','u'},{'u':1})
     True
     '''
-    pass
+    return Mat(({'x','y','u'},{'x','y','u'}), {('x','x'):-1, ('y','y'):1, ('u','u'):1})
 
 ## Task 7
 def reflect_x():
@@ -96,7 +107,7 @@ def reflect_x():
     >>> reflect_x()*Vec({'x','y','u'}, {'u':1}) == Vec({'x','y','u'},{'u':1})
     True
     '''
-    pass
+    return Mat(({'x','y','u'},{'x','y','u'}), {('x','x'):1, ('y','y'):-1, ('u','u'):1})
 
 ## Task 8    
 def scale_color(scale_r,scale_g,scale_b):
@@ -107,7 +118,7 @@ def scale_color(scale_r,scale_g,scale_b):
     >>> scale_color(1,2,3)*Vec({'r','g','b'},{'r':1,'g':2,'b':3}) == Vec({'r','g','b'},{'r':1,'g':4,'b':9})
     True
     '''
-    pass
+    return Mat(({'r','g','b'},{'r','g','b'}), {('r','r'):scale_r, ('g','g'):scale_g, ('b','b'):scale_b})
 
 ## Task 9
 def grayscale():
@@ -115,7 +126,9 @@ def grayscale():
     Input: None
     Output: 3x3 greyscale matrix.
     '''
-    pass
+    return Mat(({'r','g','b'},{'r','g','b'}),{('r','r'):77/256,('r','g'):151/256,('r','b'):28/256,
+                                              ('g','r'):77/256,('g','g'):151/256,('g','b'):28/256,
+                                              ('b','r'):77/256,('b','g'):151/256,('b','b'):28/256})
 
 ## Task 10
 def reflect_about(x1, y1, x2, y2):
@@ -128,6 +141,6 @@ def reflect_about(x1, y1, x2, y2):
     >>> (reflect_about(0,0,1,1) * Vec({'x','y','u'}, {'x':1, 'u':1}) - Vec({'x', 'u', 'y'},{'u': 1, 'y': 1})).is_almost_zero()
     True
     '''
-    pass
-
-
+    theta = math.atan2(y2 - y1, x2 - x1)
+    # Composition: translate to origin, rotate to x-axis, reflect around x-axis, and go backwards
+    return translation(x1,y1)*rotation(theta)*reflect_x()*rotation(-theta)*translation(-x1,-y1)
