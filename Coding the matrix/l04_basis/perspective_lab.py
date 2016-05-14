@@ -7,7 +7,7 @@ sys.path.insert(0, os.path.abspath('..\\matlib'))  # for compatibility with runn
 
 from vec import Vec
 from mat import Mat
-from matutil import rowdict2mat
+from matutil import rowdict2mat, coldict2mat, mat2coldict
 from solver import solve
 
 
@@ -152,6 +152,14 @@ hvec = solve(L, b)
 H = Mat(({'y1', 'y2', 'y3'},{'x1', 'x2', 'x3'}), { (x,y): hvec[(x,y)] for x,y in hvec.f.keys() } )
 
 
+## Ungraded task
+# from image_mat_util import file2mat, mat2display
+# try:
+#     (X_pts, colors) = file2mat('board.png', ('x1','x2','x3'))  # location matrix in camera coord x1, x2, x3
+# except FileNotFoundError:
+#     (X_pts, colors) = file2mat('l04_basis\\board.png', ('x1','x2','x3'))
+# Y_pts = H * X_pts  # get board coordinates y1, y2, y3 (change of basis)
+
 
 ## 9: (Task 5.12.7) Y Board Comprehension
 def mat_move2board(Y):
@@ -165,11 +173,7 @@ def mat_move2board(Y):
           of the line through the origin and q).
 
     Example:
-    >>> Y_in = Mat(({'y1', 'y2', 'y3'}, {0,1,2,3}),
-    ...     {('y1',0):2, ('y2',0):4, ('y3',0):8,
-    ...      ('y1',1):10, ('y2',1):5, ('y3',1):5,
-    ...      ('y1',2):4, ('y2',2):25, ('y3',2):2,
-    ...      ('y1',3):5, ('y2',3):10, ('y3',3):4})
+    >>> Y_in = Mat(({'y1', 'y2', 'y3'}, {0,1,2,3}), {('y1',0):2, ('y2',0):4, ('y3',0):8, ('y1',1):10, ('y2',1):5, ('y3',1):5, ('y1',2):4, ('y2',2):25, ('y3',2):2,('y1',3):5, ('y2',3):10, ('y3',3):4})
     >>> print(Y_in)
     <BLANKLINE>
             0  1  2  3
@@ -187,5 +191,10 @@ def mat_move2board(Y):
      y3  |     1 1    1    1
     <BLANKLINE>
     '''
-    pass
 
+    return coldict2mat({ key:move2board(col) for key,col in mat2coldict(Y).items() })
+
+
+## Ungraded task
+# Y_board = mat_move2board(Y_pts)
+# mat2display(Y_board, colors, ('y1','y2','y3'), scale=100, xmin=None, ymin=None)
