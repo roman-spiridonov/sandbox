@@ -5,7 +5,9 @@
 {% endblock %}
 
 {% block content %}
+    Author: {{ object.author }}<br/>
     {{ object.text }}<br/>
     {{ object.pub_date | date:"Y - m - d"}}<br/>
     {% url "news_detail" pk=object.pk %}
+    <h3>Comments</h3>
 {% endblock %}
