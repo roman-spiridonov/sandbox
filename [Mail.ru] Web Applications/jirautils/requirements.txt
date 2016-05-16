@@ -1,0 +1,4 @@
+Django==1.9.5
+gunicorn==19.5.0
+jira==1.0.3
+stashy==0.1.1

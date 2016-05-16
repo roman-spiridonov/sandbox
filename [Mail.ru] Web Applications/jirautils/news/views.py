@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import HttpResponse  # status code 200
 
-def show_views(request, news_id=0):
+def show_views(request, news_id=0):  # ViewClass -> .as_view() method creates similar function
     print(request.method)
     print(request.GET)
     # resp = HttpResponse('Hello world, id: {}, name: {}'.format(news_id, request.GET.get('name')))
