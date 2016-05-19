@@ -19,6 +19,7 @@ from django.contrib.auth.views import login, logout
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
+    url(r'^hello/', include('hello.urls')),
     url(r'^news/', include('news.urls')),
     url(r'^login/', login, {'template_name': 'login.html'})  # redirect after login in settings.py
 ]
