@@ -9,4 +9,5 @@ def show_views(request, id=0):  # ViewClass -> .as_view() method creates similar
     # resp['Age'] = 20
     # # resp['Content-Disposition'] = 'attachment; filename="file.txt"'
     # return resp
-    return render(request, "hello.html", {'id': id, 'name': request.GET.get('name')})
+    context = {'id': id, 'name': request.GET.get('name')}
+    return render(request, "hello.html", context)

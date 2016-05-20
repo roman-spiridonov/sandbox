@@ -3,7 +3,7 @@ from django.views.generic import DetailView, ListView, CreateView
 # from django.http import HttpResponseRedirect
 from .models import Article
 from .forms import ArticleListForm, ArticleForm
-from django.shortcuts import resolve_url
+from django.shortcuts import resolve_url  # for redirecting to URL from router by name
 
 
 class ArticleCreate(CreateView):

@@ -17,4 +17,3 @@ class Article(models.Model):
         verbose_name = 'Статья'
         verbose_name_plural = 'Статьи'
         ordering = ('title', )  # default sorting of objects of this model; specify "-" for reverse sort
-

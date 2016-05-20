@@ -26,6 +26,6 @@
 {#    <br/>#}
     <br/>
     {% for article in object_list %}
-        <b>{{ article.pub_date }}</b> &mdash; <a href="{% url 'news_detail' pk=article.pk %}">{{ article.title }}</a><br/>
+        <b>{{ article.pub_date }}</b> &mdash; <a href="{% url 'news:news_detail' pk=article.pk %}">{{ article.title }}</a><br/>
     {% endfor %}
 {% endblock %}
