@@ -8,7 +8,7 @@ from django.shortcuts import resolve_url  # for redirecting to URL from router b
 
 class ArticleCreate(CreateView):
     model = Article
-    template_name = 'create.html'
+    template_name = 'news/create.html'
     fields = ('title', 'text')
 
     def form_valid(self, form):
@@ -27,26 +27,35 @@ class ArticleCreate(CreateView):
         context['aform'] = self.aform
         return context
 
-# TemplateVIew class: render with context
 
+# Short form: generic view
+# TemplateVIew class: render with context
 # DetailView class: take object ID from URL, fetch object by ID from db, render using template
-class NewsView(DetailView):
+class NewsDetail(DetailView):
     model = Article
-    template_name = 'article.html'
+    template_name = 'news/article.html'
     # context_object_name = 'object'  # implicit - see article.html
     # # View class: use get, post functions
     # def get(self):
     #     return HttpResponseRedirect("/")
 
+# # Same as function
+# from django.shortcuts import get_object_or_404, render
+# def news_detail(request, news_id):
+#     article = get_object_or_404(Article, pk=news_id)  # fetch from db
+#     return render(request, 'article.html', {'object': article})
+
+
 class NewsListView(ListView):
     model = Article
-    template_name = 'list.html'
+    template_name = 'news/list.html'
 
     def dispatch(self, request, *args, **kwargs):
-        #  Django Forms - built-in validation
+        # Django Forms - built-in validation
         self.form = ArticleListForm(request.GET)
         self.form.is_valid()
 
+        # # Pass search and sort as get request parameters
         # self.search = request.GET.get('search')
         # self.sort_field = request.GET.get('sort_field')
         return super(NewsListView, self).dispatch(request, *args, **kwargs)

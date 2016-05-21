@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Comment(models.Model):
-    article = models.ForeignKey('news.Article', related_name="comments")  # by default related_name="comment_set"
+    article = models.ForeignKey('news.Article', related_name="comment_set")  # by default related_name="comment_set"
     text = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
