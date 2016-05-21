@@ -9,6 +9,7 @@ class Article(models.Model):
     title = models.CharField(max_length=255)
     text = models.TextField()
     pub_date = models.DateField(auto_now_add=True)
+    rating = models.IntegerField(default=0)
 
     def __str__(self):
         return ' '.join(['id:', str(self.id), 'pk:', str(self.pk), 'title:', self.title])

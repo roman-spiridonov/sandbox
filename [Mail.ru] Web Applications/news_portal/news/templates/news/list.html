@@ -26,7 +26,7 @@
     {#    <br/>#}
         <br/>
         {% for article in object_list %}
-            <b>{{ article.pub_date }}</b> &mdash; <a href="{% url 'news:detail' pk=article.pk %}">{{ article.title }}</a><br/>
+            ({{ article.comments_count }}) <b>{{ article.pub_date }}</b> &mdash; <a href="{% url 'news:detail' pk=article.pk %}">{{ article.title }}</a><br/>
         {% endfor %}
     {% else %}
         <p>No articles available</p>

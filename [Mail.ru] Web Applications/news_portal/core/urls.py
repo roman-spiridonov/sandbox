@@ -20,6 +20,7 @@ from django.contrib.auth.views import login, logout
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^hello/', include('hello.urls')),
-    url(r'^news/', include('news.urls', namespace='news')),
-    url(r'^login/', login, {'template_name': 'login.html'})  # redirect after login in settings.py
+    url(r'^(news/)?', include('news.urls', namespace='news')),
+    url(r'^login/', login, {'template_name': 'login.html'}, name="login"),  # redirect after login in settings.py
+    url(r'^logout/', logout, {'next_page': 'news:list'}, name="logout"),
 ]

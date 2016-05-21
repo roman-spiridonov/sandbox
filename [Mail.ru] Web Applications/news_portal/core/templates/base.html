@@ -2,11 +2,16 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Index</title>
+    <title>News site (django tutorial)</title>
 </head>
 <body>
     <h1>ШАПКА</h1>
     <h1>МЕНЮ</h1>
+    {% if user.is_authenticated %}
+        Hello, {{ user }}! <a href="{% url 'logout' %}">logout</a>
+    {% else %}
+        You are not logged in. Click <a href="{% url 'login' %}">here</a> to log in.
+    {% endif %}
     <h2>{% block title %}{% endblock %}</h2>
     <div>{% block content %}{% endblock %}</div>
     <h1>ПОДВАЛ</h1>
