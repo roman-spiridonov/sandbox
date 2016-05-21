@@ -58,10 +58,13 @@ class NewsListView(ListView):
         # # Pass search and sort as get request parameters
         # self.search = request.GET.get('search')
         # self.sort_field = request.GET.get('sort_field')
-        return super(NewsListView, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):  # fetching all objects, because this is list view
-        queryset = Article.objects.filter(author=self.request.user)
+        if self.request.user.is_authenticated():
+            queryset = Article.objects.filter(author=self.request.user)
+        else:
+            return []
         # if self.search:
             # queryset = queryset.filter(title__icontains=self.search)
         if self.form.cleaned_data.get('search'):
@@ -74,6 +77,6 @@ class NewsListView(ListView):
         return queryset[:10]  # can redefine for sorting, filtering, etc.
 
     def get_context_data(self, **kwargs):
-        context = super(NewsListView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['form'] = self.form
         return context

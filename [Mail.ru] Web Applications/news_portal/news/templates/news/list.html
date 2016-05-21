@@ -5,27 +5,30 @@
 {% endblock %}
 
 {% block content %}
-    <p>Hello, {{ user }}!</p>
-    <form action="">
-        {{ form.search.label }}
-        {{ form.search }}
-        {{ form.sort_field }}
-        {{ form.errors }}
-        <input type="submit">
-    </form>
-    <br/>
-{#    <form action="">#}
-{#        <select>#}
-{#            <option value="id">ID</option>#}
-{#            <option value="pub_date">Date</option>#}
-{#            <option value="title">Title</option>#}
-{#        </select>#}
-{#        <input type="text" name="search">#}
-{#        <input type="submit">#}
-{#    </form>#}
-{#    <br/>#}
-    <br/>
-    {% for article in object_list %}
-        <b>{{ article.pub_date }}</b> &mdash; <a href="{% url 'news:news_detail' pk=article.pk %}">{{ article.title }}</a><br/>
-    {% endfor %}
+    {% if object_list %}
+        <form action="">
+            {{ form.search.label }}
+            {{ form.search }}
+            {{ form.sort_field }}
+            {{ form.errors }}
+            <input type="submit">
+        </form>
+        <br/>
+    {#    <form action="">#}
+    {#        <select>#}
+    {#            <option value="id">ID</option>#}
+    {#            <option value="pub_date">Date</option>#}
+    {#            <option value="title">Title</option>#}
+    {#        </select>#}
+    {#        <input type="text" name="search">#}
+    {#        <input type="submit">#}
+    {#    </form>#}
+    {#    <br/>#}
+        <br/>
+        {% for article in object_list %}
+            <b>{{ article.pub_date }}</b> &mdash; <a href="{% url 'news:detail' pk=article.pk %}">{{ article.title }}</a><br/>
+        {% endfor %}
+    {% else %}
+        <p>No articles available</p>
+    {% endif %}
 {% endblock %}
