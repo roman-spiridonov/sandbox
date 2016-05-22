@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>News site (django tutorial)</title>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.2.min.js"></script>
 </head>
 <body>
     <h1>ШАПКА</h1>
@@ -15,5 +16,15 @@
     <h2>{% block title %}{% endblock %}</h2>
     <div>{% block content %}{% endblock %}</div>
     <h1>ПОДВАЛ</h1>
+    <script>
+        $.ajax({url: "/techsupport/",
+            cache: false,
+            success: function(html){
+                $("#results").append(html);
+            }
+        });
+    </script>
+    <div id="results"></div>
+{#    {% include "techsupport/report_error.html" %}#}
 </body>
 </html>

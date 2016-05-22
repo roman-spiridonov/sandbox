@@ -11,6 +11,6 @@ class ArticleListForm(forms.Form):
         return search
 
 
-class ArticleForm(forms.Form):
+class ArticleCreateForm(forms.Form):
     title = forms.CharField(max_length=255)
     text = forms.CharField(widget=forms.Textarea)

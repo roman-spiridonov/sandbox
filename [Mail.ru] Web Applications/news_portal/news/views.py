@@ -4,7 +4,7 @@ from django.utils.decorators import method_decorator
 # from django.shortcuts import HttpResponseRedirect  # status code 302
 # from django.http import HttpResponseRedirect
 from .models import Article
-from .forms import ArticleListForm, ArticleForm
+from .forms import ArticleListForm, ArticleCreateForm
 from django.shortcuts import resolve_url  # for redirecting to URL from router by name
 from django.db import models
 
@@ -13,22 +13,23 @@ class ArticleCreate(CreateView):
     template_name = 'news/create.html'
     fields = ('title', 'text')
 
-    def form_valid(self, form):  # additional assignments before applying submitted form results
-        form.instance.author = self.request.user
-        return super(ArticleCreate, self).form_valid(form)
-
-    def get_success_url(self):  # where to redirect user after successful object creation
-        return resolve_url('news:detail', pk=self.object.pk)  # works similar to {% url }
+    def form_valid(self, form):  # additional assignments before saving submitted form results to cleaned_data
+        form.instance.author = self.request.user  # hidden on server-side
+        return super().form_valid(form)
 
     @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):  # processing any request
+        self.aform = ArticleCreateForm(request.POST or None)  # create filled (POST) or empty form (initial GET)
+        # self.aform.is_valid()
         return super().dispatch(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, **kwargs):  # preparing context for template rendering
         context = super().get_context_data(**kwargs)
         context['aform'] = self.aform
         return context
 
+    def get_success_url(self):  # where to redirect user after successful object creation
+        return resolve_url('news:detail', pk=self.object.pk)  # works similar to {% url }
 
 # Short form: generic view
 # TemplateVIew class: render with context
@@ -42,7 +43,7 @@ class NewsDetail(DetailView):
         return super().dispatch(request, *args, **kwargs)
 
     # context_object_name = 'object'  # implicit - see article.html
-    # # View class: use get, post functions
+    # # View class: use get, post functions after dispatch()
     # def get(self):
     #     return HttpResponseRedirect("/")
 

@@ -1,0 +1,23 @@
+<div class="techsupport">
+    <p>Если у Вас возникла проблема, напишите нам!</p>
+    <form action="/techsupport/" method="post"> {% csrf_token %}
+{#        {{ error_form }}#}
+        {{ error_form.non_field_errors }}
+        <table>
+            {% for field in error_form.visible_fields %}
+                <tr class="fieldWrapper">
+                    <td width="70px">{{ field.label_tag }} {{ field.errors }}</td><td>{{ field }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        {# Special rendering for hidden fields (no errors etc.) #}
+{#        {% for hidden in error_form.hidden_fields %}#}
+{#            {{ hidden }}#}
+{#        {% endfor %}#}
+        <input type="hidden" name="error_url">
+
+        <input type="submit" value="Report"/>
+    </form>
+    <script>$('input[name="error_url"]').val(window.location.pathname)</script>
+</div>

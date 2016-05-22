@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'hello',
     'news',
     'comments',
+    'techsupport',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -73,7 +74,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases

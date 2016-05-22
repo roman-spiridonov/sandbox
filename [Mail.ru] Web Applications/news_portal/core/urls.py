@@ -16,6 +16,8 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
+from techsupport.views import TechsupportView
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -23,4 +25,5 @@ urlpatterns = [
     url(r'^(news/)?', include('news.urls', namespace='news')),
     url(r'^login/', login, {'template_name': 'login.html'}, name="login"),  # redirect after login in settings.py
     url(r'^logout/', logout, {'next_page': 'news:list'}, name="logout"),
+    url(r'^techsupport/$', TechsupportView.as_view(), name="techsupport"),
 ]
