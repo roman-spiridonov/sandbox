@@ -4,6 +4,34 @@
 		"selected_items":
 		[
 			[
+				"bor",
+				"border-bottom"
+			],
+			[
+				"max-",
+				"max-width"
+			],
+			[
+				"29c",
+				"29c5e6"
+			],
+			[
+				"align-",
+				"align-content"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"border",
+				"border-top"
+			],
+			[
+				"i",
+				"inline-block"
+			],
+			[
 				"fol",
 				"folder-exclude-p"
 			]
@@ -11,33 +39,6 @@
 	},
 	"buffers":
 	[
-		{
-			"contents": "",
-			"file": "index.html",
-			"file_size": 4311,
-			"file_write_time": 131084231835834867,
-			"settings":
-			{
-				"buffer_size": 0,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/Spiridonov/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
-			"settings":
-			{
-				"buffer_size": 138,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "test.html",
-			"settings":
-			{
-				"buffer_size": 2360,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "",
 	"build_system_choices":
@@ -46,10 +47,14 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 490.0,
-		"last_filter": "",
+		"height": 129.0,
+		"last_filter": "install",
 		"selected_items":
 		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
 			[
 				"open",
 				"View: Toggle Open Files in Side Bar"
@@ -67,7 +72,7 @@
 				"Package Control: Install Package"
 			]
 		],
-		"width": 571.0
+		"width": 549.0
 	},
 	"console":
 	{
@@ -88,10 +93,16 @@
 	},
 	"expanded_folders":
 	[
-		"/C/code/sandbox/HTML/[Habrahabr] Single-page layout - 1"
+		"/C/code/sandbox/HTML/[Habrahabr] Single-page layout - 1",
+		"/C/code/sandbox/HTML/[Habrahabr] Single-page layout - 1/css",
+		"/C/code/sandbox/HTML/[Habrahabr] Single-page layout - 1/img"
 	],
 	"file_history":
 	[
+		"/C/code/sandbox/HTML/[Habrahabr] Single-page layout - 1/README.md",
+		"/C/code/sandbox/HTML/[Habrahabr] Single-page layout - 1/index.html",
+		"/C/code/sandbox/HTML/[Habrahabr] Single-page layout - 1/css/styles.css",
+		"/C/Users/Spiridonov/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
 		"/C/Users/Spiridonov/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
 		"/C/Users/Spiridonov/AppData/Roaming/Sublime Text 3/Packages/User/Chrome.sublime-build",
 		"/C/code/sandbox/HTML/[Habrahabr] Single-page layout - 1/habr-html-1.sublime-project",
@@ -100,7 +111,7 @@
 	],
 	"find":
 	{
-		"height": 33.0
+		"height": 43.0
 	},
 	"find_in_files":
 	{
@@ -114,6 +125,21 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			" 0px",
+			"0px",
+			"a",
+			"</body",
+			"max-w",
+			"29c5e6",
+			"class=\"team_figcaption\"",
+			"class=\"team_figcaption\" ",
+			"src=\"images/sample.png\"",
+			"class=\"team_figcaption\"",
+			"class=\"job-title\"",
+			"f3f3f3",
+			"margin",
+			"40",
+			"block",
 			"bla"
 		],
 		"highlight": true,
@@ -123,7 +149,7 @@
 		"replace_history":
 		[
 		],
-		"reverse": true,
+		"reverse": false,
 		"show_context": true,
 		"use_buffer2": true,
 		"whole_word": false,
@@ -132,104 +158,14 @@
 	"groups":
 	[
 		{
-			"selected": 1,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "index.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 0,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"auto_name": "",
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/C/Users/Spiridonov/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 138,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								135,
-								135
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/JavaScript/JSON.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "test.html",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 2360,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				}
 			]
 		}
 	],
 	"incremental_find":
 	{
-		"height": 43.0
+		"height": 33.0
 	},
 	"input":
 	{
@@ -270,7 +206,7 @@
 	"project": "habr-html-1.sublime-project",
 	"replace":
 	{
-		"height": 62.0
+		"height": 80.0
 	},
 	"save_all_on_build": true,
 	"select_file":
