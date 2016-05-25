@@ -1,10 +1,10 @@
-from django.views.generic import DetailView, ListView, CreateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-# from django.shortcuts import HttpResponseRedirect  # status code 302
-# from django.http import HttpResponseRedirect
+from django.http import Http404, HttpResponseRedirect # status code 302
 from .models import Article
 from .forms import ArticleListForm, ArticleCreateForm
+from django.core.urlresolvers import reverse
 from django.shortcuts import resolve_url  # for redirecting to URL from router by name
 from django.db import models
 
@@ -58,6 +58,7 @@ class NewsListView(ListView):
     model = Article
     template_name = 'news/list.html'
 
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         # Django Forms - built-in validation
         self.form = ArticleListForm(request.GET)
@@ -90,3 +91,14 @@ class NewsListView(ListView):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form
         return context
+
+def apply_like(request, pk):
+    try:
+        a = Article.objects.get(pk=pk)
+    except Article.DoesNotExist:
+        raise Http404("Article with pk {} does not exist".format(article_pk))
+
+    a.rating += 1
+    a.save()
+
+    return HttpResponseRedirect(reverse('news:list'))

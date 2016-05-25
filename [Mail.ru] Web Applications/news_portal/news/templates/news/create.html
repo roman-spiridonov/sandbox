@@ -10,3 +10,10 @@
         <input type="submit">
     </form>
 {% endblock %}
+
+{% block javascript %}
+    <script>
+    $("nav li").removeClass('active')
+    $("#nav-create-btn").toggleClass('active')
+    </script>
+{% endblock %}

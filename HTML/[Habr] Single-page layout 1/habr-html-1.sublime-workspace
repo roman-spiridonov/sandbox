@@ -139,7 +139,7 @@
 	],
 	"find":
 	{
-		"height": 43.0
+		"height": 33.0
 	},
 	"find_in_files":
 	{
@@ -205,8 +205,8 @@
 						"selection":
 						[
 							[
-								372,
-								372
+								1870,
+								1870
 							]
 						],
 						"settings":
@@ -217,7 +217,7 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 825.0,
+						"translation.y": 150.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -328,7 +328,7 @@
 	"project": "habr-html-1.sublime-project",
 	"replace":
 	{
-		"height": 80.0
+		"height": 62.0
 	},
 	"save_all_on_build": true,
 	"select_file":

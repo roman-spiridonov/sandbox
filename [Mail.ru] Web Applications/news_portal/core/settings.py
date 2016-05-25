@@ -122,9 +122,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "webapp", "collected_static")
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "core/static"),)  # python manage.py collectstatic
+STATIC_URL = '/static/'  # root and within each app
+STATIC_ROOT = os.path.join(BASE_DIR, "webapp", "collected_static") # collect by $ python manage.py collectstatic
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "core/static/"),)  # additional dirs
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'

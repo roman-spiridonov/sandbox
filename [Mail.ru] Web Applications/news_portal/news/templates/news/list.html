@@ -26,7 +26,12 @@
     {#    <br/>#}
         <br/>
         {% for article in object_list %}
-            ({{ article.comments_count }}) <b>{{ article.pub_date }}</b> &mdash; <a href="{% url 'news:detail' pk=article.pk %}">{{ article.title }}</a><br/>
+            <div class="row">
+                {{ article.rating }}
+                <a href="{% url 'news:like' pk=article.pk %}"><span class="glyphicon glyphicon-thumbs-up"/></a>
+                ({{ article.comments_count }})
+                <b>{{ article.pub_date }}</b> &mdash; <a href="{% url 'news:detail' pk=article.pk %}">{{ article.title }}</a>
+            </div>
         {% endfor %}
         <div class="list_actions"><a href="{% url "news:create" %}">Add new</a></div>
     {% else %}
