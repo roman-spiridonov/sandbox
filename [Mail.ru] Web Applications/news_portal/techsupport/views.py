@@ -6,6 +6,7 @@ from django.shortcuts import resolve_url
 
 from .forms import ReportErrorForm
 
+
 class TechsupportView(FormView):
     template_name = 'techsupport/report_error.html'
     form_class = ReportErrorForm

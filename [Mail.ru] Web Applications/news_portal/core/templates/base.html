@@ -4,18 +4,14 @@
     <meta charset="UTF-8">
     <title>News site (django tutorial)</title>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.2.min.js"></script>
-</head>
-<body>
-    <h1>ШАПКА</h1>
-    <h1>МЕНЮ</h1>
-    {% if user.is_authenticated %}
-        Hello, {{ user }}! <a href="{% url 'logout' %}">logout</a>
-    {% else %}
-        You are not logged in. Click <a href="{% url 'login' %}">here</a> to log in.
-    {% endif %}
-    <h2>{% block title %}{% endblock %}</h2>
-    <div>{% block content %}{% endblock %}</div>
-    <h1>ПОДВАЛ</h1>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="base.css"/>
     <script>
         $.ajax({url: "/techsupport/",
             cache: false,
@@ -24,7 +20,57 @@
             }
         });
     </script>
-    <div id="results"></div>
-{#    {% include "techsupport/report_error.html" %}#}
+
+</head>
+<body>
+    <header class="container">
+        <div>
+            <div class="navbar-header">
+                <img src="static/earth.png" width="50" height="50"/>
+                <div class="text-right">
+                    {% if user.is_authenticated %}
+                    Hello, {{ user }}! <a href="{% url 'logout' %}">logout</a>
+                    {% else %}
+                    You are not logged in. Click <a href="{% url 'login' %}">here</a> to log in.
+                    {% endif %}
+                </div>
+                <button class="btn btn-success navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="glyphicon glyphicon-chevron-down"/>
+                </button>
+            </div>
+            <nav class="nav navbar-right navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="nav"><a href="/" class="btn">Home <span class="glyphicon glyphicon-home"/></a></li>
+                    <li class="nav"><a href="/hello/1?name=petr" class="btn">Hello world</a></li>
+                    <li class="nav"><a href="/create" class="btn">Create article</a></li>
+                    <li class="nav"><a href="/admin" class="btn">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="wrapper container">
+        <!-- Carousel -->
+        <div class="row">
+            <img src="static/earth.png" width="100" height="100" class="img-thumbnail col-md-offset-2"/>
+        </div>
+
+        <div>
+            <section>
+                <h2>{% block title %}{% endblock %}</h2>
+                <div>{% block content %}{% endblock %}</div>
+            </section>
+            <section id="results"/> {#    {% include "techsupport/report_error.html" %}     #}
+        </div>
+    </main>
+    <hr/>
+    <footer class="container">
+        <div class="footer__copyright">
+            (c)2016 Roman Spiridonov
+        </div>
+        <div align="right">
+            Published: <time datetime="{% now "Y-m-j" %}" pubdate="pubdate">{% now "DATE_FORMAT" %}</time>
+        </div>
+    </footer>
+
 </body>
 </html>
