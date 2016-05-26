@@ -2,11 +2,12 @@ from django.views.generic import DetailView, ListView, CreateView, UpdateView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import Http404, HttpResponseRedirect # status code 302
-from .models import Article
 from .forms import ArticleListForm, ArticleCreateForm
 from django.core.urlresolvers import reverse
 from django.shortcuts import resolve_url  # for redirecting to URL from router by name
 from django.db import models
+from .models import Article, ArticleLike
+from django.contrib.auth.models import User
 
 class ArticleCreate(CreateView):
     model = Article
@@ -73,7 +74,9 @@ class NewsListView(ListView):
         if self.request.user.is_authenticated():
             queryset = Article.objects.filter(author=self.request.user)
         else:
-            return []
+            queryset = Article.objects.filter(author=self.request.user)
+            # return []
+
         # if self.search:
             # queryset = queryset.filter(title__icontains=self.search)
         if self.form.cleaned_data.get('search'):
@@ -96,9 +99,22 @@ def apply_like(request, pk):
     try:
         a = Article.objects.get(pk=pk)
     except Article.DoesNotExist:
-        raise Http404("Article with pk {} does not exist".format(article_pk))
+        raise Http404("Fatal: article with pk {} does not exist".format(pk))
 
-    a.rating += 1
-    a.save()
+    try:
+        u = User.objects.get(pk=request.user.id)
+    except Article.DoesNotExist:
+        raise Http404("Fatal: user with pk {} does not exist".format(request.user.id))
+
+    # like_obj = a.like_set.get_or_create(user_id=request.user.id, is_liked=True)
+    try:
+        like_obj = a.like_set.get(article_id=a.id)
+    except ArticleLike.DoesNotExist:
+        like_obj = a.like_set.create(user_id=u.id, is_liked=True)
+        like_obj.save()
+        a.rating += 1 # storing aggregated data (number of likes) right away
+        a.save()
+    else:
+        pass
 
     return HttpResponseRedirect(reverse('news:list'))
