@@ -62,7 +62,7 @@ class NewsListView(ListView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         # Django Forms - built-in validation
-        self.form = ArticleListForm(request.GET)
+        self.form = ArticleListForm(request.GET)  # search, sort_field - GET parameters
         self.form.is_valid()
 
         # # Pass search and sort as get request parameters
@@ -71,11 +71,11 @@ class NewsListView(ListView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):  # fetching all objects, because this is list view
-        if self.request.user.is_authenticated():
-            queryset = Article.objects.filter(author=self.request.user)
-        else:
-            queryset = Article.objects.filter(author=self.request.user)
-            # return []
+        queryset = Article.objects.all()
+        # if self.request.user.is_authenticated():
+        #     queryset = queryset.filter(author=self.request.user)
+        # else:
+        #     return []
 
         # if self.search:
             # queryset = queryset.filter(title__icontains=self.search)
@@ -88,12 +88,23 @@ class NewsListView(ListView):
 
         queryset = queryset.annotate(comments_count=models.Count('comment_set__id'))
 
-        return queryset#[:10]  # can redefine for sorting, filtering, etc.
+        return queryset#[:10]  # can redefine for sorting, filtering, etc.       #TODO: add pagination
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form
         return context
+
+# # Same as function
+# from django.shortcuts import render
+# def news_list(request):
+#     form = ArticleListForm(request.GET)
+#     if form.is_valid():
+#         # form.save()
+#         return render(request, 'list.html', {'object_list': Article.objects.all(),
+#                                              'form':form})
+
 
 def apply_like(request, pk):
     try:
@@ -108,7 +119,7 @@ def apply_like(request, pk):
 
     # like_obj = a.like_set.get_or_create(user_id=request.user.id, is_liked=True)
     try:
-        like_obj = a.like_set.get(article_id=a.id)
+        like_obj = a.like_set.get(user_id=u.id)
     except ArticleLike.DoesNotExist:
         like_obj = a.like_set.create(user_id=u.id, is_liked=True)
         like_obj.save()

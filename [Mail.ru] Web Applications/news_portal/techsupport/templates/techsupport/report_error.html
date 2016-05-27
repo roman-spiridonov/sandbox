@@ -4,7 +4,6 @@
     <p>Если у Вас возникла проблема, напишите нам!</p>
     <form action="/techsupport/" method="post"> {% csrf_token %}
 {#        {{ error_form }}#}
-        {{ error_form.non_field_errors }}
 
         {% for field in error_form.visible_fields %}
         <fieldset class="form-group">
@@ -16,6 +15,7 @@
                 <p class="help-text">{{ field.help_text }} </p>
         </fieldset>
         {% endfor %}
+        {{ error_form.non_field_errors }}
 
 {#        <table>#}
 {#            {% for field in error_form.visible_fields %}#}

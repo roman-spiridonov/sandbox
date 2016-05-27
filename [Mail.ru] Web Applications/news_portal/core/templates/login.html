@@ -1,5 +1,19 @@
-<form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" class="form-control">
-</form>
+{% extends 'base.html' %}
+
+{% block title %}
+    New user
+{% endblock %}
+
+{% block content %}
+    <h4>Log in</h4>
+    <p>
+        <form method="post">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" class="form-control">
+        </form>
+    </p>
+    <h4>Not registered?</h4>
+    <p>Click <a href="/signup/">here</a> to sign up!
+    </p>
+{% endblock %}

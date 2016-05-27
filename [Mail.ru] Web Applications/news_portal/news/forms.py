@@ -5,10 +5,10 @@ class ArticleListForm(forms.Form):
     search = forms.CharField(required=False)
     sort_field = forms.ChoiceField(choices=(('id','ID'), ('pub_date','Дата'), ('title','Название')), required=False)
 
-    def clean_search(self):
-        search = self.cleaned_data.get('search')
-        # raise forms.ValidationError("Я не хочу искать и сортировать, уходи!")
-        return search
+    # def clean_search(self):
+    #     search = self.cleaned_data.get('search')
+    #     # raise forms.ValidationError("Я не хочу искать и сортировать, уходи!")
+    #     return search
 
 
 class ArticleCreateForm(forms.Form):

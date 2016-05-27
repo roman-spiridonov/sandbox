@@ -17,8 +17,8 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth.views import login, logout
 from techsupport.views import TechsupportView
-from django.conf import settings
 # from django.conf.urls.static import static
+from .views import SignUpView
 
 
 urlpatterns = [
@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^(news/)?', include('news.urls', namespace='news')),
     url(r'^login/', login, {'template_name': 'login.html'}, name="login"),  # redirect after login in settings.py
     url(r'^logout/', logout, {'next_page': 'news:list'}, name="logout"),
+    url(r'^signup/$', SignUpView.as_view(), name="signup"),
     url(r'^techsupport/$', TechsupportView.as_view(), name="techsupport"),
  ] #+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

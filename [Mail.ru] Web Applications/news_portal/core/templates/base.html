@@ -42,7 +42,7 @@
                 {% if user.is_authenticated %}
                 Hello, {{ user }}! <a href="{% url 'logout' %}">logout</a>
                 {% else %}
-                You are not logged in. Click <a href="{% url 'login' %}">here</a> to log in.
+                You are not logged in. <a href="/signup/">Sign up</a> or click <a href="{% url 'login' %}">here</a> to log in.
                 {% endif %}
             </div>
         </div>
@@ -75,14 +75,16 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-    <script>
-        $.ajax({url: "/techsupport/",
-            cache: false,
-            success: function(html){
-                $("#results").append(html);
-            }
-        });
-    </script>
+    {% if user.is_authenticated %}
+        <script>
+            $.ajax({url: "/techsupport/",
+                cache: false,
+                success: function(html){
+                    $("#results").append(html);
+                }
+            });
+        </script>
+    {% endif %}
     {% block javascript %}{% endblock %}
 </body>
 </html>
