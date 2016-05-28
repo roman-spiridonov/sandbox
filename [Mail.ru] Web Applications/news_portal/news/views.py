@@ -12,7 +12,7 @@ from django.contrib.auth.models import User
 class ArticleCreate(CreateView):
     model = Article
     template_name = 'news/create.html'
-    fields = ('title', 'text')
+    fields = ('title', 'text', 'is_published')
 
     def form_valid(self, form):  # additional assignments before saving submitted form results to cleaned_data
         form.instance.author = self.request.user  # hidden on server-side
@@ -21,8 +21,9 @@ class ArticleCreate(CreateView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):  # processing any request
         self.aform = ArticleCreateForm(request.POST or None)  # create filled (POST) or empty form (initial GET)
-        # self.aform.is_valid()
-        return super().dispatch(request, *args, **kwargs)
+        if self.aform.is_valid():
+            return super().dispatch(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):  # preparing context for template rendering
         context = super().get_context_data(**kwargs)
@@ -61,21 +62,21 @@ class NewsListView(ListView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        # Django Forms - built-in validation
-        self.form = ArticleListForm(request.GET)  # search, sort_field - GET parameters
-        self.form.is_valid()
-
-        # # Pass search and sort as get request parameters
+        # # Search and sort are get request parameters
         # self.search = request.GET.get('search')
         # self.sort_field = request.GET.get('sort_field')
-        return super().dispatch(request, *args, **kwargs)
+
+        self.invites_received = request.user.invitations_received.all()
+
+        # Django Forms - built-in validation
+        self.form = ArticleListForm(request.GET)  # search, sort_field - GET parameters
+        if self.form.is_valid():
+            return super().dispatch(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
     def get_queryset(self):  # fetching all objects, because this is list view
         queryset = Article.objects.all()
-        # if self.request.user.is_authenticated():
-        #     queryset = queryset.filter(author=self.request.user)
-        # else:
-        #     return []
+        queryset = queryset.authored_by(self.request.user)
 
         # if self.search:
             # queryset = queryset.filter(title__icontains=self.search)
@@ -94,6 +95,7 @@ class NewsListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] = self.form
+        context['invites_received'] = self.invites_received
         return context
 
 # # Same as function

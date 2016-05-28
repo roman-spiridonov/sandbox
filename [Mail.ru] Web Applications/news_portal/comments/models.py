@@ -8,3 +8,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return ' '.join(['id:', str(self.id), 'pk:', str(self.pk), 'text:', self.text])
+
+    class Meta:
+        get_latest_by = 'created_at'

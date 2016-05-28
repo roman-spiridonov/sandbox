@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load widget_tweaks %}
 
 {% block title %}
     Создать статью
@@ -6,14 +7,25 @@
 
 {% block content %}
     <form action="" method="post">{% csrf_token %}
-        {{ aform }}
-        <input type="submit">
+        <div class="form-group">
+            <label class="control-label" for="id_{{ aform.title.name }}">{{ aform.title.label }}</label>
+            {{ aform.title|add_class:"form-control"}}
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="id_{{ aform.text.name }}">{{ aform.text.label }}</label>
+            {{ aform.text|add_class:"form-control"}}
+        </div>
+        <div class="checkbox">
+            <label>{{ aform.is_published}} {{ aform.is_published.label }}</label>
+        </div>
+        {# TODO: add inline error messages handling #}
+        <input type="submit" class="btn btn-primary">
     </form>
 {% endblock %}
 
 {% block javascript %}
     <script>
-    $("nav li").removeClass('active')
-    $("#nav-create-btn").toggleClass('active')
+        $("nav li").removeClass('active')
+        $("#nav-create-btn").toggleClass('active')
     </script>
 {% endblock %}

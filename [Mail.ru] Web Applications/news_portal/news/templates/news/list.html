@@ -1,40 +1,78 @@
 {% extends "base.html" %}
+{% load crispy_forms_tags %}
 
 {% block title %}
     Список статей
 {% endblock %}
 
 {% block content %}
-    {% if object_list %}
-        <form action="">
-            {{ form.search.label }}
-            {{ form.search }}
-            {{ form.sort_field }}
-            {{ form.errors }}
-            <input type="submit">
-        </form>
-        <br/>
-    {#    <form action="">#}
-    {#        <select>#}
-    {#            <option value="id">ID</option>#}
-    {#            <option value="pub_date">Date</option>#}
-    {#            <option value="title">Title</option>#}
-    {#        </select>#}
-    {#        <input type="text" name="search">#}
-    {#        <input type="submit">#}
-    {#    </form>#}
-    {#    <br/>#}
-        <br/>
-        {% for article in object_list %}
-            <div class="row">
-                {{ article.rating }}
-                <a href="{% url 'news:like' pk=article.pk %}"><span class="glyphicon glyphicon-thumbs-up"/></a>
-                ({{ article.comments_count }})
-                <b>{{ article.pub_date }}</b> &mdash; <a href="{% url 'news:detail' pk=article.pk %}">{{ article.title }}</a>
-            </div>
-        {% endfor %}
-        <div class="list_actions"><a href="{% url "news:create" %}">Add new</a></div>
-    {% else %}
-        <p>No articles available</p>
-    {% endif %}
+    <div class="row">
+        <div class="col-md-8">
+            {% if object_list %}
+                <form action="" method="get" class="form-inline">
+                        {{ form.search|as_crispy_field }}
+                        {{ form.sort_field|as_crispy_field }}
+                        {{ form.errors|as_crispy_errors }}
+                    <div class="form-group">
+                        <label for="id_search_btn" class="control-label"> </label>
+                        <div class="controls"><input type="submit" id="id_search_btn" class="btn btn-primary"/></div>
+                    </div>
+
+                </form>
+                <br/>
+            {#    <form action="">#}
+            {#        <select>#}
+            {#            <option value="id">ID</option>#}
+            {#            <option value="pub_date">Date</option>#}
+            {#            <option value="title">Title</option>#}
+            {#        </select>#}
+            {#        <input type="text" name="search">#}
+            {#        <input type="submit">#}
+            {#    </form>#}
+            {#    <br/>#}
+                <br/>
+                {% for article in object_list %}
+                    <div class="row">
+                        {{ article.rating }}
+                        <a href="{% url 'news:like' pk=article.pk %}"><span class="glyphicon glyphicon-thumbs-up"/></a>
+                        ({{ article.comments_count }})
+                        <b>{{ article.pub_date|date:"d M Y, P" }}</b> &mdash; <a href="{% url 'news:detail' pk=article.pk %}">{{ article.title }}</a>
+                    </div>
+                {% empty %}
+                    {# If object_list is empty #}
+                {% endfor %}
+                <div class="list_actions"><a href="{% url "news:create" %}">Add new</a></div>
+            {% else %}
+                <p>No articles available</p>
+            {% endif %}
+        </div>
+        <div class="col-md-4">
+            <h2>TicTacToe</h2>
+            <h4>Invites received</h4>
+            {% if invites_received %}
+                <div class="list-group">
+                    {% for inv in invites_received %}
+                        <a class="list-group-item" href="{% url 'tictactoe:accept_invite' pk=inv.pk %}">
+                            {{ inv.user_from.username }} has invited you.
+                        </a>
+                </div>
+                    {% endfor %}
+            {% else %}
+                <p>No incoming invites. Click <a href="/tictactoe/invite" class="href">here</a> to invite someone.</p>
+            {% endif %}
+            <div id="tictactoe-list"/>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script>
+        $.ajax({url: "/tictactoe/",
+            cache: false,
+            success: function(html){
+                $("#tictactoe-list").append(html);
+            }
+        });
+    </script>
 {% endblock %}

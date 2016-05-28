@@ -1,9 +1,9 @@
 from django import forms
 
-
 class ArticleListForm(forms.Form):
     search = forms.CharField(required=False)
-    sort_field = forms.ChoiceField(choices=(('id','ID'), ('pub_date','Дата'), ('title','Название')), required=False)
+    sort_field = forms.ChoiceField(choices=(('id','ID'), ('pub_date','Дата'),
+                                            ('title','Название'),('rating','Лайки')), required=False)
 
     # def clean_search(self):
     #     search = self.cleaned_data.get('search')
@@ -14,3 +14,4 @@ class ArticleListForm(forms.Form):
 class ArticleCreateForm(forms.Form):
     title = forms.CharField(max_length=255)
     text = forms.CharField(widget=forms.Textarea)
+    is_published = forms.BooleanField(widget=forms.CheckboxInput, label="Опубликовать?")

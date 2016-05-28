@@ -38,10 +38,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'widget_tweaks',
+    'crispy_forms',  # https://github.com/maraujop/django-crispy-forms
+    'debug_toolbar',
     'hello',
     'news',
     'comments',
     'techsupport',
+    'core',
+    'tictactoe',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -127,6 +132,11 @@ STATIC_URL = '/static/'  # root and within each app
 STATIC_ROOT = os.path.join(BASE_DIR, "webapp", "collected_static") # collect by $ python manage.py collectstatic
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "core/static/"),)  # additional dirs
 
+MEDIA_URL = '/media/'  # User uploaded files and images (ImageField, FileField)
+MEDIA_ROOT = os.path.join(BASE_DIR, "webapp", "collected_media")
+
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'news:list'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap3'

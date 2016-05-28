@@ -8,9 +8,11 @@
     Author: {{ object.author }}<br/>
     {{ object.text }}<br/>
     {{ object.pub_date | date:"Y - m - d"}}<br/>
+    {{ object.is_published }}<br/>
     {% url "news:detail" pk=object.pk %}
     <h3>Comments</h3>
     {% for comment in object.comment_set.all %}
         <div>{{ comment.text }}</div>
     {% endfor %}
+{#    TODO: add create comment form     #}
 {% endblock %}
