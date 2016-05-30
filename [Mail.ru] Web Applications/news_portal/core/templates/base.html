@@ -81,12 +81,13 @@
     {% block javascript %}
         <script>
             {% if user.is_authenticated %}
-            $.ajax({url: "/techsupport/",
-                cache: false,
-                success: function(html){
-                    $("#techsupport-form").append(html);
-                }
-            });
+{#                $.ajax({url: "/techsupport/",#}
+{#                    cache: false,#}
+{#                    success: function(html){#}
+{#                        $("#techsupport-form").append(html);#}
+{#                    }#}
+{#                });#}
+                $("#techsupport-form").load("/techsupport/");
             {% endif %}
         </script>
     {% endblock %}

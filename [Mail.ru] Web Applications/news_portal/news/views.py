@@ -8,6 +8,7 @@ from django.shortcuts import resolve_url  # for redirecting to URL from router b
 from django.db import models
 from .models import Article, ArticleLike
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 
 class ArticleCreate(CreateView):
     model = Article
@@ -116,18 +117,9 @@ def apply_like(request, pk):
 
     try:
         u = User.objects.get(pk=request.user.id)
-    except Article.DoesNotExist:
+    except User.DoesNotExist:
         raise Http404("Fatal: user with pk {} does not exist".format(request.user.id))
 
-    # like_obj = a.like_set.get_or_create(user_id=request.user.id, is_liked=True)
-    try:
-        like_obj = a.like_set.get(user_id=u.id)
-    except ArticleLike.DoesNotExist:
-        like_obj = a.like_set.create(user_id=u.id, is_liked=True)
-        like_obj.save()
-        a.rating += 1 # storing aggregated data (number of likes) right away
-        a.save()
-    else:
-        pass
-
-    return HttpResponseRedirect(reverse('news:list'))
+    likes = a.toggle_like(u, commit=True)
+    # return HttpResponseRedirect(reverse('news:list'))
+    return JsonResponse({"pk": a.pk, "likes": likes})

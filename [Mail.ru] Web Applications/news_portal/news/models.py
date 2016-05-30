@@ -4,6 +4,7 @@ from django.db import models
 from django.conf import settings
 from django.db.models import Q
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
 
 
 # class ArticleManager(models.Manager):
@@ -48,6 +49,29 @@ class Article(models.Model):
     def get_latest_comment(self):
         return self.comment_set.latest()  # uses get_latest_by Meta field
 
+    def toggle_like(self, u, commit=False):
+        # like_obj = a.like_set.get_or_create(user_id=request.user.id, is_liked=True)
+        delta = 0
+        try:
+            like_obj = self.like_set.get(user_id=u.id)
+        except ArticleLike.DoesNotExist:
+            like_obj = self.like_set.create(user_id=u.id, is_liked=True)
+            self.rating += 1 # storing aggregated data (number of likes) right away
+            if commit:
+                like_obj.save()
+                self.save()
+            else:
+                delta = 1
+        else:  # remove like
+            self.rating -= 1
+            if commit:
+                like_obj.delete()
+                self.save()
+            else:
+                delta = -1
+
+        return self.like_set.count() + delta
+
 
 class ArticleLike(models.Model):  # inside Article: likes = models.ManyToManyField(settings.AUTH_USER_MODEL)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -55,8 +79,9 @@ class ArticleLike(models.Model):  # inside Article: likes = models.ManyToManyFie
     is_liked = models.BooleanField(default=False)
 
     def __str__(self):
-        return ' '.join(['id:', str(self.id), 'user:', self.user.username, 'is_liked:', '1' if self.is_liked else '0'])
+        return ' '.join(['id:', str(self.id), 'user:', self.user.username, 'article: <', str(self.article), ' > ', 'is_liked:', '1' if self.is_liked else '0'])
 
     class Meta:  # meta-model
         verbose_name = 'Лайк'
         verbose_name_plural = 'Лайки'
+
