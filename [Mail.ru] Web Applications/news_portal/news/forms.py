@@ -1,4 +1,5 @@
 from django import forms
+from .models import Article, Tag
 
 class ArticleListForm(forms.Form):
     search = forms.CharField(required=False)
@@ -14,4 +15,5 @@ class ArticleListForm(forms.Form):
 class ArticleCreateForm(forms.Form):
     title = forms.CharField(max_length=255)
     text = forms.CharField(widget=forms.Textarea)
+    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
     is_published = forms.BooleanField(widget=forms.CheckboxInput, label="Опубликовать?")

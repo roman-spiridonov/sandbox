@@ -1,5 +1,5 @@
 from django.contrib import admin
-from news.models import Article, ArticleLike
+from news.models import Article, Like, Tag
 from comments.models import Comment
 
 class CommentInLine(admin.TabularInline):  # editting connected models: can be also StackedInline etc.
@@ -7,7 +7,7 @@ class CommentInLine(admin.TabularInline):  # editting connected models: can be a
     extra = 2  # provide fields for 3 comments (2 extra)
 
 class LikeInLine(admin.TabularInline):
-    model = ArticleLike
+    model = Like
     extra = 2
 
 class ArticleAdmin(admin.ModelAdmin):  # customize admin UI for creating new article
@@ -20,4 +20,5 @@ class ArticleAdmin(admin.ModelAdmin):  # customize admin UI for creating new art
     search_fields = ['title', 'text']
 
 admin.site.register(Article, ArticleAdmin)
-admin.site.register(ArticleLike)
+admin.site.register(Like)
+admin.site.register(Tag)

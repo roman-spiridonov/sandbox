@@ -30,6 +30,7 @@ class Article(models.Model):
     pub_date = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(default=0)
     is_published = models.BooleanField(default=False)
+    tags = models.ManyToManyField("Tag", related_name="article_set")
     # TODO: add labels using chosen.js and generic foreign keys (content_types)
 
     def __str__(self):
@@ -54,7 +55,7 @@ class Article(models.Model):
         delta = 0
         try:
             like_obj = self.like_set.get(user_id=u.id)
-        except ArticleLike.DoesNotExist:
+        except Like.DoesNotExist:
             like_obj = self.like_set.create(user_id=u.id, is_liked=True)
             self.rating += 1 # storing aggregated data (number of likes) right away
             if commit:
@@ -73,7 +74,7 @@ class Article(models.Model):
         return self.like_set.count() + delta
 
 
-class ArticleLike(models.Model):  # inside Article: likes = models.ManyToManyField(settings.AUTH_USER_MODEL)
+class Like(models.Model):  # inside Article: likes = models.ManyToManyField(settings.AUTH_USER_MODEL)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     article = models.ForeignKey('Article', related_name="like_set")
     is_liked = models.BooleanField(default=False)
@@ -84,4 +85,11 @@ class ArticleLike(models.Model):  # inside Article: likes = models.ManyToManyFie
     class Meta:  # meta-model
         verbose_name = 'Лайк'
         verbose_name_plural = 'Лайки'
+
+
+class Tag(models.Model):
+    tag_text = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.tag_text
 

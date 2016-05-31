@@ -15,6 +15,10 @@
             <label class="control-label" for="id_{{ aform.text.name }}">{{ aform.text.label }}</label>
             {{ aform.text|add_class:"form-control"}}
         </div>
+        <div class="form-group">
+            <label class="control-label" for="id_{{ aform.tags.name }}">{{ aform.tags.label }}</label>
+            {{ aform.tags|add_class:"form-control tags-select"}}
+        </div>
         <div class="checkbox">
             <label>{{ aform.is_published}} {{ aform.is_published.label }}</label>
         </div>
@@ -25,7 +29,8 @@
 
 {% block javascript %}
     <script>
-        $("nav li").removeClass('active')
-        $("#nav-create-btn").toggleClass('active')
+        $("nav li").removeClass('active');
+        $("#nav-create-btn").toggleClass('active');
+        $(".tags-select").chosen();
     </script>
 {% endblock %}

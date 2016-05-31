@@ -18,7 +18,7 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <link rel="stylesheet" href="{%static 'core/base.css'%}"/>
+    <link rel="stylesheet" href="{%static 'core/chosen.css'%}"/>
     {% block stylesheet %}
     {% endblock %}
 
@@ -36,7 +36,7 @@
                 <li class="active"><a href="/" class="btn">Home <span class="glyphicon glyphicon-home"/></a></li>
                 <li id="nav-hello-btn"><a href="/hello/1?name=petr" class="btn">Hello world</a></li>
                 <li id="nav-create-btn"><a href="/create" class="btn">Create article</a></li>
-                <li id="nav-invite-btn"><a href="/invite" class="btn">Invite user</a></li>
+                <li id="nav-invite-btn"><a href="{% url 'tictactoe:invite' %}" class="btn">Invite user</a></li>
                 <li><a href="/admin" class="btn">Admin</a></li>
             </ul>
         </nav>
@@ -75,9 +75,10 @@
     </footer>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="{% static 'core/chosen.jquery.js' %}"></script>
     {% block javascript %}
         <script>
             {% if user.is_authenticated %}

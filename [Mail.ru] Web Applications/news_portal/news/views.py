@@ -6,7 +6,7 @@ from .forms import ArticleListForm, ArticleCreateForm
 from django.core.urlresolvers import reverse
 from django.shortcuts import resolve_url  # for redirecting to URL from router by name
 from django.db import models
-from .models import Article, ArticleLike
+from .models import Article, Like
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 
