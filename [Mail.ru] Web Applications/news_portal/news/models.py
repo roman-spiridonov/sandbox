@@ -5,6 +5,8 @@ from django.conf import settings
 from django.db.models import Q
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.contenttypes.fields import GenericForeignKey
 
 
 # class ArticleManager(models.Manager):
@@ -31,7 +33,6 @@ class Article(models.Model):
     rating = models.IntegerField(default=0)
     is_published = models.BooleanField(default=False)
     tags = models.ManyToManyField("Tag", related_name="article_set")
-    # TODO: add labels using chosen.js and generic foreign keys (content_types)
 
     def __str__(self):
         return ' '.join(['id:', str(self.id), 'pk:', str(self.pk), 'title:', self.title])
@@ -54,9 +55,13 @@ class Article(models.Model):
         # like_obj = a.like_set.get_or_create(user_id=request.user.id, is_liked=True)
         delta = 0
         try:
-            like_obj = self.like_set.get(user_id=u.id)
+            # like_obj = self.like_set.get(user_id=u.id)
+            like_obj = Like.objects.get(user=u, item_type=ContentType.objects.get_for_model(Article), item_id=self.id)
+            # like_obj = Like.objects.get(user=u, item=self)
         except Like.DoesNotExist:
-            like_obj = self.like_set.create(user_id=u.id, is_liked=True)
+            # like_obj = self.like_set.create(user_id=u.id, is_liked=True)
+            like_obj = Like.objects.create(user=u, item_type=ContentType.objects.get_for_model(Article), item_id=self.id)
+            # like_obj = Like.objects.create(user=u, item=self, is_liked=True)
             self.rating += 1 # storing aggregated data (number of likes) right away
             if commit:
                 like_obj.save()
@@ -71,16 +76,22 @@ class Article(models.Model):
             else:
                 delta = -1
 
-        return self.like_set.count() + delta
+        # return self.like_set.count() + delta
+        return Like.objects.filter(item_type=ContentType.objects.get_for_model(Article), item_id=self.id).count() + delta
 
 
 class Like(models.Model):  # inside Article: likes = models.ManyToManyField(settings.AUTH_USER_MODEL)
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    article = models.ForeignKey('Article', related_name="like_set")
+
+    item_type = models.ForeignKey(ContentType)
+    item_id = models.PositiveIntegerField()
+    item = GenericForeignKey('item_type', 'item_id')
+
+    # article = models.ForeignKey('Article', related_name="like_set")
     is_liked = models.BooleanField(default=False)
 
     def __str__(self):
-        return ' '.join(['id:', str(self.id), 'user:', self.user.username, 'article: <', str(self.article), ' > ', 'is_liked:', '1' if self.is_liked else '0'])
+        return ' '.join(['id:', str(self.id), 'user:', self.user.username, 'item: <', str(self.item), ' > ', 'is_liked:', '1' if self.is_liked else '0'])
 
     class Meta:  # meta-model
         verbose_name = 'Лайк'
