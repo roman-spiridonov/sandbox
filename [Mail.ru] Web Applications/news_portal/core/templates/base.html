@@ -80,17 +80,9 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script src="{% static 'core/chosen.jquery.js' %}"></script>
     {% block javascript %}
-        <script>
-            {% if user.is_authenticated %}
-{#                $.ajax({url: "/techsupport/",#}
-{#                    cache: false,#}
-{#                    success: function(html){#}
-{#                        $("#techsupport-form").append(html);#}
-{#                    }#}
-{#                });#}
-                $("#techsupport-form").load("/techsupport/");
-            {% endif %}
-        </script>
+    {% if user.is_authenticated %}
+        <script src="{% static 'core/base.js' %}"></script>
+    {% endif %}
     {% endblock %}
 </body>
 </html>

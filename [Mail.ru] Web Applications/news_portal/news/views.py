@@ -1,5 +1,4 @@
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, FormView
-from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import Http404, HttpResponseRedirect # status code 302
 from .models import Article, Like
@@ -8,11 +7,14 @@ from comments.forms import CommentForm
 from django.core.urlresolvers import reverse
 from django.shortcuts import resolve_url  # for redirecting to URL from router by name
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model  # correct way to get user model
 from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-class ArticleCreate(CreateView):
+class ArticleCreate(CreateView, LoginRequiredMixin):  # login required via mixin
     model = Article
     # form_class = ArticleCreateForm  # needs to be inherited from ModelForm
     template_name = 'news/create.html'
@@ -48,7 +50,6 @@ class ArticleUpdate(UpdateView):
     # @method_decorator(login_required)
     # def dispatch(self, request, *args, **kwargs):  # processing any request
     #     if Article.objects.get(pk=kwargs['pk']).author != request.user:
-    #         # TODO: is there easier way to get updated Article object?
     #         raise PermissionDenied
     #     return super().dispatch(request, *args, **kwargs)
 
@@ -148,7 +149,7 @@ def apply_like(request, pk):
         raise Http404("Fatal: article with pk {} does not exist".format(pk))
 
     try:
-        u = User.objects.get(pk=request.user.id)
+        u = get_user_model().objects.get(pk=request.user.id)
     except User.DoesNotExist:
         raise Http404("Fatal: user with pk {} does not exist".format(request.user.id))
 
