@@ -11,9 +11,9 @@ class ArticleListForm(forms.Form):
     #     # raise forms.ValidationError("Я не хочу искать и сортировать, уходи!")
     #     return search
 
-
-class ArticleCreateForm(forms.Form):
-    title = forms.CharField(max_length=255)
-    text = forms.CharField(widget=forms.Textarea)
-    tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
-    is_published = forms.BooleanField(widget=forms.CheckboxInput, label="Опубликовать?")
+#
+# class ArticleCreateForm(forms.Form):
+#     title = forms.CharField(max_length=255)
+#     text = forms.CharField(widget=forms.Textarea)
+#     tags = forms.ModelMultipleChoiceField(queryset=Tag.objects.all())
+#     is_published = forms.BooleanField(widget=forms.CheckboxInput, label="Опубликовать?")

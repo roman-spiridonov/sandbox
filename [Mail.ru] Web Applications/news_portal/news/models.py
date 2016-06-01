@@ -31,7 +31,7 @@ class Article(models.Model):
     text = models.TextField()
     pub_date = models.DateTimeField(auto_now_add=True)
     rating = models.IntegerField(default=0)
-    is_published = models.BooleanField(default=False)
+    is_published = models.BooleanField(default=False, verbose_name="Опубликовать?")
     tags = models.ManyToManyField("Tag", related_name="article_set")
 
     def __str__(self):
@@ -45,7 +45,7 @@ class Article(models.Model):
     objects = ArticleQuerySet.as_manager()  # retrieve ModelManager to objects; usage: article.objects
     # objects = ArticleManager
 
-    def get_absolute_url(self):  # used by django to get url to model instance; can use: redirect(article)
+    def get_absolute_url(self):  # used by django to get url to model instance after create/update
         return reverse("news:detail", args=[self.id])
 
     def get_latest_comment(self):

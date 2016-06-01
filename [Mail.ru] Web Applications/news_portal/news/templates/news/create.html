@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block content %}
+    <h2>Edit article</h2>
     <form action="" method="post">{% csrf_token %}
         <div class="form-group">
             <label class="control-label" for="id_{{ form.title.name }}">{{ form.title.label }}</label>
@@ -22,9 +23,13 @@
         <div class="checkbox">
             <label>{{ form.is_published}} {{ form.is_published.label }}</label>
         </div>
-        {# TODO: add inline error messages handling #}
         <input type="submit" class="btn btn-primary">
     </form>
+    <h3>Comments</h3>
+    {% for comment in object.comment_set.all %}
+        <div>{{ comment.text }}</div>
+    {% endfor %}
+
 {% endblock %}
 
 {% block javascript %}

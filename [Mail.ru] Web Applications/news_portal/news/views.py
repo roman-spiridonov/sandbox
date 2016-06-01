@@ -2,18 +2,19 @@ from django.views.generic import DetailView, ListView, CreateView, UpdateView, F
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import Http404, HttpResponseRedirect # status code 302
-from .forms import ArticleListForm, ArticleCreateForm
+from .models import Article, Like
+from .forms import ArticleListForm#, ArticleCreateForm
+from comments.forms import CommentForm
 from django.core.urlresolvers import reverse
 from django.shortcuts import resolve_url  # for redirecting to URL from router by name
 from django.db import models
-from .models import Article, Like
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied
 
 class ArticleCreate(CreateView):
     model = Article
-    # form_class = ArticleCreateForm
+    # form_class = ArticleCreateForm  # needs to be inherited from ModelForm
     template_name = 'news/create.html'
     fields = ('title', 'text', 'tags', 'is_published')
 
@@ -23,20 +24,20 @@ class ArticleCreate(CreateView):
         form.instance.author = self.request.user  # hidden on server-side
         return super().form_valid(form)
 
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):  # processing any request
-        self.form = ArticleCreateForm(request.POST or None)  # create filled (POST) or empty form (initial GET)
-        if self.form.is_valid():
-            return super().dispatch(request, *args, **kwargs)
-        return super().get(request, *args, **kwargs)
+    # @method_decorator(login_required)
+    # def dispatch(self, request, *args, **kwargs):  # processing any request
+    #     self.form = ArticleCreateForm(request.POST or None)
+    #     if self.form.is_valid() :
+    #         return super().dispatch(request, *args, **kwargs)
+    #     return super().get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):  # preparing context for template rendering
-        context = super().get_context_data(**kwargs)
-        context['form'] = self.form  # redefining CreateView's form to our custom form
-        return context
+    # def get_context_data(self, **kwargs):  # preparing context for template rendering
+    #     context = super().get_context_data(**kwargs)
+    #     context['form'] = self.form  # redefining CreateView's form to our custom form
+    #     return context
 
-    def get_success_url(self):  # where to redirect user after successful object creation
-        return resolve_url('news:detail', pk=self.object.pk)  # works similar to {% url }
+    # def get_success_url(self):  # where to redirect user after successful object creation
+    #     return resolve_url('news:detail', pk=self.object.pk)  # works similar to {% url }
 
 
 class ArticleUpdate(UpdateView):
@@ -44,12 +45,15 @@ class ArticleUpdate(UpdateView):
     template_name = 'news/create.html'
     fields = ('title', 'text', 'tags', 'is_published')
 
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):  # processing any request
-        if Article.objects.get(pk=kwargs['pk']).author != request.user:
-            # TODO: is there easier way to get updated Article object?
-            raise PermissionDenied
-        return super().dispatch(request, *args, **kwargs)
+    # @method_decorator(login_required)
+    # def dispatch(self, request, *args, **kwargs):  # processing any request
+    #     if Article.objects.get(pk=kwargs['pk']).author != request.user:
+    #         # TODO: is there easier way to get updated Article object?
+    #         raise PermissionDenied
+    #     return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return Article.objects.filter(author=self.request.user)
 
 # Short form: generic view
 # TemplateVIew class: render with context
@@ -60,7 +64,18 @@ class NewsDetail(DetailView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        self.comment_form = CommentForm(request.POST or None) # create filled (POST) or empty form (initial GET)
+        if request.method == 'POST' and self.comment_form.is_valid():
+            self.comment_form.instance.article_id = self.get_object().id
+            self.comment_form.save(commit=True)
+            return HttpResponseRedirect(reverse('news:detail', args=[self.get_object().pk,]))
+
         return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comment_form'] = self.comment_form
+        return context
 
     # context_object_name = 'object'  # implicit - see article.html
     # # View class: use get, post functions after dispatch()
