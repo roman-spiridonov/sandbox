@@ -1,4 +1,4 @@
-from django.views.generic import DetailView, ListView, CreateView, UpdateView
+from django.views.generic import DetailView, ListView, CreateView, UpdateView, FormView
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import Http404, HttpResponseRedirect # status code 302
@@ -9,30 +9,47 @@ from django.db import models
 from .models import Article, Like
 from django.contrib.auth.models import User
 from django.http import JsonResponse
+from django.core.exceptions import PermissionDenied
 
 class ArticleCreate(CreateView):
     model = Article
+    # form_class = ArticleCreateForm
     template_name = 'news/create.html'
-    fields = ('title', 'text', 'is_published')
+    fields = ('title', 'text', 'tags', 'is_published')
 
     def form_valid(self, form):  # additional assignments before saving submitted form results to cleaned_data
+        # instance = form.save(commit=False)
+        # instance.author = self.request.user  # hidden on server-side
         form.instance.author = self.request.user  # hidden on server-side
         return super().form_valid(form)
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):  # processing any request
-        self.aform = ArticleCreateForm(request.POST or None)  # create filled (POST) or empty form (initial GET)
-        if self.aform.is_valid():
+        self.form = ArticleCreateForm(request.POST or None)  # create filled (POST) or empty form (initial GET)
+        if self.form.is_valid():
             return super().dispatch(request, *args, **kwargs)
         return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):  # preparing context for template rendering
         context = super().get_context_data(**kwargs)
-        context['aform'] = self.aform
+        context['form'] = self.form  # redefining CreateView's form to our custom form
         return context
 
     def get_success_url(self):  # where to redirect user after successful object creation
         return resolve_url('news:detail', pk=self.object.pk)  # works similar to {% url }
+
+
+class ArticleUpdate(UpdateView):
+    model = Article
+    template_name = 'news/create.html'
+    fields = ('title', 'text', 'tags', 'is_published')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):  # processing any request
+        if Article.objects.get(pk=kwargs['pk']).author != request.user:
+            # TODO: is there easier way to get updated Article object?
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
 
 # Short form: generic view
 # TemplateVIew class: render with context
