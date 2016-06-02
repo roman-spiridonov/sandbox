@@ -5,7 +5,7 @@ from .models import Article, Like
 from .forms import ArticleListForm#, ArticleCreateForm
 from comments.forms import CommentForm
 from django.core.urlresolvers import reverse
-from django.shortcuts import resolve_url  # for redirecting to URL from router by name
+from django.shortcuts import resolve_url, render, get_object_or_404  # for redirecting to URL from router by name
 from django.db import models
 # from django.contrib.auth.models import User
 from django.contrib.auth import get_user_model  # correct way to get user model
@@ -13,6 +13,7 @@ from django.http import JsonResponse
 from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.contenttypes.models import ContentType
 
 class ArticleCreate(CreateView, LoginRequiredMixin):  # login required via mixin
     model = Article
@@ -66,10 +67,15 @@ class NewsDetail(DetailView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         self.comment_form = CommentForm(request.POST or None) # create filled (POST) or empty form (initial GET)
-        if request.method == 'POST' and self.comment_form.is_valid():
+        if request.method == 'POST':
             self.comment_form.instance.article_id = self.get_object().id
-            self.comment_form.save(commit=True)
-            return HttpResponseRedirect(reverse('news:detail', args=[self.get_object().pk,]))
+            if self.comment_form.is_valid():
+                self.comment_form.save(commit=True)
+                return HttpResponseRedirect(reverse('news:detail', args=[self.get_object().pk,]))
+            else:
+                return super().get(request, *args, **kwargs)
+                # context = self.get_context_data()
+                # return render('news/article.html', context)
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -142,17 +148,20 @@ class NewsListView(ListView):
 #                                              'form':form})
 
 
-def apply_like(request, pk):
+def apply_like(request, content_type_id, pk):
     try:
-        a = Article.objects.get(pk=pk)
-    except Article.DoesNotExist:
-        raise Http404("Fatal: article with pk {} does not exist".format(pk))
+        content_type = get_object_or_404(ContentType, id=content_type_id)
+        model_class = content_type.model_class()
+        # o = get_object_or_404(model_class, id=pk)
+        o = model_class.objects.get(pk=pk)
+    except model_class.DoesNotExist:
+        raise Http404("Fatal: {} with pk {} does not exist".format(o.__class__, pk))
 
     try:
         u = get_user_model().objects.get(pk=request.user.id)
-    except User.DoesNotExist:
+    except get_user_model().DoesNotExist:
         raise Http404("Fatal: user with pk {} does not exist".format(request.user.id))
 
-    likes = a.toggle_like(u, commit=True)
+    likes = o.toggle_like(u, commit=True)
     # return HttpResponseRedirect(reverse('news:list'))
-    return JsonResponse({"pk": a.pk, "likes": likes})
+    return JsonResponse({"model_name": content_type.model, "pk": o.pk, "likes": likes})

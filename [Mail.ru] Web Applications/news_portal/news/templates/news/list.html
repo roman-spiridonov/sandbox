@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 {% load crispy_forms_tags %}
 {% load widget_tweaks %}
 
@@ -34,10 +35,7 @@
                 <br/>
                 {% for article in object_list %}
                     <div class="row" id="article-{{ article.pk }}">
-                        <span class="article-rating">{{ article.rating }}</span>
-                        <a href="#" data-click-action="{% url 'news:like' pk=article.pk %}">
-                            <span class="glyphicon glyphicon-thumbs-up"/>
-                        </a>
+                        {% include 'news/like_button.html' with object=article %}
                         ({{ article.comments_count }})
 
                             <b>{{ article.pub_date|date:"d M Y, P" }}</b> &mdash; <a href="{% url 'news:detail' pk=article.pk %}">{{ article.title }}</a>
@@ -79,18 +77,6 @@
                 $("#tictactoe-list").append(html);
             }
         });
-
-        $(document).ready(function(){
-            $('[data-click-action]').click(function(){
-                var el = $(this);
-{#                console.log(this);#}
-                var api_link = el.data('click-action');
-{#                console.log(api_link);#}
-                $.getJSON(api_link, function (data){
-{#                    console.log('#article-'+String(data.pk));#}
-                    $('#article-'+String(data.pk)).children(".article-rating").html(data.likes);
-                    });
-                });
-            });
     </script>
+    <script src="{% static 'news/like_button.js' %}"></script>
 {% endblock %}
