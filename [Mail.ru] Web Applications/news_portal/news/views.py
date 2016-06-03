@@ -107,6 +107,8 @@ class NewsDetail(DetailView):
 class NewsListView(ListView):
     model = Article
     template_name = 'news/list.html'
+    paginate_by = 10
+    allow_empty = True
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):

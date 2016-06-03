@@ -44,6 +44,19 @@
                 {% empty %}
                     {# If object_list is empty #}
                 {% endfor %}
+
+                {# Paginator #}
+                {% if paginator.num_pages > 1 %}
+                    {% if page_obj.has_previous %}
+                        <a href="/page/{{ page_obj.previous_page_number }}">&larr;</a>
+                    {% endif %}
+                    <a href="/page/{{ page_obj.number }}">{{ page_obj.number }}</a>
+                    {% if page_obj.has_next %}
+                        <a href="/page/{{ page_obj.next_page_number }}">&rarr;</a>
+                    {% endif %} 
+                {% endif %}
+
+                {# Add new article #}
                 <div class="list_actions"><a href="{% url "news:create" %}">Add new</a></div>
             {% else %}
                 <p>No articles available</p>
