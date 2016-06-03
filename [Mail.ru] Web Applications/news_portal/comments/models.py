@@ -12,3 +12,5 @@ class Comment(models.Model):
     class Meta:
         get_latest_by = 'created_at'
 
+    def as_compact_dict(self):
+        return {'text': self.text}

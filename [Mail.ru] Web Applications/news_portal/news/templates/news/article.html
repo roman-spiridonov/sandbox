@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+{% load staticfiles %}
 
 {% block title %}
     {{ object.title }}
@@ -13,13 +14,30 @@
     {% url "news:detail" pk=object.pk %}<br/>
     {% if user == object.author %}<a href="{% url 'news:update' pk=object.pk %}">Edit article</a>{% endif %}
     <h3>Comments</h3>
-    {% for comment in object.comment_set.all %}
-        <div>{{ comment.text }}</div>
-    {% endfor %}
+    <table class="comments-table">
+        {% for comment in object.comment_set.all %}
+            <tr><td>{{ comment.text }}</td></tr>
+        {% endfor %}
+    </table>
+     <div id="comments-cent-data"
+        data-cent-url="{{ CENTRIFUGE_SOCKJS_ENDPOINT }}"
+        data-cent-user="{{ CENTRIFUGE_USER }}"
+        data-cent-ts="{{ CENTRIFUGE_TIMESTAMP }}"
+        data-cent-info="{{ CENTRIFUGE_INFO }}"
+        data-cent-token="{{ CENTRIFUGE_TOKEN }}"
+        data-cent-channel="{{ object.get_cent_comments_channel_name }}">
+      </div>
 
-    <form action="" method="post"> {% csrf_token %}
+    <form action="" method="post" id="comment-form"> {% csrf_token %}
         {{ comment_form|crispy }}
         <input type="submit" class="btn btn-primary">
     </form>
 
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+    <script src="//cdn.jsdelivr.net/sockjs/1.0/sockjs.min.js" type="text/javascript"></script>
+    <script src="{% static 'core/centrifuge.js' %}"></script>
+    <script src="{% static 'news/comments_subscribe.js' %}"></script>
 {% endblock %}

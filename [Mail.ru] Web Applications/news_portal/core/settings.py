@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'crispy_forms',  # https://github.com/maraujop/django-crispy-forms
     'debug_toolbar',
+    'adjacent',
     'hello',
     'news',
     'comments',
@@ -74,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'adjacent.context_processors.main',
             ],
         },
     },
@@ -140,3 +142,7 @@ LOGOUT_URL = 'logout'
 LOGIN_REDIRECT_URL = 'news:list'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
+
+CENTRIFUGE_ADDRESS = 'http://localhost:8003'
+CENTRIFUGE_SECRET = '10b63041-2c0e-4955-b9c0-3ce18cd8e38f'
+CENTRIFUGE_TIMEOUT = 10

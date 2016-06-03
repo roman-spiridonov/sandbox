@@ -111,6 +111,8 @@ class Article(LikeMixIn, models.Model):
     def get_latest_comment(self):
         return self.comment_set.latest()  # uses get_latest_by Meta field
 
+    def get_cent_comments_channel_name(self):  # for centrifugo
+        return "news_portal_comments"
 
 class Tag(models.Model):
     tag_text = models.SlugField()  # max_length = 50

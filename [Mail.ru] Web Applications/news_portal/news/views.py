@@ -1,6 +1,6 @@
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, FormView
 from django.utils.decorators import method_decorator
-from django.http import Http404, HttpResponseRedirect # status code 302
+from django.http import Http404, HttpResponseRedirect, HttpResponse # status code 302
 from .models import Article, Like
 from .forms import ArticleListForm#, ArticleCreateForm
 from comments.forms import CommentForm
@@ -14,6 +14,7 @@ from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.contenttypes.models import ContentType
+from adjacent import Client
 
 class ArticleCreate(CreateView, LoginRequiredMixin):  # login required via mixin
     model = Article
@@ -69,9 +70,16 @@ class NewsDetail(DetailView):
         self.comment_form = CommentForm(request.POST or None) # create filled (POST) or empty form (initial GET)
         if request.method == 'POST':
             self.comment_form.instance.article_id = self.get_object().id
+
             if self.comment_form.is_valid():
-                self.comment_form.save(commit=True)
-                return HttpResponseRedirect(reverse('news:detail', args=[self.get_object().pk,]))
+                comment = self.comment_form.save(commit=True)
+                client = Client()
+                client.publish(self.get_object().get_cent_comments_channel_name(), comment.as_compact_dict())
+                cent_response = client.send()
+                print('sent to channel {}, got response from centrifugo: {}'.format(self.get_object().get_cent_comments_channel_name(),
+                                                                                    cent_response))
+                return HttpResponse()
+                # return HttpResponseRedirect(reverse('news:detail', args=[self.get_object().pk,]))
             else:
                 return super().get(request, *args, **kwargs)
                 # context = self.get_context_data()
