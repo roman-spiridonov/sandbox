@@ -4,7 +4,7 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
         shell: {  // task
-            server: {  // goal: $grunt shell:server
+            server: {  // target: $grunt shell:server
                 //command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080'
 				command: 'node server.js'  // command: 'node server.js'
             },
@@ -13,30 +13,35 @@ module.exports = function (grunt) {
                 stderr: true
             }
         },
-        fest: {
-            templates: {
+        fest: {  // https://github.com/eprev/grunt-fest
+            templates: { 
                 files: [{
                     expand: true,  // Flag for dynamic expand
                     cwd: 'templates',  // Source directory to expand
                     src: '*.xml',  // File pattern
+                    dest: 'public_html/js/tmpl'
+                    // ext: '.js'
                 }],
                 options: {
-                    template: function (data) {
+                    template: function (data) {  // call when template is compiled
                         return grunt.template.process(
-                            'var <%= name %>Tmpl = <%= contents %> ;',
+                            'var <%= name %>Tmpl = <%= contents %> ;',  // name - template file name, contents - compiled template
                             {data: data}
                         );
+                    },
+                    compile: {
+                        beautify: true
                     }
                 }
             }
         },
         watch: {
-            fest: {
+            fest: {  // sub-task
                 files: ['templates/*.xml'],  // files to watch
                 tasks: ['fest'],  // recompile template after change using grunt-fest
                 options: {
                     interrupt: true,
-                    atBegin: true  // Launch the goal at start-up
+                    atBegin: true  // Launch the sub-task at start-up
                 }
             },
             server: {
@@ -69,6 +74,6 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('test', ['qunit:all']);
     grunt.registerTask('default', ['concurrent']);  
-        // instead of ['shell', 'watch'] which collide because Java server does not return control
+        // instead of ['shell', 'watch'] which collide because Java server does not return control to grunt
 
 };

@@ -1,29 +1,50 @@
+var $page = $('#page'),
+	currentScreen = 'main';
+showMainScreen();
+
 function showScoreboardScreen() {
-	// TODO
+	hideMainScreen();
+	$page.html(scoreboardTmpl()); // Render template
+
 }
 function hideScoreboardScreen() {
-	// TODO
 }
 
 function showGameScreen() {
-	// TODO
+	hideMainScreen();
+	$page.html(gameTmpl()); // Render template
 }
 function hideGameScreen() {
-	// TODO
 }
 
 function showLoginScreen() {
-	// TODO
+	hideMainScreen();
+	$page.html(loginTmpl()); // Render template	
 }
 function hideLoginScreen() {
-	// TODO
 }
 
 function showMainScreen() {
-	// TODO
+	// Call prev screen's destructor
+    if (currentScreen === 'scoreboard') {
+        hideScoreboardScreen();
+    } else if (currentScreen === 'game') {
+        hideGameScreen();
+    } else if (currentScreen === 'login') {
+        hideLoginScreen();
+    }
+
+	$page.html(mainTmpl()); // Render template
+
+	// Initialize event handlers
+	$('.js-scoreboard').on('click', showScoreboardScreen);
+	$('.js-start-game').on('click', showGameScreen);
+	$('.js-login').on('click', showLoginScreen);
 }
 
 function hideMainScreen() {
-	// TODO
+	// Remove event handlers from current screen from memory
+	// $('.js-scoreboard').off('click', showScoreboardScreen);
+	// $('.js-start-game').off('click', showScoreboardScreen);
+	// $('.js-login').off('click', showScoreboardScreen);
 }
-
