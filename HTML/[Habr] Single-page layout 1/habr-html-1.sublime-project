@@ -2,12 +2,7 @@
 	"folders":
 	[
 		{
-			"path": ".",
-			"file_exclude_patterns":
-			[
-				"*.sublime-project", 
-				"*.sublie-workspace"
-			]
+			"path": "C:\\code\\temp\\html\\test"
 		}
 	]
 }
