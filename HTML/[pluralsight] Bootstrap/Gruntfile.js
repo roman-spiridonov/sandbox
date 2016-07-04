@@ -27,9 +27,9 @@ module.exports = function (grunt) {
         watch: {
             server: {
                 files: [
-                    '**/*.js',
-                    '**/*.css',
-                    '**/*.html'
+                    'www/js/**/*.js',
+                    'www/css/**/*.css',
+                    'www/**/*.html'
                 ],
                 options: {
                     livereload: true

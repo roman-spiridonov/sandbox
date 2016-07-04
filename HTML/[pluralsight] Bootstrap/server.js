@@ -5,7 +5,7 @@ var express = require('express'),
 
 var HOSTNAME = 'localhost',
     PORT = 3000,
-    PUBLIC_DIR = path.join(__dirname,'');
+    PUBLIC_DIR = path.join(__dirname,'www/');
 
 // app.use(function (req) {
 // 	// Здесь нужно написать журналирование в формате
