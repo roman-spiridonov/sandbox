@@ -4544,7 +4544,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li > a {
   position: relative;
   display: block;
-  padding: 10px 30px;
+  padding: 10px 15px;
 }
 .nav > li > a:hover,
 .nav > li > a:focus {
@@ -7347,7 +7347,7 @@ body {
   background-image: url(../img/bg.png);
 }
 body .wrapper {
-  padding: 0 0 50px 0;
+  padding: 0 10px 50px 10px;
 }
 body .wrapper header {
   padding: 20px 0;
@@ -7469,7 +7469,6 @@ body footer {
 }
 body footer .container {
   padding: 10px 0;
-  height: 110px;
 }
 body footer .container h3 {
   border-bottom: 1px solid #919191;
@@ -7511,6 +7510,9 @@ body footer .container .social .social-icon-small {
   background: url(../img/social-small.png) no-repeat;
   display: inline-block;
   margin: 5px 6px 0 0;
+}
+body footer .container .social .social-link-group {
+  display: block;
 }
 body footer .container .social .twitter {
   background-position: 0 0;

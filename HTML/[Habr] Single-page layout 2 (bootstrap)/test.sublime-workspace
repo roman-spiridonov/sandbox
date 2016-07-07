@@ -52,18 +52,18 @@
 	"buffers":
 	[
 		{
-			"file": "index.html",
+			"file": "www/index.html",
 			"settings":
 			{
-				"buffer_size": 2202,
+				"buffer_size": 13151,
 				"line_ending": "Unix"
 			}
 		},
 		{
-			"file": "js/main.js",
+			"file": "/C/code/temp/Balls/src/circle.js",
 			"settings":
 			{
-				"buffer_size": 1724,
+				"buffer_size": 1291,
 				"line_ending": "Windows"
 			}
 		}
@@ -185,11 +185,12 @@
 	},
 	"expanded_folders":
 	[
-		"/C/code/temp/html/test",
-		"/C/code/temp/html/test/js"
+		"/C/code/sandbox/HTML/[Habr] Single-page layout 2 (bootstrap)",
+		"/C/code/sandbox/HTML/[Habr] Single-page layout 2 (bootstrap)/www"
 	],
 	"file_history":
 	[
+		"/C/code/sandbox/HTML/[Habr] Single-page layout 2 (bootstrap)/index.html",
 		"/C/sublime/Data/Packages/User/Preferences.sublime-settings",
 		"/C/sublime/Data/Packages/User/Explorer.sublime-build",
 		"/C/code/temp/html/test/index.html",
@@ -337,29 +338,30 @@
 			[
 				{
 					"buffer": 0,
-					"file": "index.html",
+					"file": "www/index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2202,
+						"buffer_size": 13151,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2092,
-								2092
+								536,
+								536
 							]
 						],
 						"settings":
 						{
+							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
 							"syntax": "Packages/HTML/HTML.sublime-syntax",
 							"tab_size": 4,
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 462.0,
+						"translation.y": 2486.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -367,24 +369,27 @@
 				},
 				{
 					"buffer": 1,
-					"file": "js/main.js",
+					"file": "/C/code/temp/Balls/src/circle.js",
 					"semi_transient": true,
 					"settings":
 					{
-						"buffer_size": 1724,
+						"buffer_size": 1291,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1724,
+								0,
 								0
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax"
+							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
+							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -438,6 +443,10 @@
 	"output.nodejs":
 	{
 		"height": 220.0
+	},
+	"output.tooltips":
+	{
+		"height": 142.0
 	},
 	"pinned_build_system": "Packages/User/Explorer.sublime-build",
 	"project": "test.sublime-project",
