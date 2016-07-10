@@ -1,4 +1,4 @@
-var scoreboardTmpl = function(__fest_context) {
+var gamelistTmpl = function(__fest_context) {
     "use strict";
     var __fest_self = this,
         __fest_buf = "",
@@ -92,7 +92,7 @@ var scoreboardTmpl = function(__fest_context) {
         } else if (typeof s === "undefined") return "";
         return s;
     }
-    __fest_buf += ("<div id=\"scoreboard\">Scoreboard</div>");
+    __fest_buf += ("<div id=\"game-list\" class=\"panel-heading panel-title\">Game list</div><div class=\"panel-body\"><table class=\"table table-hover\"><caption><div class=\"text-warning\">Click on the game row to continue game.</div></caption><thead><th>Name</th><th>User</th><th>Started</th><th>Updated</th><th>Generations</th><th>Ended?</th><th>Type</th></thead><tr><td>My first game</td><td>romars</td><td><div class=\"js-current-time\"></div></td><td><div class=\"js-current-time\"></div></td><td>10</td><td>no</td><td>n\/a</td></tr><tr><td>My second game</td><td>romars</td><td><div class=\"js-current-time\"></div></td><td><div class=\"js-current-time\"></div></td><td>15</td><td>yes</td><td>frozen</td></tr></table></div><script><![CDATA[\r\n        \tvar currentDate = new Date();\r\n    \t\t$(\'.js-current-time\').append(\'\u003Ctime datetime=\"\"\'+currentDate.toISOString()+\'\u003E\'+currentDate.toDateString()+\'\u003C\/time\u003E\');\r\n    \t\t]]></script>");
     __fest_to = __fest_chunks.length;
     if (__fest_to) {
         __fest_iterator = 0;

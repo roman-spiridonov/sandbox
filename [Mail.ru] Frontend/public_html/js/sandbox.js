@@ -1,7 +1,7 @@
 var PlayerModel = Backbone.Model.extend({});
 var player = new PlayerModel();
 player.once('change:name', function(model, name) { // подписываемся на изменение свойства модели
-    alert('Player name is '+name);
+	console.log('Player name is '+name);
 }); // 'all' - подписаться на все эвенты
 player.set({name: 'Mark'}); // ИЛИ player.set('name', 'Mark'); // player.name = 'Mark' - плохо, поскольку не создает событие
 player.set({name: 'Mark'}, {silent: true});  
@@ -28,11 +28,11 @@ var PlayerView = Backbone.View.extend({
     render: function() {
         // this - текущая модель, если не вызвать _bindAll()
         console.log('render'); 
-        this.el.innerHTML = 'Hello, ' + this.model.get('name') + '! <span class="button_delete">click me!</span>';
+        this.el.innerHTML = 'Hello, ' + this.model.get('name') + '! <a href="#" class="button_delete">click me</a>.';
         return this;
     }
 });
 var player_view = new PlayerView({ model: player });
 player_view.el // li.score__item 
-document.body.appendChild(player_view.el); // Теперь вставляем на страницу (помещаем в DOM)
+document.getElementById("sandbox").appendChild(player_view.el); // Теперь вставляем на страницу (помещаем в DOM)
 player.set({name: 'Mark'});

@@ -3,7 +3,7 @@ module.exports = function (grunt) {
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
 
-        shell: {  // task
+        shell: {  // task: $grunt shell
             server: {  // target: $grunt shell:server
                 //command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080'
 				command: 'node server.js'  // command: 'node server.js'

@@ -92,7 +92,7 @@ var loginTmpl = function(__fest_context) {
         } else if (typeof s === "undefined") return "";
         return s;
     }
-    __fest_buf += ("<div id=\"login\">Login</div>");
+    __fest_buf += ("<div id=\"login\" class=\"panel-heading panel-title\">Login</div><div class=\"panel-body\"><form action=\"\/api\/v1\/auth\/signin\" method=\"post\"><div class=\"form-group\"><label for=\"loginform-email\">E-mail:</label><input type=\"email\" name=\"email\" id=\"loginform-email\" placeholder=\"myname@gmail.com\" class=\"form-control\"/></div><div class=\"form-group\"><label for=\"loginform-password\">Password:</label><input type=\"password\" name=\"password\" id=\"loginform-password\" placeholder=\"Type your password\" class=\"form-control\"/></div><button type=\"submit\" class=\"btn btn-default\">Submit</button></form></div>");
     __fest_to = __fest_chunks.length;
     if (__fest_to) {
         __fest_iterator = 0;

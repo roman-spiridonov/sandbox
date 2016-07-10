@@ -1,7 +1,7 @@
 {
-  "name": "JS_boilerplate",
+  "name": "GameOfLife",
   "version": "0.1.0",
-  "description": "Boilerplate for SSPA - Simple Single Page Application",
+  "description": "Game of Life SSPA (Simple Single Page Application)",
   "main": "index.js",
   "author": "romars@phystech.edu",
   "license": "MIT",

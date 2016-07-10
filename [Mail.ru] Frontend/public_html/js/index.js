@@ -1,50 +1,65 @@
 var $page = $('#page'),
-	currentScreen = 'main';
+	currentScreen = 'none';
+
 showMainScreen();
 
-function showScoreboardScreen() {
-	hideMainScreen();
-	$page.html(scoreboardTmpl()); // Render template
+function hideCurrentScreen() {
+	// Call prev screen's destructor
+	if (currentScreen === 'main') {
+		hideMainScreen();
+	} else if (currentScreen === 'gamelist') {
+	    hideGameListScreen();
+	} else if (currentScreen === 'game') {
+	    hideGameScreen();
+	} else if (currentScreen === 'login') {
+	    hideLoginScreen();
+	}	
+}
+
+function showGameListScreen() {
+	hideCurrentScreen();
+	$page.html(gamelistTmpl()); // Render template
+	currentScreen = 'gamelist';
 
 }
-function hideScoreboardScreen() {
+function hideGameListScreen() {
 }
 
 function showGameScreen() {
-	hideMainScreen();
+	hideCurrentScreen();
 	$page.html(gameTmpl()); // Render template
+	currentScreen = 'game';
 }
 function hideGameScreen() {
 }
 
 function showLoginScreen() {
-	hideMainScreen();
+	hideCurrentScreen();
 	$page.html(loginTmpl()); // Render template	
+	currentScreen = 'login';
 }
 function hideLoginScreen() {
 }
 
 function showMainScreen() {
-	// Call prev screen's destructor
-    if (currentScreen === 'scoreboard') {
-        hideScoreboardScreen();
-    } else if (currentScreen === 'game') {
-        hideGameScreen();
-    } else if (currentScreen === 'login') {
-        hideLoginScreen();
-    }
+	hideCurrentScreen();
 
 	$page.html(mainTmpl()); // Render template
 
 	// Initialize event handlers
-	$('.js-scoreboard').on('click', showScoreboardScreen);
-	$('.js-start-game').on('click', showGameScreen);
-	$('.js-login').on('click', showLoginScreen);
+	if(currentScreen === 'none') {
+		$('.js-game-list').on('click', showGameListScreen);
+		$('.js-start-game').on('click', showGameScreen);
+		$('.js-login').on('click', showLoginScreen);
+		$('.js-main').on('click', showMainScreen);
+	}
+
+	currentScreen = 'main';
 }
 
 function hideMainScreen() {
 	// Remove event handlers from current screen from memory
-	// $('.js-scoreboard').off('click', showScoreboardScreen);
-	// $('.js-start-game').off('click', showScoreboardScreen);
-	// $('.js-login').off('click', showScoreboardScreen);
+	// $('.js-game-list').off('click', showGameListScreen);
+	// $('.js-start-game').off('click', showGameScreen);
+	// $('.js-login').off('click', showLoginScreen);
 }
