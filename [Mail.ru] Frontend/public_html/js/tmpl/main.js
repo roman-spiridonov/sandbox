@@ -1,4 +1,4 @@
-var mainTmpl = function(__fest_context) {
+define(function() { return function(__fest_context) {
     "use strict";
     var __fest_self = this,
         __fest_buf = "",
@@ -92,7 +92,7 @@ var mainTmpl = function(__fest_context) {
         } else if (typeof s === "undefined") return "";
         return s;
     }
-    __fest_buf += ("<div id=\"main\" class=\"panel-heading panel-title\">Main</div><div class=\"panel-body\"></div>");
+    __fest_buf += ("<div class=\"panel panel-default\" id=\"main\"><div class=\"panel-heading panel-title\">Main</div><div class=\"panel-body\"></div></div>");
     __fest_to = __fest_chunks.length;
     if (__fest_to) {
         __fest_iterator = 0;
@@ -109,4 +109,4 @@ var mainTmpl = function(__fest_context) {
     } else {
         return __fest_buf;
     }
-} ;
+} ; });

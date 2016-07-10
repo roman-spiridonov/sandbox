@@ -51,22 +51,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "www/index.html",
-			"settings":
-			{
-				"buffer_size": 13151,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "/C/code/temp/Balls/src/circle.js",
-			"settings":
-			{
-				"buffer_size": 1291,
-				"line_ending": "Windows"
-			}
-		}
 	],
 	"build_system": "Packages/Python/Python.sublime-build",
 	"build_system_choices":
@@ -185,11 +169,24 @@
 	},
 	"expanded_folders":
 	[
-		"/C/code/sandbox/HTML/[Habr] Single-page layout 2 (bootstrap)",
-		"/C/code/sandbox/HTML/[Habr] Single-page layout 2 (bootstrap)/www"
+		"/C/code/sandbox/HTML/[Habr] Single-page layout 2 (bootstrap)"
 	],
 	"file_history":
 	[
+		"/C/code/GameOfLifeJS/public_html/js/router.js",
+		"/C/code/GameOfLifeJS/Gruntfile.js",
+		"/C/code/sandbox/HTML/[pluralsight] Bootstrap/www/Contact.html",
+		"/C/code/sandbox/HTML/[pluralsight] Bootstrap/www/About.html",
+		"/C/code/GameOfLifeJS/public_html/index.html",
+		"/C/code/GameOfLifeJS/public_html/js/main.js",
+		"/C/code/sandbox/HTML/[Habr] Single-page layout 2 (bootstrap)/www/index.html",
+		"/C/code/learn/example-multipage-shim/www/page1.html",
+		"/C/sublime/Data/Packages/Default/Default (Windows).sublime-keymap",
+		"/C/code/GameOfLifeJS/public_html/js/lib/underscore.js",
+		"/C/code/GameOfLifeJS/public_html/js/lib/jquery.js",
+		"/C/code/GameOfLifeJS/public_html/js/lib/backbone.js",
+		"/C/code/GameOfLifeJS/public_html/js/lib/require.js",
+		"/C/sublime/Data/Packages/Default/Preferences.sublime-settings",
 		"/C/code/sandbox/HTML/[Habr] Single-page layout 2 (bootstrap)/index.html",
 		"/C/sublime/Data/Packages/User/Preferences.sublime-settings",
 		"/C/sublime/Data/Packages/User/Explorer.sublime-build",
@@ -206,10 +203,8 @@
 		"/C/code/sandbox/[Mail.ru] Frontend/main.js",
 		"/C/code/sandbox/[Mail.ru] Frontend/public_html/tests/tests.js",
 		"/C/sublime/Data/Packages/SublimeCodeIntel/SublimeCodeIntel.sublime-settings",
-		"/C/sublime/Data/Packages/Default/Default (Windows).sublime-keymap",
 		"/C/sublime/Data/Packages/User/SublimeCodeIntel.sublime-settings",
 		"/C/sublime/Data/Packages/User/Default (Windows).sublime-keymap",
-		"/C/sublime/Data/Packages/Default/Preferences.sublime-settings",
 		"/C/sublime/Data/Packages/User/Emmet.sublime-settings",
 		"/C/sublime/Data/Packages/Emmet/Default (Windows).sublime-keymap",
 		"/C/sublime/Data/Packages/Emmet/Emmet.sublime-settings",
@@ -276,6 +271,11 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"switch",
+			"project",
+			"define",
+			"auto",
+			"table",
 			"tab",
 			"trigge",
 			"auto_co",
@@ -333,71 +333,8 @@
 	"groups":
 	[
 		{
-			"selected": 0,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "www/index.html",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 13151,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								536,
-								536
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
-							"syntax": "Packages/HTML/HTML.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 2486.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 0,
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "/C/code/temp/Balls/src/circle.js",
-					"semi_transient": true,
-					"settings":
-					{
-						"buffer_size": 1291,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								0
-							]
-						],
-						"settings":
-						{
-							"color_scheme": "Packages/User/Color Highlighter/themes/Dracula.tmTheme",
-							"syntax": "Packages/JavaScript/JavaScript.sublime-syntax",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 1,
-					"type": "text"
-				}
 			]
 		}
 	],
@@ -497,6 +434,15 @@
 	"selected_group": 0,
 	"settings":
 	{
+		"last_automatic_layout":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		]
 	},
 	"show_minimap": true,
 	"show_open_files": false,

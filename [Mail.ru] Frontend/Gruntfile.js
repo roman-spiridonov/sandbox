@@ -25,6 +25,27 @@ module.exports = function (grunt) {
                 options: {
                     template: function (data) {  // call when template is compiled
                         return grunt.template.process(
+                            'define(function() { return <%= contents %> ; });',
+                            // 'var <%= name %>Tmpl = <%= contents %> ;',  // name - template file name, contents - compiled template
+                            {data: data}
+                        );
+                    },
+                    compile: {
+                        beautify: true
+                    }
+                }
+            },
+            sandbox_templates: {
+                files: [{
+                    expand: true,  // Flag for dynamic expand
+                    cwd: 'templates/sandbox',  // Source directory to expand
+                    src: '*.xml',  // File pattern
+                    dest: 'public_html/js/app/sandbox_tmpl'
+                    // ext: '.js'
+                }],
+                options: {
+                    template: function (data) {  // call when template is compiled
+                        return grunt.template.process(
                             'var <%= name %>Tmpl = <%= contents %> ;',  // name - template file name, contents - compiled template
                             {data: data}
                         );
@@ -34,10 +55,11 @@ module.exports = function (grunt) {
                     }
                 }
             }
+            
         },
         watch: {
             fest: {  // sub-task
-                files: ['templates/*.xml'],  // files to watch
+                files: ['templates/**/*.xml'],  // files to watch
                 tasks: ['fest'],  // recompile template after change using grunt-fest
                 options: {
                     interrupt: true,

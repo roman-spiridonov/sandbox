@@ -49,7 +49,7 @@ function showMainScreen() {
 	// Initialize event handlers
 	if(currentScreen === 'none') {
 		$('.js-game-list').on('click', showGameListScreen);
-		$('.js-start-game').on('click', showGameScreen);
+		$('.js-game').on('click', showGameScreen);
 		$('.js-login').on('click', showLoginScreen);
 		$('.js-main').on('click', showMainScreen);
 	}
@@ -60,6 +60,6 @@ function showMainScreen() {
 function hideMainScreen() {
 	// Remove event handlers from current screen from memory
 	// $('.js-game-list').off('click', showGameListScreen);
-	// $('.js-start-game').off('click', showGameScreen);
+	// $('.js-game').off('click', showGameScreen);
 	// $('.js-login').off('click', showLoginScreen);
 }

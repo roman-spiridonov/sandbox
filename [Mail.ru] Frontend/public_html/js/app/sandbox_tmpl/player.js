@@ -1,4 +1,4 @@
-define(function() { return function(__fest_context) {
+var playerTmpl = function(__fest_context) {
     "use strict";
     var __fest_self = this,
         __fest_buf = "",
@@ -92,7 +92,14 @@ define(function() { return function(__fest_context) {
         } else if (typeof s === "undefined") return "";
         return s;
     }
-    __fest_buf += ("<div class=\"panel panel-default\" id=\"login\"><div class=\"panel-heading panel-title\">Login</div><div class=\"panel-body\"><form action=\"\/api\/v1\/auth\/signin\" method=\"post\"><div class=\"form-group\"><label for=\"loginform-email\">E-mail:</label><input type=\"email\" name=\"email\" id=\"loginform-email\" placeholder=\"myname@gmail.com\" class=\"form-control\"/></div><div class=\"form-group\"><label for=\"loginform-password\">Password:</label><input type=\"password\" name=\"password\" id=\"loginform-password\" placeholder=\"Type your password\" class=\"form-control\"/></div><button type=\"submit\" class=\"btn btn-default\">Submit</button></form></div></div>");
+    var json = __fest_context;
+    __fest_buf += ("<div class=\"player\">Hello, ");
+    try {
+        __fest_buf += (json.name)
+    } catch (e) {
+        __fest_log_error(e.message + "2");
+    }
+    __fest_buf += ("! <a href=\"#\" class=\"button_delete\">click me</a>.</div>");
     __fest_to = __fest_chunks.length;
     if (__fest_to) {
         __fest_iterator = 0;
@@ -109,4 +116,4 @@ define(function() { return function(__fest_context) {
     } else {
         return __fest_buf;
     }
-} ; });
+} ;

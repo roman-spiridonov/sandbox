@@ -13,7 +13,7 @@ player.off('change:name');
 var PlayerView = Backbone.View.extend({
     tagName: "li",
     className: "score__item",
-    /* template: fest['player'], */ 
+    template: playerTmpl,  // from global context: sandbox_tmpl/player.js is loaded in index.html
     events: {
         "click .button_delete": "destroy" // jQuery delegate
     },
@@ -28,7 +28,8 @@ var PlayerView = Backbone.View.extend({
     render: function() {
         // this - текущая модель, если не вызвать _bindAll()
         console.log('render'); 
-        this.el.innerHTML = 'Hello, ' + this.model.get('name') + '! <a href="#" class="button_delete">click me</a>.';
+//         this.el.innerHTML = 'Hello, ' + this.model.get('name') + '! <a href="#" class="button_delete">click me</a>.';
+		this.$el.html(this.template(this.model.attributes));
         return this;
     }
 });
