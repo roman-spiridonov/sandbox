@@ -15,7 +15,8 @@ var PlayerView = Backbone.View.extend({
     className: "score__item",
     template: playerTmpl,  // from global context: sandbox_tmpl/player.js is loaded in index.html
     events: {
-        "click .button_delete": "destroy" // jQuery delegate
+        "click .sandbox__click": "onClick", // jQuery delegate
+		"change .sandbox__name": "onChange"
     },
     initialize: function() { // Инициализация модели, которую передали
         // this - текущий View
@@ -24,14 +25,15 @@ var PlayerView = Backbone.View.extend({
         //  this.model.on('change', this.render); // подписываемся на change у модели (у модели что-то изменилось)
         this.listenTo(this.model, "change", this.render);
     },
-    destroy: function() { console.log('test'); },
     render: function() {
         // this - текущая модель, если не вызвать _bindAll()
         console.log('render'); 
 //         this.el.innerHTML = 'Hello, ' + this.model.get('name') + '! <a href="#" class="button_delete">click me</a>.';
 		this.$el.html(this.template(this.model.attributes));
         return this;
-    }
+    },
+    onClick: function() { console.log('test'); },
+	onChange: function(event) { this.model.set('name', event.currentTarget.value); }
 });
 var player_view = new PlayerView({ model: player });
 player_view.el // li.score__item 

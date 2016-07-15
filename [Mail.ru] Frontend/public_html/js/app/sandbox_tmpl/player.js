@@ -93,13 +93,13 @@ var playerTmpl = function(__fest_context) {
         return s;
     }
     var json = __fest_context;
-    __fest_buf += ("<div class=\"player\">Hello, ");
+    __fest_buf += ("<div class=\"sandbox__player\">Hello, ");
     try {
         __fest_buf += (json.name)
     } catch (e) {
         __fest_log_error(e.message + "2");
     }
-    __fest_buf += ("! <a href=\"#\" class=\"button_delete\">click me</a>.</div>");
+    __fest_buf += ("! <a href=\"#\" class=\"sandbox__click\">click me</a>.\r\n\t\tChange my name: <input type=\"text\" name=\"name\" class=\"sandbox__name\"/>.</div>");
     __fest_to = __fest_chunks.length;
     if (__fest_to) {
         __fest_iterator = 0;
