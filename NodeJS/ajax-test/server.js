@@ -13,6 +13,7 @@ function accept(req, res) {
         setTimeout(function() {
             file.serve(req, res);
         }, 2000);
+
     } else if(req.url == '/digits') {  // запрос к digits: plain text endpoint + постепенное формирование запроса
     	res.writeHead(200, {
     		'Content-Type': 'text/plain',
@@ -32,6 +33,19 @@ function accept(req, res) {
     			res.end();  // send final packet
     		}
     	}
+
+    } else if(req.url == '/upload') {  // Загрузка файла
+        var length = 0;
+        req.on('data', function(chunk) {
+            length += chunk.length;
+            if (length > 50*1024*1024) {   // > 50 MB
+                res.statusCode = 413;
+                res.end('File too big');
+            }
+        }).on('end', function() {
+            console.log('Uploaded file size is ' + (length/1024/1024).toFixed(2) + ' MB.');
+            res.end('ok');
+        });
 
     } else {  // отдать файл, если запрос не к phones.json
         file.serve(req, res);
