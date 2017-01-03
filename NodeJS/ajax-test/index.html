@@ -26,12 +26,16 @@
     <p></p>
     <form name="upload">  <!-- action определен кастомным скриптом в функции upload() -->
         <input type="file" name="myfile">
+        <label><input type="checkbox" name="is-dummy"> Dummy mode?</label>
+        <p></p>
         <input type="submit" value="Upload">
+        <button type="button" id="upload-pause" onclick="uploader.pause()">Пауза</button>
     </form>
     <div id="upload-log"></div>
 
     <script src="load-phones.js"></script>
     <script src="load-digits.js"></script>
+    <script src="uploader.js"></script>
     <script src="upload.js"></script>
 </body>
 

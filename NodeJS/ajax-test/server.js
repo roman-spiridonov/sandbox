@@ -6,8 +6,12 @@ var file = new static.Server('.', {
     cache: 0
 });
 
+var fileUploader = require('./fileUploader');
+
 
 function accept(req, res) {
+    // req.headers['Content-Type']
+
     if (req.url == '/phones.json') {  // JSON endpoint
         // искусственная задержка для наглядности
         setTimeout(function() {
@@ -34,7 +38,7 @@ function accept(req, res) {
     		}
     	}
 
-    } else if(req.url == '/upload') {  // Загрузка файла
+    } else if(req.url == '/dummy-upload') {  // Загрузка файла
         var length = 0;
         req.on('data', function(chunk) {
             length += chunk.length;
@@ -47,6 +51,11 @@ function accept(req, res) {
             res.end('ok');
         });
 
+    } else if(req.url == '/status') {
+        fileUploader.onStatus(req, res);        
+    } else if(req.url == '/upload') {
+        fileUploader.onUpload(req, res);
+
     } else {  // отдать файл, если запрос не к phones.json
         file.serve(req, res);
     }
@@ -57,6 +66,7 @@ function accept(req, res) {
 
 if (!module.parent) {
     http.createServer(accept).listen(8080);
+    console.log('Server is running on port 8080');
 } else {
     exports.accept = accept;
 }
