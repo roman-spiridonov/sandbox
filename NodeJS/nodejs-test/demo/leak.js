@@ -23,7 +23,7 @@ function Request() {
       db.removeListener('data', onData);  // preventing memory leak
     };
 
-    db.on('data', onData);  // onData handler gets into the props of db object! db.emit
+    db.on('data', onData);  // onData handler gets into the props of db object with its closure! db.emit
 }
 
 setInterval(function() {  // create new object each 200 ms
