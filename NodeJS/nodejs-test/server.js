@@ -17,12 +17,12 @@ server.on('request', function(req, res) {
 
     if(req.method=='GET' && parsedUrl.pathname=='/echo') {  // /echo?message=hello -> hello
         require('./echo')(parsedUrl, res);
+    } else if(parsedUrl.pathname=='/chat') {
+        require('./chat-server')(req, res);
     } else {  // static server: /index.html -> returns index.html with proper MIME headers
         require('./serve-static')(req, res);
     }
-});
-
-server.listen(8080, '127.0.0.1');
+}).listen(8080, '127.0.0.1');
 
 
 setTimeout(function() {
