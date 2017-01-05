@@ -1,0 +1,14 @@
+{
+  "name": "expressjs-test",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "ejs": "*",
+    "express": "3.21.2",
+    "nconf": "^0.8.4",
+    "winston": "^2.3.0"
+  }
+}
