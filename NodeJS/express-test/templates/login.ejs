@@ -1,0 +1,15 @@
+<% layout('layout/page') -%>
+<% block('title', 'Login') -%>
+<% block('brand', 'ExpressJS') -%>
+
+<p>This form will sign you up as a new user if there is no existing user.</p>
+
+<div class="col-md-8 col-md-offset-2">
+    <form name="login-form">
+        <div class="form-group"><label for="username">Name: </label><input name="username" type="text" class="form-control"></div>
+        <div class="form-group"><label for="pwd">Password: </label><input name="pwd" type="password" class="form-control"></div>
+        <input class="btn btn-primary" type="submit">
+    </form>
+</div>
+
+<script src="/static/js/login.js"></script>

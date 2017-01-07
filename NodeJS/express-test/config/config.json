@@ -9,5 +9,14 @@
         }
       }
     }
+  },
+  "session": {
+    "secret": "EUQW352IRHNFASOPM14738ABNSVD231QWOE787WQNKSHAF",
+    "key": "sid",
+    "cookie": {
+      "path": "/",
+      "httpOnly": true,
+      "maxAge": null
+    }
   }
 }
