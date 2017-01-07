@@ -14,8 +14,8 @@ async.series([
     dropDb,
     requireModels,
     createUsers
-], function(err, results) {
-    if(err) console.error(err);
+], function (err, results) {
+    if (err) console.error(err);
     console.log("Return values = [ ...callback(null, result) ]:\n", results);
     mongoose.disconnect();
     process.exit(err ? 255 : 0);
@@ -31,10 +31,10 @@ function dropDb(callback) {
     db.dropDatabase(callback);
 }
 
-function requireModels(callback){
+function requireModels(callback) {
     require('./models/user');  // builds index (async)
 
-    async.each(Object.keys(mongoose.models), function(modelName, callback) {
+    async.each(Object.keys(mongoose.models), function (modelName, callback) {
         mongoose.models[modelName].ensureIndexes(callback);
     }, callback)
 }
@@ -47,7 +47,7 @@ function createUsers(callback) {
     ];
 
     // Keeps a result, i.e. callback(err, results), where results stores the changed collection
-    async.map(userDatas, function(userData, callback) {
+    async.map(userDatas, function (userData, callback) {
         var user = new mongoose.models.User(userData);
         user.save(callback);
     }, callback);

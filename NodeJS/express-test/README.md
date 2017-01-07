@@ -30,6 +30,13 @@ node db.js  # init database script
 node app.js
 ```
 
+Tips: 
+Run the app with `supervisor` to automatically update the running app upon code changes.
+```
+npm install -g supervisor
+supervisor app.js
+```
+
 # Modes
 Launch in development / debug mode:
 - Set environment variables:

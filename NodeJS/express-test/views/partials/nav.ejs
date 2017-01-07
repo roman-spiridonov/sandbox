@@ -15,7 +15,7 @@
     <div class="navbar-header navbar-right">
         <div class="navbar-text">
             <% if (user) { %>
-            Hello, <%=user.get('username')%>! Click <a href="" id="logout">here</a> to logout.
+            Hello, <%= user.get('username') %>! Click <a href="" id="logout">here</a> to logout.
             <% } else { %>
             Click <a href="/login">here</a> to log in.
             <% } %>

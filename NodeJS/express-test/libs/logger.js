@@ -1,6 +1,6 @@
 /**
  * Returns wrapper around winston logger with specific logger settings based on request's path and environment settings.
-  */
+ */
 
 var winston = require('winston');
 var fs = require('fs');
@@ -8,7 +8,7 @@ var ENV = process.env.NODE_ENV;  // app.get('env')
 
 function makeLogger(module) {
     var filename = module.filename.split('\\').slice(-2).join('\\');
-    if(!fs.existsSync('logs')) {  // only at init, so ok to use sync
+    if (!fs.existsSync('logs')) {  // only at init, so ok to use sync
         fs.mkdirSync('logs');
     }
 

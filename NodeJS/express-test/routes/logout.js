@@ -1,4 +1,4 @@
 exports.post = function (req, res, next) {
-  req.session.destroy();
-  res.redirect('/');
+    req.session.destroy();
+    res.redirect('/');
 };
