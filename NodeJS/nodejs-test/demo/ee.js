@@ -16,7 +16,7 @@ server.on('request', function(request){
 
 server.emit('request', {from: "Client"});  // emits event and attaches data to it
 server.emit('request', {from: "One more client"});
-;
+
 console.log("All listeners. Count: %d, Listeners: \n%s ", server.listenerCount('request'), server.listeners('request'));
 
 server.emit('error', new Error("Some error"));  // throws Error, unless there is a handler

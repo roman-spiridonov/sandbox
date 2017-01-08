@@ -12,4 +12,5 @@ module.exports = function (req, res, next) {
         res.locals.user = req.user = user;  // user will be available in all the templates
         next();
     });
+
 };

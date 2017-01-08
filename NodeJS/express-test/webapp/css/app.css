@@ -6,3 +6,7 @@ body {
 a {
     color: #00B7FF;
 }
+
+.chat__message_invalid {
+    border: 1px red solid;
+}

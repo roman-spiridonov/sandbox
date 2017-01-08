@@ -1,4 +1,5 @@
 var users = require('./users');
+var chat = require('./chat');
 
 module.exports = function (app) {
     app.get('/', require('../middleware/hitCounter'), function (req, res) {  // post, delete, put, ...
@@ -9,4 +10,5 @@ module.exports = function (app) {
         .post('/logout', require('./logout').post);
 
     app.use('/users', users);
+    app.use('/chat', chat);
 };

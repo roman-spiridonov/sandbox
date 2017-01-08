@@ -17,6 +17,9 @@ var morgan = require('morgan'); // express request logger
 var MongoStore = require('connect-mongo')(session);  // use options from mongoose
 var app = express();
 
+var server = require('http').createServer(app);
+require('./socket')(server);
+
 // Templating Engine
 app.engine('ejs', require('ejs-locals')); // *.ejs to be handled by ejs-locals. Adds: layout partial block.
 app.set('views', path.join(__dirname, 'views'));
@@ -74,6 +77,6 @@ if ('development' == app.get('env')) {
 }
 
 // Start server
-app.listen(config.get('port'), function () {
+server.listen(config.get('port'), function () {
     log.info('Express server listening on port ' + config.get('port'));
 });

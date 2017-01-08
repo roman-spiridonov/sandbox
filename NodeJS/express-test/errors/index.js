@@ -9,8 +9,8 @@ function HttpError(status, message) {
     this.status = status;
     this.message = message || http.STATUS_CODES[status] || "";
 }
-util.inherits(HttpError, Error);
-HttpError.prototype.name = 'HttpError';
+util.inherits(HttpError, Error);  // sets prototype.constructor properly
+HttpError.prototype.name = 'HttpError';  // error name
 
 // User authentication error
 function AuthError(message) {

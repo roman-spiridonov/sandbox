@@ -1,4 +1,5 @@
 var util = require('util');
+var http = require('http');
 
 var phrases = {
     "Hello": "Привет",
@@ -18,12 +19,15 @@ function PhraseError(message) {
     //     this.stack = (new Error()).stack;  // prints current stack trace
     // }
 }
-util.inherits(PhraseError, Error);
-PhraseError.prototype.name = 'PhraseError';  // need to add explicitly, since we did not call Error.apply(this, arguments);
+util.inherits(PhraseError, Error);  // sets prototype.constructor properly
+PhraseError.prototype.name = 'PhraseError';  // error name: need to add explicitly
 
 function HttpError(status, message) {
     this.status = status;
-    this.message = message;
+    this.message = message || http.STATUS_CODES[status] || "";
+
+    Error.captureStackTrace(this, HttpError);
+
 }
 util.inherits(HttpError, Error);
 HttpError.prototype.name = 'HttpError';
@@ -42,7 +46,7 @@ function makePage(url) {
     if (url != 'index.html') {
         throw new HttpError(404, "No such page");  // HTTP 404
     }
-    return util.format("%s, %s!", getPhrase("Hell"), getPhrase("world"));
+    return util.format("%s, %s!", getPhrase("Helo"), getPhrase("world"));
 }
 
 // ---------
