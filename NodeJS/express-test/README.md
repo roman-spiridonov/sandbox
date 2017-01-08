@@ -1,5 +1,5 @@
 # What is it
-This is a test project for ExpressJS v3 using the following solutions:
+This is a test project for ExpressJS v4 using the following solutions:
 - NodeJS + ExpressJS (Middleware / Controller) 
 - Templates engine (View): ejs
 - Model: Mongoose + MongoDB
@@ -41,7 +41,7 @@ supervisor app.js
 Launch in development / debug mode:
 - Set environment variables:
     - NODE_ENV=development
-    - DEBUG=express:*
+    - DEBUG=express:* (extra express logging)
 
 Launch in production mode:
 - Set environment variables:
