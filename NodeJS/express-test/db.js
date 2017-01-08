@@ -3,7 +3,7 @@
  * Run $ node db.js
  */
 
-var mongoose = require('./libs/mongoose');
+var mongoose = require('./libs').mongoose;
 var async = require('async');
 // 1. drop database
 // 2. create & save 3 users

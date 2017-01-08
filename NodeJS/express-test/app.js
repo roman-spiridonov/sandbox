@@ -1,9 +1,9 @@
 var express = require('express');
 var path = require('path');
 var config = require('./config');
-var log = require('./libs/logger')(module);
+var log = require('./libs').logger(module);
 var errors = require('./errors');
-var mongoose = require('./libs/mongoose');
+var mongoose = require('./libs').mongoose;
 
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser'); // handles application/json, application/x-www-form-urlencoded, text-plain, raw

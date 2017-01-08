@@ -1,5 +1,4 @@
-var log = require('../libs/logger')(module);
-
+var log = require('../libs').logger(module);
 var User = require('../models/user').User;
 
 User.remove({username: "test"}, function (err) {
