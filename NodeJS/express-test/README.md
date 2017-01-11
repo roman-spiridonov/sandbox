@@ -5,7 +5,8 @@ This is a test project for ExpressJS v4 using the following solutions:
 - Model: Mongoose + MongoDB
 - Session storage: mongo-connect
 - Configuration manager: nconf 
-- Logger: Winston
+- Logger: Winston (app logic messages) + Debug (internal library messages)
+- Web Sockets: socket.io
 
 Asynchronous JS is written using `async` library.
 
@@ -41,7 +42,7 @@ supervisor app.js
 Launch in development / debug mode:
 - Set environment variables:
     - NODE_ENV=development
-    - DEBUG=express:* (extra express logging)
+    - DEBUG=express:*,socket.io:* (logging of particular libs relying on `debug`)
 
 Launch in production mode:
 - Set environment variables:
@@ -54,3 +55,4 @@ Extended logs are saved to `logs/debug.log`.
 - Return user list as JSON (only authenticated users)
 - Render index and some other pages (server-side rendering)
 - Print the number of index page visits for current user session
+- Chat based on Web Sockets (using socket.io), with user authentication

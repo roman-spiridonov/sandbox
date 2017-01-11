@@ -3,7 +3,6 @@ var path = require('path');
 var config = require('./config');
 var log = require('./libs').logger(module);
 var errors = require('./errors');
-var mongoose = require('./libs').mongoose;
 
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser'); // handles application/json, application/x-www-form-urlencoded, text-plain, raw
@@ -14,11 +13,13 @@ var session = require('express-session');
 var methodOverride = require('method-override');
 var morgan = require('morgan'); // express request logger
 
-var MongoStore = require('connect-mongo')(session);  // use options from mongoose
+var sessionStore = require('./libs/sessionStore').sessionStore;  // use options from mongoose
 var app = express();
 
 var server = require('http').createServer(app);
-require('./socket')(server);
+var io = require('./socket')(server);
+app.set('io', io);  // application global
+// app.locals.io = io;
 
 // Templating Engine
 app.engine('ejs', require('ejs-locals')); // *.ejs to be handled by ejs-locals. Adds: layout partial block.
@@ -45,7 +46,7 @@ app.use(bodyParser.json())  // application/json -> req.body
             // sig is used for stamping user data saved in cookies, e.g. points: 1000.SHA256(secret+salt)
         key: config.get('session:key'),
         cookie: config.get('session:cookie'),
-        store: new MongoStore({mongooseConnection: mongoose.connection})  // session storage using connect-mongodb module
+        store: sessionStore  // session storage using connect-mongodb module
     }))
     .use(require('./middleware/sendHttpError'))
     .use(require('./middleware/loadUser'));

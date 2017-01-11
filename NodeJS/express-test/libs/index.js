@@ -11,3 +11,4 @@
 
 exports.mongoose = require('./mongoose');
 exports.logger = require('./logger');
+exports.sessionStore = require('./sessionStore').sessionStore;

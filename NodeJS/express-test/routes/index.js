@@ -7,7 +7,7 @@ module.exports = function (app) {
     })
         .get('/login', require('./login').get)
         .post('/login', require('./login').post)
-        .post('/logout', require('./logout').post);
+        .post('/logout', require('./logout'));
 
     app.use('/users', users);
     app.use('/chat', chat);

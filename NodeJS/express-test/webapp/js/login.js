@@ -3,7 +3,7 @@ $(function () {
         var form = $(this);
 
         $('.error', form).html('');
-        $(":submit", form).html("Loading...");
+        $(":submit", form).html("Loading...").prop("disabled", true);
 
         $.ajax({
             url: "/login",
