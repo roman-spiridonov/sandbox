@@ -1,10 +1,11 @@
 "use strict";
 
-function DragObject(shape, dragClone, e) {
+function DragObject(shape, many, dragClone, e) {
   this.downX = e.pageX;
   this.downY = e.pageY;
   this.shape = shape;
-  this.dragClone = dragClone;
+  this.many = many;
+  this.dragClone = dragClone || many;  // if many shapes, always drag clones
 
   this.avatar = null;
   this._shiftX = 0;

@@ -3,24 +3,32 @@
  * Zone that contains elements that can be dragged (shapes).
  * Usage: Initialize the object and store inside the DOM element (container) as `node.dragZone`.
  * @param container {Node} - DOM node of the zone
+ * @param dragClone {boolean} - true if dragging clones not initial objects
+ * @param many - true if each shape is a generator of many shapes
  * @param shapeSelector {string} - CSS selector to find draggable elements (by default, '.draggable')
- * @param cloneSelector {string} - CSS selector to identify elements that are dragged as clones
+ * @param manyOverrideSelector {string} - CSS selector to identify elements that are not removed from initial
+ * position when placed into a pocket.
  * @constructor
  */
-function DragZone(container, shapeSelector = '.draggable', cloneSelector = '.drag-clone') {
+function DragZone(container, dragClone = false, many = false, shapeSelector = '.draggable', manyOverrideSelector = '.many') {
   container.dragZone = this;  // save in DOM
 
   this._shapeSelector = shapeSelector;
-  this._cloneSelector = cloneSelector;
+  this._manyOverrideSelector = manyOverrideSelector;
   this._container = container;
+
   this._dragObject = null;
+  this._dragClone = dragClone;
+  this._many = many;
 }
 
 DragZone.prototype._onDragInit = function (e) {
   let shape = this.findShape(e);
   if (!shape) return false;
 
-  this._dragObject = new DragObject(shape, this.isDragClone(shape), e);
+  let many = this.isMany(shape);
+
+  this._dragObject = new DragObject(shape, many, this._dragClone, e);
 
   return true;
 };
@@ -38,17 +46,17 @@ DragZone.prototype.findShape = function (e) {
 };
 
 /**
- * Return true if the shape should be dragged as clone.
+ * Return true if the shape should be dragged as clone of many shapes.
  * @param shape {Node} - shape element
  * @returns {boolean}
  */
-DragZone.prototype.isDragClone = function (shape) {
-  let dragClone = false;
-  if (shape.classList.contains(this._cloneSelector)) {
-    dragClone = true;
+DragZone.prototype.isMany = function (shape) {
+  let many = false;
+  if (shape.classList.contains(this._manyOverrideSelector.split('.').join(''))) {
+    many = true;
   }
 
-  return dragClone;
+  return many;
 };
 
 DragZone.prototype._onDragStart = function (e) {
@@ -73,7 +81,7 @@ DragZone.prototype._onDragMove = function (e) {
 DragZone.prototype._onDragEnd = function (e) {
   dropZone = this._findDropZone(e);
   let isDropped = dropZone && dropZone.drop(e, this._dragObject);
-  if (!this.dragClone) {
+  if (!this.many) {
     if(isDropped) {  // not a clone => drop => remove
       this._dragObject.remove();
     } else {  // not a clone => cancel => restore
