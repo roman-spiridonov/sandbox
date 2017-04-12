@@ -12,7 +12,7 @@
 <h2>Simple DnD</h2>
 <div class="simple-dnd">
   <div style="height:64px">
-    <img src="https://js.cx/browsers/chrome.svg" class="draggable">
+    <img src="https://js.cx/browsers/chrome.svg" class="draggable drag-clone">
     <img src="https://js.cx/browsers/firefox.svg" class="draggable">
     <img src="https://js.cx/browsers/ie.svg" class="draggable">
     <img src="https://js.cx/browsers/opera.svg" class="draggable">
@@ -71,7 +71,7 @@
 </div>
 
 <script src="./helpers.js"></script>
-<script src="./avatar.js"></script>
+<script src="./dragObject.js"></script>
 <script src="./dropZone.js"></script>
 <script src="./dragZone.js"></script>
 <script src="./dragManager.js"></script>
@@ -84,12 +84,12 @@
   dragZone.addDropZone(dropZone);
 
   dropZone.onDragCancel = function (dragObject) {
-    dragObject.avatar.rollback();
+    dragObject.avatar.remove();
   };
 
   dropZone.onDragEnd = function (dragObject, dropElem) {
     dragObject.shape.style.display = 'none';  // удаляет элемент
-    dragObject.avatar.rollback();
+    dragObject.avatar.remove();
     dropElem.classList.add('computer-smile');
     setTimeout(function () {
       dropElem.classList.remove('computer-smile');
