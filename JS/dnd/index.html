@@ -79,8 +79,8 @@
 <script>
   let dragManager = new DragManager();
 
-  let dropZone = new DropZone(qs('.droppable'));
-  let dragZone = new DragZone(qs('.simple-dnd'));
+  let dropZone = new DropZone({container: qs('.droppable')});
+  let dragZone = new DragZone({container: qs('.simple-dnd')});
   dragZone.addDropZone(dropZone);
 
   dropZone.onDragCancel = function (dragObject) {

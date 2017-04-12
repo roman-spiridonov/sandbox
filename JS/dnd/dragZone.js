@@ -2,24 +2,24 @@
 /**
  * Zone that contains elements that can be dragged (shapes).
  * Usage: Initialize the object and store inside the DOM element (container) as `node.dragZone`.
- * @param container {Node} - DOM node of the zone
- * @param dragClone {boolean} - true if dragging clones not initial objects
- * @param many - true if each shape is a generator of many shapes
- * @param shapeSelector {string} - CSS selector to find draggable elements (by default, '.draggable')
- * @param manyOverrideSelector {string} - CSS selector to identify elements that are not removed from initial
+ * @param options.container {Node} - DOM node of the zone
+ * @param options.dragClone {boolean} - true if dragging clones not initial objects
+ * @param options.many - true if each shape is a generator of many shapes
+ * @param options.shapeSelector {string} - CSS selector to find draggable elements (by default, '.draggable')
+ * @param options.manyOverrideSelector {string} - CSS selector to identify elements that are not removed from initial
  * position when placed into a pocket.
  * @constructor
  */
-function DragZone(container, dragClone = false, many = false, shapeSelector = '.draggable', manyOverrideSelector = '.many') {
-  container.dragZone = this;  // save in DOM
+function DragZone(options) {
+  options.container.dragZone = this;  // save in DOM
+  this._container = options.container;
 
-  this._shapeSelector = shapeSelector;
-  this._manyOverrideSelector = manyOverrideSelector;
-  this._container = container;
+  this._dragClone = options.dragClone || false;
+  this._many = options.many || false;
+  this._shapeSelector = options.shapeSelector || '.draggable';
+  this._manyOverrideSelector = options.manyOverrideSelector || '.many';
 
   this._dragObject = null;
-  this._dragClone = dragClone;
-  this._many = many;
 }
 
 DragZone.prototype._onDragInit = function (e) {

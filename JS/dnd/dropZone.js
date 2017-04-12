@@ -1,10 +1,17 @@
 "use strict";
 
-function DropZone(container, droppableSelector = '.droppable') {
-  container.dropZone = this;  // save in DOM
+/**
+ * Zone that contains pockets that can accept shapes.
+ * Usage: Initialize the object and store inside the DOM element (container) as `node.dropZone`.
+ * @param options.container {Node} - DOM node of the zone
+ * @param options.droppableSelector {string} - CSS selector to find pockets
+ * @constructor
+ */
+function DropZone(options) {
+  options.container.dropZone = this;  // save in DOM
 
-  this._container = container;
-  this._droppableSelector = droppableSelector;
+  this._container = options.container;
+  this._droppableSelector = options.droppableSelector || '.droppable';
 }
 
 /**
