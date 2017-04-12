@@ -1,6 +1,7 @@
 "use strict";
 /**
  * Zone that contains elements that can be dragged (shapes).
+ * Drag zone creates Dragging Objects and drops them to the appropriate Drop zones.
  * Usage: Initialize the object and store inside the DOM element (container) as `node.dragZone`.
  * @param options.container {Node} - DOM node of the zone
  * @param options.dragClone {boolean} - true if dragging clones not initial objects
@@ -28,7 +29,7 @@ DragZone.prototype._onDragInit = function (e) {
 
   let many = this.isMany(shape);
 
-  this._dragObject = new DragObject(shape, many, this._dragClone, e);
+  this._dragObject = new DragObject({shape: shape, many: many, dragClone: this._dragClone, e: e});
 
   return true;
 };
@@ -93,10 +94,8 @@ DragZone.prototype._onDragEnd = function (e) {
 };
 
 DragZone.prototype._findDropZone = function (e) {
-  // спрячем переносимый элемент (иначе elementFromPoint найдет его)
   this._dragObject.hideAvatar();
   let target = document.elementFromPoint(e.clientX, e.clientY);
-  // показать переносимый элемент обратно
   this._dragObject.showAvatar();
 
   return target.dropZone;

@@ -1,16 +1,10 @@
 "use strict";
 
+/**
+ * Handles global mouse events and dispatches them to the appropriate dragZones.
+ * @constructor
+ */
 function DragManager() {
-
-  /**
-   * составной объект для хранения информации о переносе:
-   * {
-   *   elem - элемент, на котором была зажата мышь
-   *   avatar - аватар
-   *   downX/downY - координаты, на которых был mousedown
-   *   shiftX/shiftY - относительный сдвиг курсора от угла элемента
-   * }
-   */
   let downX, downY;  // coordinates of the last mouse click
   let dragZone;  // currently active dragZone
   let isDragging = false;  // there is a shape being dragged right now

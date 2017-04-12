@@ -1,15 +1,22 @@
 "use strict";
 
-function DragObject(shape, many, dragClone, e) {
-  this.downX = e.pageX;
-  this.downY = e.pageY;
-  this.shape = shape;
-  this.many = many;
-  this.dragClone = dragClone || many;  // if many shapes, always drag clones
+/**
+ * Object being dragged (aka shape object).
+ * @param options.shape {Node} - DOM element of the initial shape.
+ * @param options.dragClone {boolean} - true if dragging clones not initial objects
+ * @param options.many - true if each shape is a generator of many shapes
+ * @param options.e {Event} - mouse click event that created a draggable object
+ * @constructor
+ */
+function DragObject(options) {
+  this.downX = options.e.pageX;
+  this.downY = options.e.pageY;
+  this.shape = options.shape;
+  this.many = options.many;
+  this.dragClone = options.dragClone || options.many;  // if many shapes, always drag clones
 
-  this.avatar = null;
-  this._shiftX = 0;
-  this._shiftY = 0;
+  this.avatar = null;  // avatar is a representation of a shape when it is being dragged
+  this._shiftX = this._shiftY = 0;  // cursor shift for proper avatar alignment
 }
 
 /**
@@ -62,7 +69,7 @@ DragObject.prototype._initAvatar = function () {
  * @returns {Node}
  */
 DragObject.prototype.createAvatarFromShape = function() {
-  return this.shape.cloneNode(true)
+  return this.shape.cloneNode(true);
 };
 
 DragObject.prototype._onDragMove = function (e) {
