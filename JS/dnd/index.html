@@ -21,7 +21,9 @@
 
   <p>Браузер переносить сюда:</p>
 
-  <div class="computer droppable">
+  <div class="computer">
+    <div class="pocket pocket1"></div>
+    <div class="pocket pocket2"></div>
   </div>
 </div>
 
@@ -79,20 +81,17 @@
 <script>
   let dragManager = new DragManager();
 
-  let dropZone = new DropZone({container: qs('.droppable')});
+  let dropZone = new DropZone({container: qs('.computer')});
   let dragZone = new DragZone({container: qs('.simple-dnd')});
   dragZone.addDropZone(dropZone);
 
   dropZone.onDragCancel = function (dragObject) {
-    dragObject.avatar.remove();
   };
 
-  dropZone.onDragEnd = function (dragObject, dropElem) {
-    dragObject.shape.style.display = 'none';  // удаляет элемент
-    dragObject.avatar.remove();
-    dropElem.classList.add('computer-smile');
-    setTimeout(function () {
-      dropElem.classList.remove('computer-smile');
+  dropZone.onDragEnd = function (dragObject, pocket) {
+    this._container.classList.add('computer-smile');
+    setTimeout(() => {
+      this._container.classList.remove('computer-smile');
     }, 200);
   };
 

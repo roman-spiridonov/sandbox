@@ -19,6 +19,22 @@ function DragObject(options) {
   this._shiftX = this._shiftY = 0;  // cursor shift for proper avatar alignment
 }
 
+
+/**
+ * Called when draggable object is dropped (mouse released).
+ * @param e - mouse event
+ * @param isDroppedToPocket - true if was dropped to and accepted by a pocket
+ */
+DragObject.prototype._onDrop = function (e, isDroppedToPocket) {
+  if (!this.many) {
+    if (isDroppedToPocket) {  // not a clone => drop => remove
+      this.remove();
+    } else {  // not a clone => cancel => restore
+      this.restore();
+    }
+  }
+};
+
 /**
  * Hide initial element being dragged.
  */
@@ -61,6 +77,9 @@ DragObject.prototype._initAvatar = function () {
   this.avatar.style.zIndex = 9999;
   this.avatar.style.position = 'absolute';
 
+  // disable pointer events until released
+  this.avatar.style.pointerEvents = 'none';
+
   return true;
 };
 
@@ -72,10 +91,10 @@ DragObject.prototype.createAvatarFromShape = function() {
   return this.shape.cloneNode(true);
 };
 
-DragObject.prototype._onDragMove = function (e) {
+DragObject.prototype.moveTo = function (pageX, pageY) {
   // sync position on mouse move
-  this.avatar.style.left = e.pageX - this._shiftX + 'px';
-  this.avatar.style.top = e.pageY - this._shiftY + 'px';
+  this.avatar.style.left = pageX - this._shiftX + 'px';
+  this.avatar.style.top = pageY - this._shiftY + 'px';
 };
 
 /**

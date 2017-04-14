@@ -20,7 +20,18 @@ function DragZone(options) {
   this._shapeSelector = options.shapeSelector || '.draggable';
   this._manyOverrideSelector = options.manyOverrideSelector || '.many';
 
+  /**
+   * Wrapper around element being dragged.
+   * @type {DragObject}
+   * @private
+   */
   this._dragObject = null;
+  /**
+   * Active drop zone - updated on mouse move.
+   * @type {DropZone}
+   * @private
+   */
+  this._dropZone = null;
 }
 
 DragZone.prototype._onDragInit = function (e) {
@@ -53,7 +64,7 @@ DragZone.prototype.findShape = function (e) {
  */
 DragZone.prototype.isMany = function (shape) {
   let many = false;
-  if (shape.classList.contains(this._manyOverrideSelector.split('.').join(''))) {
+  if (shape.classList.contains(normalizeToClass(this._manyOverrideSelector))) {
     many = true;
   }
 
@@ -76,27 +87,47 @@ DragZone.prototype._onDragStart = function (e) {
 };
 
 DragZone.prototype._onDragMove = function (e) {
-  this._dragObject._onDragMove(e);
+  let newDropZone = this._findDropZone(e);
+
+  if(newDropZone !== this._dropZone) {  // moved to new drop zone
+    // notify drop zones
+    this._dropZone && this._dropZone.onDragLeave(e, this._dragObject);
+    this._dropZone && this._dropZone.reset();
+    newDropZone && newDropZone.onDragEnter(e, this._dragObject);
+  }
+
+  this._dropZone = newDropZone;
+  this._dropZone && this._dropZone._onDragMove(e, this._dragObject);
+
+  this._dragObject.moveTo(e.pageX, e.pageY);
 };
 
 DragZone.prototype._onDragEnd = function (e) {
-  dropZone = this._findDropZone(e);
-  let isDropped = dropZone && dropZone.drop(e, this._dragObject);
-  if (!this.many) {
-    if(isDropped) {  // not a clone => drop => remove
-      this._dragObject.remove();
-    } else {  // not a clone => cancel => restore
-      this._dragObject.restore();
-    }
-  }
+  let dropZone = this._dropZone = this._findDropZone(e);
+  let isDroppedToPocket = dropZone && dropZone.drop(e, this._dragObject);
+  this._dragObject._onDrop(e, isDroppedToPocket);
 
   this.reset();
 };
 
+/**
+ * Returns drop zone under the mouse.
+ * @param e - mouse event
+ * @returns {DropZone}
+ * @private
+ */
 DragZone.prototype._findDropZone = function (e) {
   this._dragObject.hideAvatar();
   let target = document.elementFromPoint(e.clientX, e.clientY);
   this._dragObject.showAvatar();
+
+  while(target != document && !target.dropZone) {
+    target = target.parentNode;
+  }
+
+  if(target === document) {
+    return null;
+  }
 
   return target.dropZone;
 };
@@ -106,7 +137,6 @@ DragZone.prototype._findDropZone = function (e) {
  * @param dropZone
  */
 DragZone.prototype.addDropZone = function (dropZone) {
-
 };
 
 /**

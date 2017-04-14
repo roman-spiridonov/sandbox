@@ -37,7 +37,17 @@
     }
   }
 
+  /**
+   * Returns "class" for ".class" or "class".
+   * @param str
+   * @returns {string}
+   */
+  function normalizeToClass(str) {
+    return str.split('.').join('');
+  }
+
   window.qs = qs;
   window.hashCode = hashCode;
   window.getCoords = getCoords;
+  window.normalizeToClass = normalizeToClass;
 })();
