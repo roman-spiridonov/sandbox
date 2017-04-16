@@ -42,7 +42,7 @@
    * @param str
    * @returns {string}
    */
-  function normalizeSelector(str) {
+  function normalizeClass(str) {
     return str.split('.').join('');
   }
 
@@ -87,7 +87,7 @@
   window.qs = qs;
   window.hashCode = hashCode;
   window.getCoords = getCoords;
-  window.normalizeSelector = normalizeSelector;
+  window.normalizeClass = normalizeClass;
   window.GIDMaker = GIDMaker;
   window.extend = extend;
 })();

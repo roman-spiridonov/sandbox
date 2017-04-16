@@ -113,13 +113,16 @@
   let treeDragZone = new TreeDragZone({
     container: qs('.tree')
   });
-  let dropTreeZone = new TreeDropZone({
+  let treeDropZone = new TreeDropZone({
     container: qs('.tree'),
     pocketSelector: '.tree__pocket',
-    pocketHighlightClass: '.tree__pocket_active'
+    pocketHighlightClass: '.tree__pocket_active',
+    separatorClass: '.tree__separator'
   });
-  treeDragZone.addDropZone(dropTreeZone);
+  treeDragZone.addDropZone(treeDropZone);
   treeDragZone.addDropZone(dropZone);
+
+  treeDropZone.appendSeparators();
 </script>
 
 

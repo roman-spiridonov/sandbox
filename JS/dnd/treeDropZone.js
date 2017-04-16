@@ -8,6 +8,8 @@
 function TreeDropZone(options) {
   DropZone.apply(this, arguments);
   this._pocketSelector = 'li';
+  this._separatorClass = options.separatorClass || '.separator';
+  this._hasSeparators = options.hasSeparators || false;
 }
 
 extend(TreeDropZone, DropZone);
@@ -56,8 +58,29 @@ TreeDropZone.prototype.appendLiToUl = function (li, ul, mode = 'end') {
 
 
 TreeDropZone.prototype.onDragEnd = function(dragObject, pocket) {
+  if(pocket.isSeparator) {
+    let sortingLi;
+    if(dragObject.shape.previousElementSibling && dragObject.shape.previousElementSibling.isSeparator) {
+      // make sure there is no repetitive separator
+      sortingLi = dragObject.shape.previousElementSibling;
+    } else {
+      sortingLi = this._createSortingLi();
+    }
+
+    // insert element in place of a separator
+    pocket.parentNode.insertBefore(dragObject.shape, pocket);
+
+    // make sure it is wrapped around with separators
+    if(!dragObject.shape.previousElementSibling || !dragObject.shape.previousElementSibling.isSeparator) {
+      pocket.parentNode.insertBefore(sortingLi, dragObject.shape);
+    }
+
+    return;
+  }
+
+  // pocket is not a separator (not reordering)
   // get container for li elements in pocket
-  let ul = pocket.getElementsByTagName('ul')[0];
+  let ul = pocket.querySelector('ul');
 
   if(!ul) {
     // leaf (no descendants) => add as a child
@@ -66,6 +89,36 @@ TreeDropZone.prototype.onDragEnd = function(dragObject, pocket) {
     ul.appendChild(dragObject.shape);
   } else {
     // has descendants => add to the list in alphabetical order
-    this.appendLiToUl(dragObject.shape, ul, 'alphabetical');
+    this.appendLiToUl(dragObject.shape, ul, 'begin');
   }
+};
+
+/**
+ * Adds extra <li> separators to the existing list to allow sorting.
+ */
+TreeDropZone.prototype.appendSeparators = function() {
+  if(this._hasSeparators) return;
+
+  let lis = this._container.querySelectorAll('li');
+  let li;
+
+  for (let i=0; i<lis.length; i++) {
+    li = lis[i];
+    let sortingLi = this._createSortingLi();
+    li.parentNode.insertBefore(sortingLi, li);
+  }
+
+  this._hasSeparators = true;
+};
+
+TreeDropZone.prototype._createSortingLi = function () {
+  let sortingLi = document.createElement('li');
+  // default CSS styling for a separator
+  sortingLi.style.listStyle = 'none';
+  sortingLi.style.height = '5px';
+  sortingLi.style.width = '50px';
+  sortingLi.classList.add(normalizeClass(this._separatorClass));
+  sortingLi.isSeparator = true;  // store in DOM
+
+  return sortingLi;
 };

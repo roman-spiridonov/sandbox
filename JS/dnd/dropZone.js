@@ -105,7 +105,7 @@ DropZone.prototype._onDragMove = function (e, dragObject) {
  * @param pocket
  */
 DropZone.prototype.highlightPocket = function (pocket) {
-  pocket.classList.add(normalizeSelector(this._pocketHighlightClass));
+  pocket.classList.add(normalizeClass(this._pocketHighlightClass));
 };
 
 /**
@@ -113,7 +113,7 @@ DropZone.prototype.highlightPocket = function (pocket) {
  * @param pocket
  */
 DropZone.prototype.deHighlightPocket = function (pocket) {
-  pocket.classList.remove(normalizeSelector(this._pocketHighlightClass));
+  pocket.classList.remove(normalizeClass(this._pocketHighlightClass));
 };
 
 

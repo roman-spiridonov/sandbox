@@ -46,3 +46,7 @@
     color: red;
     font-weight: bold;
 }
+
+.tree__separator.tree__pocket_active {
+    background: darkred;
+}
