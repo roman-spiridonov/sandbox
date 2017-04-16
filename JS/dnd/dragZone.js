@@ -67,7 +67,7 @@ DragZone.prototype.findShape = function (e) {
  */
 DragZone.prototype.isMany = function (shape) {
   let many = this._many;
-  if (shape.classList.contains(normalizeToClass(this._manyOverrideSelector))) {
+  if (this._manyOverrideSelector && shape.matches(this._manyOverrideSelector)) {
     many = !many;
   }
 
@@ -108,7 +108,6 @@ DragZone.prototype._onDragMove = function (e) {
 DragZone.prototype._onDragEnd = function (e) {
   let dropZone = this._dropZone = this._findDropZone(e);
   let isDroppedToPocket = dropZone && dropZone.drop(e, this._dragObject);
-  this._dragObject._onDrop(e, isDroppedToPocket);
 
   this.reset();
 };
@@ -123,6 +122,10 @@ DragZone.prototype._findDropZone = function (e) {
   this._dragObject.hideAvatar();
   let target = document.elementFromPoint(e.clientX, e.clientY);
   this._dragObject.showAvatar();
+
+  if (target == null) {  // possible if mouse pointer went outside the window
+    return null;
+  }
 
   while(target != document && !target.dropZone) {
     target = target.parentNode;

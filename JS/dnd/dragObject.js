@@ -23,40 +23,27 @@ function DragObject(options) {
 
 
 /**
- * Called when draggable object is dropped (mouse released).
- * @param e - mouse event
- * @param isDroppedToPocket - true if was dropped to and accepted by a pocket
- */
-DragObject.prototype._onDrop = function (e, isDroppedToPocket) {
-  if (!this.many) {
-    if (isDroppedToPocket) {  // not a clone => drop => remove
-      this.remove();
-    } else {  // not a clone => cancel => restore
-      this.restore();
-    }
-  }
-};
-
-/**
  * Hide initial element being dragged.
  */
 DragObject.prototype.hide = function() {
-  this.shape.style.display = 'none';
+  this.shape && (this.shape.style.display = 'none');
 };
 
 /**
  * Restore element being dragged to its initial state.
  */
 DragObject.prototype.restore = function() {
-  this.shape.style.display = '';
+  this.shape && (this.shape.style.display = '');
 };
 
 /**
  * Remove initial element being dragged (e.g. when successfully placed inside the pocket).
  */
 DragObject.prototype.remove = function() {
-  this.avatar && this.avatar.remove();
-  this.shape && this.shape.remove();
+  this.removeAvatar();
+  if(!this.many) {
+    this.shape && this.shape.remove();
+  }
 };
 
 /**

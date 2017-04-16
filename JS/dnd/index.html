@@ -76,28 +76,32 @@
 <script src="./dragZone.js"></script>
 <script src="./dragManager.js"></script>
 <script src="./treeDragZone.js"></script>
+<script src="./treeDropZone.js"></script>
+<script src="./binDropZone.js"></script>
 
 <script>
   let dragManager = new DragManager();
 
-  let dropZone = new DropZone({container: qs('.computer')});
+  let dropZone =  new BinDropZone({container: qs('.computer')});
   let dragZone = new DragZone({container: qs('.browsers'), many: true});
   dragZone.addDropZone(dropZone);
 
   dropZone.onDragCancel = function (dragObject) {
   };
 
-  dropZone.onDragEnd = function (dragObject, pocket) {
-    this._container.classList.add('computer-smile');
-    setTimeout(() => {
-      this._container.classList.remove('computer-smile');
-    }, 200);
-  };
+//  dropZone.onDragEnd = function (dragObject, pocket) {
+//    this.parent.onDragEnd.apply(this, arguments);
+//    this._container.classList.add('computer-smile');
+//    setTimeout(() => {
+//      this._container.classList.remove('computer-smile');
+//    }, 200);
+//  };
 
 </script>
 
 <script>
-  let treeDragZone = new DragZone({container: qs('.tree')});
+  let treeDragZone = new TreeDragZone({container: qs('.tree')});
+  let dropTreeZone = new TreeDropZone({container: qs('.tree')});
 </script>
 
 

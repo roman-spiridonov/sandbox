@@ -41,26 +41,18 @@ DropZone.prototype.drop = function (e, dragObject) {
 
 
 DropZone.prototype._findPocket = function (e, dragObject) {
-  // hide the topmost avatar element (otherwise elementFromPoint would return it)
-  // dragObject.hideAvatar();
-  // let target = document.elementFromPoint(e.clientX, e.clientY);
   let target = e.target;
-  while (target !== document && !target.classList.contains(normalizeToClass(this._pocketSelector))) {
+
+  while (target !== document && !target.matches(this._pocketSelector)) {
     if(target === this._container) break;
     target = target.parentNode;
   }
-  // dragObject.showAvatar();
 
   if (target === document || target === this._container) {
     return null;
   }
+
   return target;
-
-  // if (target == null) {  // possible if mouse pointer went outside the window
-  //   return null;
-  // }
-
-  // return target.closest(this._pocketSelector);
 };
 
 
@@ -113,7 +105,7 @@ DropZone.prototype._onDragMove = function (e, dragObject) {
  * @param pocket
  */
 DropZone.prototype.highlightPocket = function (pocket) {
-  pocket.classList.add(normalizeToClass(this._pocketHighlightClass));
+  pocket.classList.add(normalizeSelector(this._pocketHighlightClass));
 };
 
 /**
@@ -121,7 +113,7 @@ DropZone.prototype.highlightPocket = function (pocket) {
  * @param pocket
  */
 DropZone.prototype.deHighlightPocket = function (pocket) {
-  pocket.classList.remove(normalizeToClass(this._pocketHighlightClass));
+  pocket.classList.remove(normalizeSelector(this._pocketHighlightClass));
 };
 
 
