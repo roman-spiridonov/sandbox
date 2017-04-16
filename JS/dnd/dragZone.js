@@ -66,9 +66,9 @@ DragZone.prototype.findShape = function (e) {
  * @returns {boolean}
  */
 DragZone.prototype.isMany = function (shape) {
-  let many = false;
+  let many = this._many;
   if (shape.classList.contains(normalizeToClass(this._manyOverrideSelector))) {
-    many = true;
+    many = !many;
   }
 
   return many;

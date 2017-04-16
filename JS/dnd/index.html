@@ -81,7 +81,7 @@
   let dragManager = new DragManager();
 
   let dropZone = new DropZone({container: qs('.computer')});
-  let dragZone = new DragZone({container: qs('.browsers')});
+  let dragZone = new DragZone({container: qs('.browsers'), many: true});
   dragZone.addDropZone(dropZone);
 
   dropZone.onDragCancel = function (dragObject) {
