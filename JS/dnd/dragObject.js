@@ -9,6 +9,8 @@
  * @constructor
  */
 function DragObject(options) {
+  this._id = GIDMaker(this.constructor.name);
+
   this.downX = options.e.pageX;
   this.downY = options.e.pageY;
   this.shape = options.shape;

@@ -8,6 +8,8 @@
  * @constructor
  */
 function DropZone(options) {
+  this._id = GIDMaker(this.constructor.name);
+
   options.container.dropZone = this;  // save in DOM
 
   this._container = options.container;

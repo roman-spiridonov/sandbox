@@ -12,6 +12,8 @@
  * @constructor
  */
 function DragZone(options) {
+  this._id = GIDMaker(this.constructor.name);
+
   options.container.dragZone = this;  // save in DOM
   this._container = options.container;
 
@@ -33,6 +35,7 @@ function DragZone(options) {
    */
   this._dropZone = null;
 }
+
 
 DragZone.prototype._onDragInit = function (e) {
   let shape = this.findShape(e);

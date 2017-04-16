@@ -10,7 +10,7 @@
 
 <body>
 <h2>Simple DnD</h2>
-<div class="simple-dnd">
+<div class="browsers">
   <div style="height:64px">
     <img src="https://js.cx/browsers/chrome.svg" class="draggable many">
     <img src="https://js.cx/browsers/firefox.svg" class="draggable">
@@ -19,7 +19,7 @@
     <img src="https://js.cx/browsers/safari.svg" class="draggable">
   </div>
 
-  <p>Браузер переносить сюда:</p>
+  <p>Move browser here:</p>
 
   <div class="computer">
     <div class="pocket pocket1"></div>
@@ -28,8 +28,7 @@
 </div>
 
 <h2>Tree DnD</h2>
-<div class="tree-dnd">
-  <ul id="tree">
+  <ul class="tree">
     <li><span>Root</span>
       <ul>
         <li><span>Node 1.1</span>
@@ -52,7 +51,7 @@
           <ul>
             <li><span>Node 1.2.1</span>
               <ul>
-                <li><span>Node 1.2.1.1</span></li>
+                <li class="draggable"><span>Node 1.2.1.1</span></li>
                 <li><span>Node 1.2.1.2</span></li>
                 <li><span>Node 1.2.1.3</span></li>
               </ul>
@@ -70,19 +69,19 @@
       </ul>
     </li>
   </ul>
-</div>
 
 <script src="./helpers.js"></script>
 <script src="./dragObject.js"></script>
 <script src="./dropZone.js"></script>
 <script src="./dragZone.js"></script>
 <script src="./dragManager.js"></script>
+<script src="./treeDragZone.js"></script>
 
 <script>
   let dragManager = new DragManager();
 
   let dropZone = new DropZone({container: qs('.computer')});
-  let dragZone = new DragZone({container: qs('.simple-dnd')});
+  let dragZone = new DragZone({container: qs('.browsers')});
   dragZone.addDropZone(dropZone);
 
   dropZone.onDragCancel = function (dragObject) {
@@ -98,7 +97,7 @@
 </script>
 
 <script>
-  let tree = document.getElementById('tree');
+  let treeDragZone = new DragZone({container: qs('.tree')});
 </script>
 
 

@@ -5,6 +5,8 @@
  * @constructor
  */
 function DragManager() {
+  this._id = GIDMaker(this.constructor.name);
+
   let downX, downY;  // coordinates of the last mouse click
   let dragZone;  // currently active dragZone
   let isDragging = false;  // there is a shape being dragged right now

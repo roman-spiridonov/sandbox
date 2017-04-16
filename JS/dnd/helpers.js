@@ -46,8 +46,49 @@
     return str.split('.').join('');
   }
 
+  /**
+   * Use the returned function to generate unique global IDs.
+   * @returns {function(prefix)} - call the returned function to get an integer id.
+   */
+  function getGIDMaker() {
+    let id = 0;
+    return (prefix) => {
+      return `${prefix}_${++id}`;
+    }
+  }
+
+  let GIDMaker = getGIDMaker();
+
+  /**
+   * Extends Derived class (constructor) from Base class (constructor).
+   */
+  function extend(Derived, Base) {
+    Derived.prototype = Object.create(Base.prototype);
+    Derived.prototype.constructor = Derived;
+    Derived.parent = Base.prototype;
+  }
+
+  /**
+   * Adds one or more mixins to constructor Obj.
+   */
+  function mix(Obj, ...mixins)
+  {
+    for (let i = 0; i < mixins.length; ++i)
+    {
+      for (let prop in mixins[i])
+      {
+        if (typeof Obj.prototype[prop] === "undefined")
+        {
+          Obj.prototype[prop] = mixins[i][prop];
+        }
+      }
+    }
+  }
+
   window.qs = qs;
   window.hashCode = hashCode;
   window.getCoords = getCoords;
   window.normalizeToClass = normalizeToClass;
+  window.GIDMaker = GIDMaker;
+  window.extend = extend;
 })();
