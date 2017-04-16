@@ -19,7 +19,7 @@ function DragZone(options) {
 
   this._dragClone = options.dragClone || false;
   this._many = options.many || false;
-  this._shapeSelector = options.shapeSelector || '.draggable';
+  this._shapeSelector = options.shapeSelector || '.shape';
   this._manyOverrideSelector = options.manyOverrideSelector || '.many';
 
   /**
@@ -34,6 +34,8 @@ function DragZone(options) {
    * @private
    */
   this._dropZone = null;
+
+  this._allowedDropZones = {};  // IDs of allowed drop zones
 }
 
 
@@ -127,8 +129,15 @@ DragZone.prototype._findDropZone = function (e) {
     return null;
   }
 
-  while(target != document && !target.dropZone) {
+  while(target != document) {
     target = target.parentNode;
+    if(target.dropZone) {
+      // check if the found drop zone is an allowed one
+      if(this._allowedDropZones && (target.dropZone._id in this._allowedDropZones)) {
+        // found allowed dropZone
+        break;
+      }
+    }
   }
 
   if(target === document) {
@@ -143,7 +152,18 @@ DragZone.prototype._findDropZone = function (e) {
  * @param dropZone
  */
 DragZone.prototype.addDropZone = function (dropZone) {
+  this._allowedDropZones[dropZone._id] = true;
 };
+
+DragZone.prototype.removeDropZone = function (dropZone) {
+
+  this._allowedDropZones[dropZone._id] = false;
+};
+
+DragZone.prototype.clearDropZones = function (dropZone) {
+  this._allowedDropZones = {};
+};
+
 
 /**
  * Abort any active dragging operation.

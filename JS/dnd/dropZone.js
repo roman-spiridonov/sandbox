@@ -13,7 +13,7 @@ function DropZone(options) {
   options.container.dropZone = this;  // save in DOM
 
   this._container = options.container;
-  this._pocketSelector = options.droppableSelector || '.pocket';
+  this._pocketSelector = options.pocketSelector || '.pocket';
   this._pocketHighlightClass = options.pocketHighlightClass || '.pocket_active';
 
   this._pocket = null; // active pocket

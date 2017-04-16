@@ -10,7 +10,7 @@
     background: url(https://js.cx/clipart/computer-smile.gif) no-repeat;
 }
 
-.computer .pocket1 {
+.computer__pocket1 {
     position: absolute;
     margin-top: 34px;
     margin-bottom: 10px;
@@ -20,7 +20,7 @@
     margin-right: auto;
 }
 
-.computer .pocket2 {
+.computer__pocket2 {
     position: absolute;
     margin-top: 6px;
     margin-bottom: 10px;
@@ -30,10 +30,19 @@
     margin-right: auto;
 }
 
-.pocket_active {
+.computer__pocket_active {
     background-color: lightyellow;
 }
 
-.draggable {
+.computer__shape {
     cursor: pointer;
+}
+
+.tree__shape {
+    cursor: pointer;
+}
+
+.tree__pocket_active > span {
+    color: red;
+    font-weight: bold;
 }

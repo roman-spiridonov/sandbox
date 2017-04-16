@@ -1,4 +1,10 @@
 "use strict";
+
+/**
+ * Drop zone for tree lists.
+ * @extends DropZone
+ * @constructor
+ */
 function TreeDropZone(options) {
   DropZone.apply(this, arguments);
   this._pocketSelector = 'li';
@@ -7,11 +13,12 @@ function TreeDropZone(options) {
 extend(TreeDropZone, DropZone);
 
 TreeDropZone.prototype.onDragEnd = function(dragObject, pocket) {
-  let title = dragObject.shape.textContent; // переносимый заголовок
+  let title = dragObject.shape.textContent; // list title being dragged
   let li = null;
 
   // get container for li elements in pocket
   let ul = pocket.getElementsByTagName('ul')[0];
+
   if(!ul) {
     // leaf (no descendants) => add as a child
     ul = document.createElement('ul');
@@ -25,7 +32,6 @@ TreeDropZone.prototype.onDragEnd = function(dragObject, pocket) {
         // insert before this element
         break;
       }
-      li = null;
     }
   }
 
