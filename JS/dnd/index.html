@@ -72,6 +72,7 @@
 
 <script src="./helpers.js"></script>
 <script src="./dragObject.js"></script>
+<script src="./treeDragObject.js"></script>
 <script src="./dropZone.js"></script>
 <script src="./dragZone.js"></script>
 <script src="./dragManager.js"></script>
@@ -96,10 +97,7 @@
   });
   dragZone.addDropZone(dropZone);
 
-  dropZone.onDragCancel = function (dragObject) {
-  };
-
-  dropZone.onDragEnd = function (dragObject, pocket) {
+  dropZone.onDragEnd = function (e, dragObject, pocket) {
     dragObject.remove();
     this._container.classList.add('computer-smile');
     setTimeout(() => {
@@ -111,7 +109,8 @@
 
 <script>
   let treeDragZone = new TreeDragZone({
-    container: qs('.tree')
+    container: qs('.tree'),
+    dragClone: true
   });
   let treeDropZone = new TreeDropZone({
     container: qs('.tree'),

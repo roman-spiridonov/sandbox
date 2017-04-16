@@ -29,11 +29,11 @@ DropZone.prototype.drop = function (e, dragObject) {
   let pocket = this._findPocket(e, dragObject);
 
   if (!pocket) {
-    this.onDragCancel(dragObject);
+    this.onDragCancel(e, dragObject);
     this.reset();
     return false;
   } else {
-    this.onDragEnd(dragObject, pocket);
+    this.onDragEnd(e, dragObject, pocket);
     this.reset();
     return true;
   }
@@ -57,21 +57,6 @@ DropZone.prototype._findPocket = function (e, dragObject) {
 
 
 /**
- * Place the element inside of the pocket.
- * @param dragObject {DragObject}
- * @param pocket
- */
-DropZone.prototype.onDragEnd = function (dragObject, pocket) {
-};
-
-/**
- * No pocket found. Dragging is cancelled.
- * @param dragObject {DragObject}
- */
-DropZone.prototype.onDragCancel = function (dragObject) {
-};
-
-/**
  * Drag object entered the drop zone.
  * @param e - mouse event
  * @param dragObject {DragObject}
@@ -85,6 +70,25 @@ DropZone.prototype.onDragEnter = function (e, dragObject) {
  * @param dragObject {DragObject}
  */
 DropZone.prototype.onDragLeave = function (e, dragObject) {
+};
+
+/**
+ * No pocket found. Dragging is cancelled.
+ * @param e - mouse event
+ * @param dragObject {DragObject}
+ */
+DropZone.prototype.onDragCancel = function (e, dragObject) {
+  dragObject.onDragCancel(e);
+};
+
+/**
+ * Place the element inside of the pocket.
+ * @param e - mouse event
+ * @param dragObject {DragObject}
+ * @param pocket
+ */
+DropZone.prototype.onDragEnd = function (e, dragObject, pocket) {
+  dragObject.onDragEnd(e, pocket);
 };
 
 

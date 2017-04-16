@@ -10,6 +10,8 @@ function TreeDragZone(options) {
   this._many = false;
   this._shapeSelector = 'li';
   this._manyOverrideSelector = null;
+
+  this._DragObjectConstructor = TreeDragObject;
 }
 
 extend(TreeDragZone, DragZone);

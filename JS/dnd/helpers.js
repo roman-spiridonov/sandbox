@@ -32,7 +32,7 @@
   if (!Element.prototype.remove) {
     Element.prototype.remove = function() {
       if (this.parentNode) {
-        this.parentNode.removeChild(this);
+        return this.parentNode.removeChild(this);
       }
     }
   }

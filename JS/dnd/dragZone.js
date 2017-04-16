@@ -9,6 +9,7 @@
  * @param options.shapeSelector {string} - CSS selector to find draggable elements (by default, '.draggable')
  * @param options.manyOverrideSelector {string} - CSS selector to identify elements that are not removed from initial
  * position when placed into a pocket.
+ * @param options.DragObjectConstructor {function(new:DragObject)} - constructor that implements DragObject interface
  * @constructor
  */
 function DragZone(options) {
@@ -21,6 +22,8 @@ function DragZone(options) {
   this._many = options.many || false;
   this._shapeSelector = options.shapeSelector || '.shape';
   this._manyOverrideSelector = options.manyOverrideSelector || '.many';
+
+  this._DragObjectConstructor = DragObject;
 
   /**
    * Wrapper around element being dragged.
@@ -45,7 +48,7 @@ DragZone.prototype._onDragInit = function (e) {
 
   let many = this.isMany(shape);
 
-  this._dragObject = new DragObject({shape: shape, many: many, dragClone: this._dragClone, e: e});
+  this._dragObject = new this._DragObjectConstructor({shape: shape, many: many, dragClone: this._dragClone, e: e});
 
   return true;
 };
