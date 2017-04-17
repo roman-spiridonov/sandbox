@@ -7,10 +7,12 @@
  */
 function TreeDragZone(options) {
   DragZone.apply(this, arguments);
-  this._many = false;
-  this._shapeSelector = 'li';
-  this._manyOverrideSelector = null;
+  this._classes.container.push('rs-treednd__dragzone');
+  this._classes.shape.push('rs-treednd__shape');
+  this._classes.shapeMany.push('rs-treednd__shape_many');
+  this._classes.shapeNotMany.push('rs-treednd__shape_notmany');
 
+  this._shapeSelector = 'li';
   this._DragObjectConstructor = TreeDragObject;
 }
 

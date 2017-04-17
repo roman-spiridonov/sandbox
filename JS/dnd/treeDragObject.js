@@ -8,6 +8,7 @@
  */
 function TreeDragObject(options) {
   DragObject.apply(this, arguments);
+  this._classes.avatar.push('rs-treednd__avatar');
 
   this.separatorBefore = null;  // separator before the shape used as a pocket for ordering
 }

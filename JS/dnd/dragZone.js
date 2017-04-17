@@ -18,12 +18,20 @@ function DragZone(options) {
   options.container.dragZone = this;  // save in DOM
   this._container = options.container;
 
+  this._classes = {
+    container: ['rs-dnd__dragzone'],
+    shape: ['rs-dnd__shape'],
+    shapeMany: ['rs-dnd__shape_many'],
+    shapeNotMany: ['rs-dnd__shape_notmany']
+  };
+
   this._dragClone = options.dragClone || false;
   this._many = options.many || false;
-  this._shapeSelector = options.shapeSelector || '.shape';
-  this._manyOverrideSelector = options.manyOverrideSelector || '.many';
+  this._shapeSelector = options.shapeSelector || ('.' + this._classes.shape[0]);
+  this._shapeManySelector = options.shapeManySelector || ('.' + this._classes.shapeMany[0]);
+  this._shapeNotManySelector = options.shapeNotManySelector || ('.' + this._classes.shapeNotMany[0]);
 
-  this._DragObjectConstructor = DragObject;
+  this._DragObjectConstructor = DragObject;  // DragObject constructor
 
   /**
    * Wrapper around element being dragged.
@@ -39,6 +47,8 @@ function DragZone(options) {
   this._dropZone = null;
 
   this._allowedDropZones = {};  // IDs of allowed drop zones
+
+  this.applyClasses();
 }
 
 
@@ -67,13 +77,15 @@ DragZone.prototype.findShape = function (e) {
 
 /**
  * Return true if the shape should be dragged as clone of many shapes.
- * @param shape {Node} - shape element
+ * @param shape {HTMLElement} - shape element
  * @returns {boolean}
  */
 DragZone.prototype.isMany = function (shape) {
   let many = this._many;
-  if (this._manyOverrideSelector && shape.matches(this._manyOverrideSelector)) {
-    many = !many;
+  if (shape.matches(this._shapeManySelector)) {
+    many = true;
+  } else if(shape.matches(this._shapeNotManySelector)) {
+    many = false;
   }
 
   return many;
@@ -85,10 +97,6 @@ DragZone.prototype._onDragStart = function (e) {
   if (!isAvatarCreated) { // cancel dragging, could not create avatar element
     this.reset();
     return false;
-  }
-
-  if (!this._dragObject.dragClone) {
-    this._dragObject.hide();
   }
 
   return true; // avatar created successfully
@@ -156,11 +164,12 @@ DragZone.prototype._findDropZone = function (e) {
  */
 DragZone.prototype.addDropZone = function (dropZone) {
   this._allowedDropZones[dropZone._id] = true;
+  return dropZone;
 };
 
 DragZone.prototype.removeDropZone = function (dropZone) {
-
-  this._allowedDropZones[dropZone._id] = false;
+  delete this._allowedDropZones[dropZone._id];
+  return dropZone;
 };
 
 DragZone.prototype.clearDropZones = function (dropZone) {
@@ -177,4 +186,23 @@ DragZone.prototype.reset = function () {
   this._dragObject.restore();
   // destroy dragging wrapper around it
   this._dragObject = null;
+};
+
+
+/**
+ * Applies classes to the element.
+ */
+DragZone.prototype.applyClasses = function () {
+  this._container.classList.add(...this._classes.container);
+
+  this._container.querySelectorAll(this._shapeSelector)
+    .forEach((el) => el.classList.add(...this._classes.shape));
+
+  if(this.many) {
+    this._container.querySelectorAll(this._shapeNotManySelector)
+      .forEach((el) => el.classList.add(...this._classes.shapeNotMany));
+  } else {
+    this._container.querySelectorAll(this._shapeManySelector)
+      .forEach((el) => el.classList.add(...this._classes.shapeMany));
+  }
 };

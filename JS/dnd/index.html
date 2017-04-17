@@ -4,8 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <script src="https://cdn.polyfill.io/v1/polyfill.js?features=Element.prototype.closest"></script>
+  <link rel="stylesheet" href="dnd.css">
   <link rel="stylesheet" href="dragManager.css">
-
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 </head>
 
 <body>
@@ -79,6 +82,7 @@
 <script src="./treeDragZone.js"></script>
 <script src="./treeDropZone.js"></script>
 <script src="./binDropZone.js"></script>
+<script src="./dragZoneWrapper.js"></script>
 
 <script>
   let dragManager = new DragManager();
@@ -89,13 +93,22 @@
     pocketHighlightClass: 'computer__pocket_active'
   });
 
-  let dragZone = new DragZone({
-    container: qs('.browsers'),
+//  let dragZone = new DragZone({
+//    container: qs('.browsers'),
+//    many: false,
+//    shapeSelector: '.browsers__shape',
+//    manyOverrideSelector: '.browsers__shape_many'
+//  });
+//  dragZone.addDropZone(dropZone);
+
+  let dragZone = $('.browsers').dragzone({
     many: false,
     shapeSelector: '.browsers__shape',
-    manyOverrideSelector: '.browsers__shape_many'
+    shapeManySelector: '.browsers__shape_many',
+    allowedDropZones: [dropZone]
   });
-  dragZone.addDropZone(dropZone);
+//  dragZone.dnd("addDropZone", dropZone);
+
 
   dropZone.onDragEnd = function (e, dragObject, pocket) {
     dragObject.remove();
@@ -114,9 +127,7 @@
   });
   let treeDropZone = new TreeDropZone({
     container: qs('.tree'),
-    pocketSelector: '.tree__pocket',
-    pocketHighlightClass: '.tree__pocket_active',
-    separatorClass: '.tree__separator'
+    pocketSelector: '.tree__pocket'
   });
   treeDragZone.addDropZone(treeDropZone);
   treeDragZone.addDropZone(dropZone);

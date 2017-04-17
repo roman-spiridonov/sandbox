@@ -12,11 +12,18 @@ function DropZone(options) {
 
   options.container.dropZone = this;  // save in DOM
 
+  this._classes = {
+    container: ['rs-dnd__dropzone'],
+    pocket: ['rs-dnd__pocket'],
+    pocketHighlight: ['rs-dnd__pocket_active']
+  };
+
   this._container = options.container;
-  this._pocketSelector = options.pocketSelector || '.pocket';
-  this._pocketHighlightClass = options.pocketHighlightClass || '.pocket_active';
+  this._pocketSelector = options.pocketSelector || '.' + this._classes.pocket[0];
 
   this._pocket = null; // active pocket
+
+  this.applyClasses();
 }
 
 /**
@@ -109,7 +116,7 @@ DropZone.prototype._onDragMove = function (e, dragObject) {
  * @param pocket
  */
 DropZone.prototype.highlightPocket = function (pocket) {
-  pocket.classList.add(normalizeClass(this._pocketHighlightClass));
+  pocket.classList.add(...this._classes.pocketHighlight);
 };
 
 /**
@@ -117,11 +124,22 @@ DropZone.prototype.highlightPocket = function (pocket) {
  * @param pocket
  */
 DropZone.prototype.deHighlightPocket = function (pocket) {
-  pocket.classList.remove(normalizeClass(this._pocketHighlightClass));
+  pocket.classList.remove(...this._classes.pocketHighlight);
 };
 
 
 DropZone.prototype.reset = function () {
   this._pocket && this.deHighlightPocket(this._pocket);
   this._pocket = null;
+};
+
+
+/**
+ * Applies classes to the element.
+ */
+DropZone.prototype.applyClasses = function () {
+  this._container.classList.add(...this._classes.container);
+
+  this._container.querySelectorAll(this._pocketSelector)
+    .forEach((el) => el.classList.add(...this._classes.pocket));
 };

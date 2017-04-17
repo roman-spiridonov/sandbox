@@ -8,7 +8,12 @@
 function TreeDropZone(options) {
   DropZone.apply(this, arguments);
   this._pocketSelector = 'li';
-  this._separatorClass = options.separatorClass || '.separator';
+
+  this._classes.container.push('rs-treednd__dropzone');
+  this._classes.pocket.push('rs-treednd__pocket');
+  this._classes.pocketHighlight.push('rs-treednd__pocket_active');
+  this._classes.separator = ['rs-treednd__separator'];
+
   this._hasSeparators = options.hasSeparators || false;
 }
 
@@ -38,15 +43,10 @@ TreeDropZone.prototype._createSortingLi = function () {
   sortingLi.style.listStyle = 'none';
   sortingLi.style.height = '5px';
   sortingLi.style.width = '100px';
-  sortingLi.classList.add(normalizeClass(this._separatorClass));
+  sortingLi.classList.add(...this._classes.separator);
   sortingLi.isSeparator = true;  // store in DOM
 
   return sortingLi;
-};
-
-
-TreeDropZone.prototype.onDragEnd = function () {
-  DropZone.prototype.onDragEnd.apply(this, arguments);
 };
 
 

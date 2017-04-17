@@ -30,23 +30,6 @@
     margin-right: auto;
 }
 
-.computer__pocket_active {
-    background-color: lightyellow;
-}
-
 .computer__shape {
     cursor: pointer;
-}
-
-.tree__shape {
-    cursor: pointer;
-}
-
-.tree__pocket_active > span {
-    color: red;
-    font-weight: bold;
-}
-
-.tree__separator.tree__pocket_active {
-    background: darkred;
 }

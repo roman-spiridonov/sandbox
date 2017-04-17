@@ -11,6 +11,10 @@
 function DragObject(options) {
   this._id = GIDMaker(this.constructor.name);
 
+  this._classes = {
+    avatar: ['rs-dnd__avatar']
+  };
+
   this.downX = options.e.pageX;
   this.downY = options.e.pageY;
   this.shape = options.shape;
@@ -61,11 +65,17 @@ DragObject.prototype._initAvatar = function () {
 
   // prepare for dragging in DOM
   document.body.appendChild(this.avatar);
-  this.avatar.style.zIndex = 9999;
-  this.avatar.style.position = 'absolute';
+  this.applyClasses();
 
-  // disable pointer events until released
-  this.avatar.style.pointerEvents = 'none';
+  // this.avatar.style.zIndex = 9999;
+  // this.avatar.style.position = 'absolute';
+  //
+  // // disable pointer events until released
+  // this.avatar.style.pointerEvents = 'none';
+
+  if (!this.dragClone) {
+    this.hide();
+  }
 
   return true;
 };
@@ -128,4 +138,9 @@ DragObject.prototype.onDragEnd = function (e, pocket) {
  * @param e - mouse event
  */
 DragObject.prototype.onDragCancel = function (e) {
+};
+
+
+DragObject.prototype.applyClasses = function () {
+  this.avatar && this.avatar.classList.add(...this._classes.avatar);
 };
