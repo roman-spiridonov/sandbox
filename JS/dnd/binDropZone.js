@@ -14,4 +14,5 @@ extend(BinDropZone, DropZone);
 
 BinDropZone.prototype.onDragEnd = function(e, dragObject, pocket) {
   dragObject.remove();
+  DropZone.prototype.onDragEnd.apply(this, arguments);
 };

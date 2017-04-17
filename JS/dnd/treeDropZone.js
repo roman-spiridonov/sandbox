@@ -65,3 +65,89 @@ TreeDropZone.prototype._findPocket = function (e, dragObject) {
 
   return target;
 };
+
+
+/**
+ * Inserts <li> element to the another list's <ul> level in alphabetical order
+ * @param li
+ * @param ul
+ * @param mode {string} - can be one of the following options.
+ * 'end' - insert to the end of ul list (default)
+ * 'begin' - insert to the beginning of ul list
+ * 'alphabetical' - insert keeping alphabetical in the ul list
+ * @returns {*}
+ */
+TreeDropZone.prototype.appendLiToUl = function (li, ul, mode = 'end') {
+  let title = li.textContent; // list title being dragged
+  let targetLi = null;
+
+  switch (mode) {
+    case 'begin':
+      targetLi = ul.children[0];
+      break;
+
+    case 'end':
+      targetLi = null;
+      break;
+
+    case 'alphabetical':
+      for (let i = 0; i < ul.children.length; i++) {
+        targetLi = ul.children[i];
+        let childTitle = targetLi.textContent;
+        if (childTitle > title) {
+          // insert before this element
+          break;
+        }
+      }
+      break;
+
+    default:
+      throw new Error(`Incorrect mode parameter specified: ${mode}. Should be one of 'begin', 'end', 'alphabetical'`);
+  }
+
+  ul.insertBefore(li, targetLi);
+  return li;
+};
+
+
+/**
+ * Place the element inside of the pocket.
+ * @param e - mouse event
+ * @param dragObject {TreeDragObject}
+ * @param pocket {HTMLElement}
+ */
+TreeDropZone.prototype.onDragEnd = function (e, dragObject, pocket) {
+  if (pocket.isSeparator) {
+    // insert element in place of a separator
+    pocket.parentNode.insertBefore(dragObject.shape, pocket);
+
+    // make sure it is wrapped around with separators
+    if (dragObject.separatorBefore) {
+      pocket.parentNode.insertBefore(dragObject.separatorBefore, dragObject.shape);
+    }
+
+    return;
+  }
+
+  // pocket is not a separator (not reordering)
+  // get container for li elements in pocket
+  let ul = pocket.querySelector('ul');
+
+  if (!ul) {
+    // leaf (no descendants) => add as a child
+    ul = document.createElement('ul');
+    pocket.appendChild(ul);
+    ul.appendChild(dragObject.shape);
+  } else {
+    // has descendants => add to the list in alphabetical order
+    this.appendLiToUl(dragObject.shape, ul, 'end');
+  }
+
+  // if dragging with separator => insert separator
+  if (dragObject.separatorBefore) {
+    ul.insertBefore(dragObject.separatorBefore, dragObject.shape);
+  }
+
+  DropZone.prototype.onDragEnd.apply(this, arguments);
+};
+

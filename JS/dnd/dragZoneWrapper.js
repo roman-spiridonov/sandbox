@@ -3,7 +3,7 @@
 /**
  * jQuery UI widget wrapper for DragZone.
  */
-$.widget("rs.dragzone", {
+$.widget("rs.dragZone", {
   options: {
     allowedDropZones: []
   },
@@ -22,18 +22,32 @@ $.widget("rs.dragzone", {
     });
   },
 
-  addDropZone: function(dropZone) {
-    if(dropZone === undefined) {
+  addDropZone: function(dropZoneEl) {
+    if(dropZoneEl === undefined) {
       return null;
     }
-    return this.element[0].dragZone.addDropZone(dropZone);
+
+    if(dropZoneEl[0].dropZone) {
+      return this.element[0].dragZone.addDropZone(dropZoneEl[0].dropZone);
+    } else if (dropZone.dropZone) {
+      return this.element[0].dragZone.addDropZone(dropZoneEl.dropZone);
+    }
+
+    return null;
   },
 
-  removeDropZone: function(dropZone) {
-    if(dropZone === undefined) {
+  removeDropZone: function(dropZoneEl) {
+    if(dropZoneEl === undefined) {
       return null;
     }
-    return this.element[0].dragZone.removeDropZone(dropZone);
+
+    if(dropZoneEl[0].dropZone) {
+      return this.element[0].dragZone.removeDropZone(dropZoneEl[0].dropZone);
+    } else if (dropZone.dropZone) {
+      return this.element[0].dragZone.removeDropZone(dropZoneEl.dropZone);
+    }
+
+    return null;
   },
 
   clearDropZones: function() {

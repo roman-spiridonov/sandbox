@@ -22,6 +22,7 @@ function DropZone(options) {
   this._pocketSelector = options.pocketSelector || '.' + this._classes.pocket[0];
 
   this._pocket = null; // active pocket
+  this._onDragEndCallback = options.onDragEndCallback || undefined;
 
   this.applyClasses();
 }
@@ -85,7 +86,6 @@ DropZone.prototype.onDragLeave = function (e, dragObject) {
  * @param dragObject {DragObject}
  */
 DropZone.prototype.onDragCancel = function (e, dragObject) {
-  dragObject.onDragCancel(e);
 };
 
 /**
@@ -95,7 +95,7 @@ DropZone.prototype.onDragCancel = function (e, dragObject) {
  * @param pocket
  */
 DropZone.prototype.onDragEnd = function (e, dragObject, pocket) {
-  dragObject.onDragEnd(e, pocket);
+  this._onDragEndCallback && this._onDragEndCallback.apply(this, arguments);
 };
 
 

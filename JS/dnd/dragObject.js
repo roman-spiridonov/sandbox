@@ -89,9 +89,11 @@ DragObject.prototype.createAvatarFromShape = function() {
 };
 
 DragObject.prototype.moveTo = function (pageX, pageY) {
-  // sync position on mouse move
-  this.avatar.style.left = pageX - this._shiftX + 'px';
-  this.avatar.style.top = pageY - this._shiftY + 'px';
+  if(this.avatar) {
+    // sync position on mouse move
+    this.avatar.style.left = pageX - this._shiftX + 'px';
+    this.avatar.style.top = pageY - this._shiftY + 'px';
+  }
 };
 
 /**
@@ -122,22 +124,6 @@ DragObject.prototype.showAvatar = function () {
 DragObject.prototype.removeAvatar = function () {
   this.avatar && (this.avatar.remove());
   this._shiftX = this._shiftY = 0;
-};
-
-
-/**
- * Place the element inside of the pocket.
- * @param e - mouse event
- * @param pocket
- */
-DragObject.prototype.onDragEnd = function (e, pocket) {
-};
-
-/**
- * No pocket found. Dragging is cancelled.
- * @param e - mouse event
- */
-DragObject.prototype.onDragCancel = function (e) {
 };
 
 

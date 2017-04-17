@@ -11,9 +11,10 @@ function DragManager() {
   let dragZone;  // currently active dragZone
   let isDragging = false;  // there is a shape being dragged right now
 
+  // Prevent default HTML5 Drag&Drop
   document.onmousemove = onMouseMove;
-  document.onmouseup = onMouseUp;
   document.onmousedown = onMouseDown;
+  document.onmouseup = onMouseUp;
 
   let self = this;
 
@@ -46,7 +47,7 @@ function DragManager() {
       let moveY = e.pageY - downY;
 
       // accidental click
-      if (Math.abs(moveX) < 3 && Math.abs(moveY) < 3) {
+      if (Math.abs(moveX) < 5 && Math.abs(moveY) < 5) {
         reset();
         return;
       }
@@ -70,6 +71,7 @@ function DragManager() {
     }
 
     reset();
+    return false;
   }
 
   function findDragZone(e) {

@@ -82,16 +82,23 @@
 <script src="./treeDragZone.js"></script>
 <script src="./treeDropZone.js"></script>
 <script src="./binDropZone.js"></script>
+<script src="./dropZoneWrapper.js"></script>
+<script src="./binDropZoneWrapper.js"></script>
 <script src="./dragZoneWrapper.js"></script>
 
 <script>
   let dragManager = new DragManager();
 
-  let dropZone = new BinDropZone({
-    container: qs('.computer'),
-    pocketSelector: '.computer__pocket',
-    pocketHighlightClass: 'computer__pocket_active'
-  });
+//  let dropZone = new BinDropZone({
+//    container: qs('.computer'),
+//    pocketSelector: '.computer__pocket',
+//    onDragEndCallback: function(e, dragObject, pocket) {
+//      this._container.classList.add('computer-smile');
+//      setTimeout(() => {
+//        this._container.classList.remove('computer-smile');
+//      }, 200);
+//    }
+//  });
 
 //  let dragZone = new DragZone({
 //    container: qs('.browsers'),
@@ -101,22 +108,23 @@
 //  });
 //  dragZone.addDropZone(dropZone);
 
-  let dragZone = $('.browsers').dragzone({
+  let dropZone = $('.computer').binDropZone({
+    pocketSelector: '.computer__pocket',
+    dragend: function(data) {
+      this.classList.add('computer-smile');
+      setTimeout(() => {
+        this.classList.remove('computer-smile');
+      }, 200);
+    }
+  });
+
+  let dragZone = $('.browsers').dragZone({
     many: false,
     shapeSelector: '.browsers__shape',
     shapeManySelector: '.browsers__shape_many',
     allowedDropZones: [dropZone]
   });
-//  dragZone.dnd("addDropZone", dropZone);
-
-
-  dropZone.onDragEnd = function (e, dragObject, pocket) {
-    dragObject.remove();
-    this._container.classList.add('computer-smile');
-    setTimeout(() => {
-      this._container.classList.remove('computer-smile');
-    }, 200);
-  };
+//  dragZone.dragzone("addDropZone", dropZone);
 
 </script>
 
@@ -130,7 +138,7 @@
     pocketSelector: '.tree__pocket'
   });
   treeDragZone.addDropZone(treeDropZone);
-  treeDragZone.addDropZone(dropZone);
+  treeDragZone.addDropZone(dropZone[0].dropZone);
 
   treeDropZone.appendSeparators();
 </script>
