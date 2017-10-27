@@ -3,13 +3,15 @@ var url = require('url');
 var fs = require('fs');
 
 var server = new http.Server();  // http.Server -> net.Server -> EventEmitter
-    // emits 'request'; same as http.createServer(...).listen(...)
+    // emits 'request'; same as http.createServer([requestListener]).listen([port]])
 
+// change emit function to log all events
 var emit = server.emit;
 server.emit = function(event) {
     console.log(event);
     emit.apply(this, arguments);
 };
+
 // Keep-alive: only request events after some tries (server sends a corresponding HTTP header)
 
 server.on('request', function(req, res) {

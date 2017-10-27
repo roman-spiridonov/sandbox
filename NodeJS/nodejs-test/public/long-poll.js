@@ -40,7 +40,7 @@ function SubscribePane(paneEl, url) {
             if(this.status != 404) {  // possible server restart
                 console.log('Long-polling not successful. Error: ' + this.status + ' ' + this.statusText);
             }
-            setTimeout(subscribe, 1000); // try again after 1s
+            setTimeout(subscribe, 1000); // try again after 1s (to not overload server)
         };
 
         xhr.send();

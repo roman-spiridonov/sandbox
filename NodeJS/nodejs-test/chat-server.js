@@ -32,6 +32,7 @@ function chatServer(req, res) {
             res.end("Specify used id in the request params.")
         } else {
             subscribers[userid] = res;  // keep connection with userid until message arrives
+            console.log("User with id %d has joined the chat.", userid);
         }
 
         res.on("close", function() {    // connection interrupted (e.g. user disconnected)

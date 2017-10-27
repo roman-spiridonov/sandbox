@@ -76,7 +76,7 @@ function Uploader(file, onSuccess, onError, onProgress) {
 
         xhrUpload.upload.onprogress = function(e) {
             onProgress(startByte + e.loaded, startByte + e.total);
-        }
+        };
 
         // отослать, начиная с байта startByte
         xhrUpload.send(file.slice(startByte));

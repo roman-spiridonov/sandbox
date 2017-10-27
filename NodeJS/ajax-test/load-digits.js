@@ -16,7 +16,7 @@ function loadDigits() {
         if (xhr.status != 200) { // обработать ошибку
             console.log(xhr.status + ': ' + xhr.statusText);
         }
-    }
+    };
 
     xhr.send(); 
 
