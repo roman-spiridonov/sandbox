@@ -129,7 +129,7 @@ f[aA][lL][sS][eE]                       return "BOOL_CONST";
     yy.lex_error();
   }
 %}
-<STRING>"\\"[^\0]  string_buf += yytext;
+<STRING>\\[^\0]  string_buf += yytext;
 <STRING>[^\0\\\n\"]+        %{  //"
         string_buf += yytext;
 %}
@@ -163,6 +163,11 @@ f[aA][lL][sS][eE]                       return "BOOL_CONST";
 
 "+"|"/"|"-"|"*"|"="|"<"|"."|"~"|","|";"|":"|"("|")"|"@"|"{"|"}" %{
   return yytext;
+%}
+
+\0 %{
+  yy.error_msg = "Null character in code: ";
+  yy.lex_error();
 %}
 
 . %{

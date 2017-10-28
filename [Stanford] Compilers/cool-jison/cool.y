@@ -17,6 +17,7 @@
 %}
 
 /* operator associations and precedence */
+%nonassoc IN
 %right ASSIGN
 %left NOT
 %nonassoc LE '<' '='
@@ -40,8 +41,8 @@ class_list
 : class	';'		/* single class */
   { $$ = ["CLASS_LIST", {}, $1]; }
 | class_list class ';'	/* several classes */
-  { $$ = prependChild($1, $2); parse_results = $$; }
-| error ';' class_list
+  { $$ = appendChild($1, $2); parse_results = $$; }
+| error ';'
 ;
 
 class	: CLASS TYPEID '{' feature_list '}' // '
@@ -54,8 +55,8 @@ feature_list:
   /* empty */
     {  $$ = ["FEATURES", {}]; }
   | feature_list feature ';'
-    { $$ = prependChild($1, $2); }
-  |  error ';' feature_list
+    { $$ = appendChild($1, $2); }
+  | error ';'
     {  }
 ;
 
@@ -77,7 +78,7 @@ formals: /* empty */
 formals_nonempty: formal
   { $$ = ["FORMALS", {}, $1]; }
 | formals ',' formal
-  { $$ = prependChild($1, $3); }
+  { $$ = appendChild($1, $3); }
 ;
 
 formal: OBJECTID ':' TYPEID
@@ -94,13 +95,13 @@ expressions: /* empty */
 expressions_nonempty: expression
   { $$ = ["EXPRESSIONS", {}, $1]; }
 | expressions ',' expression
-  { $$ = prependChild($1, $3); }
+  { $$ = appendChild($1, $3); }
 ;
 
 expressions_semicolon: expression ';'
   { $$ = ["EXPRESSIONS", {}, $1]; }
 | expressions_semicolon expression ';' 
-  { $$ = prependChild($1, $2); }
+  { $$ = appendChild($1, $2); }
 | expressions_semicolon error ';'
   {  }
 ;
@@ -108,7 +109,7 @@ expressions_semicolon: expression ';'
 cases: case
   { $$ = ["CASES", {}, $1]; }
 | cases case
-  { $$ = prependChild($1, $2); }
+  { $$ = appendChild($1, $2); }
 ;
 
 case: OBJECTID ':' TYPEID DARROW expression ';'
@@ -136,8 +137,6 @@ expression: OBJECTID ASSIGN expression
   {  }
 | LET nested_let
   { $$ = ["NESTED_LET", {}, $2]; }
-| LET error
-  {  }
 | CASE expression OF cases ESAC
   { $$ = ["TYPCASE", {}, $2, $4]; }
 | NEW TYPEID 
@@ -182,7 +181,7 @@ nested_let: OBJECTID ':' TYPEID ASSIGN expression IN expression
   { $$ = ["LET", {}, $1, $3, $5, $7]; }
 | OBJECTID ':' TYPEID ',' nested_let
   { $$ = ["LET", {}, $1, $3, no_expr(), $5]; }
-| error ',' nested_let
+| error
   { }
 ;
 

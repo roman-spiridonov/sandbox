@@ -148,6 +148,7 @@
     %type <expression> nested_let
     
     /* Precedence declarations go here. */
+    %nonassoc IN
     %right ASSIGN
     %left NOT
     %nonassoc LE '<' '='
@@ -168,9 +169,9 @@
     class_list
     : class	';'		/* single class */
       { $$ = single_Classes($1); parse_results = $$; }
-    | class_list class ';'	/* several classes */
+    | class_list class ';'  	/* several classes */
       { $$ = append_Classes($1,single_Classes($2)); parse_results = $$; }
-    | error ';' class_list 
+    | error ';'  
       {  }
     ;
     
@@ -187,7 +188,7 @@
         {  $$ = nil_Features(); }
       | feature_list feature ';'
         { $$ = append_Features($1, single_Features($2));  }
-      |  error ';' feature_list
+      | error ';' 
         {  }
     ;
 
@@ -267,8 +268,6 @@
       { yyerrok; }
     | LET nested_let
       { $$ = $2; }
-    | LET error
-      { yyerrok; }
     | CASE expression OF cases ESAC
       { $$ = typcase($2, $4); }
     | NEW TYPEID 
@@ -305,7 +304,7 @@
       { @$ = @1; SET_NODELOC(@1); $$ = object(idtable.add_string($1->get_string())); }
     ;
 
-    nested_let: OBJECTID ':' TYPEID ASSIGN expression IN expression
+    nested_let: OBJECTID ':' TYPEID ASSIGN expression IN expression 
       { $$ = let(idtable.add_string($1->get_string()), $3, $5, $7); }
     | OBJECTID ':' TYPEID IN expression
       { $$ = let(idtable.add_string($1->get_string()), $3, no_expr(), $5); }
@@ -313,7 +312,7 @@
       { $$ = let(idtable.add_string($1->get_string()), $3, $5, $7); }
     | OBJECTID ':' TYPEID ',' nested_let
       { $$ = let(idtable.add_string($1->get_string()), $3, no_expr(), $5); }
-    | error ',' nested_let
+    | error
       { yyerrok; }
     ;
 

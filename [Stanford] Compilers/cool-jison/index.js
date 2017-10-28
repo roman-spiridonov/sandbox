@@ -5,17 +5,23 @@ const fs = require('fs');
 
 var parser = require('./cool').parser;
 
-let file = fs.readFileSync('./arith.cl', {encoding: 'utf-8'});
+let file = fs.readFileSync('./hello_world.cl', {encoding: 'utf-8'});
 var lexer = parser.lexer;
 lexer.setInput(file);
 
-let r;
+let r, lex_output = "";
 while(r = lexer.lex()) {
-  console.log(r);
-  if(r === 1)
+  if(r === 1) {
+    lex_output += "<<EOF>>";
     break;
+  }
+  lex_output += r + ", ";
 }
 
+console.log("Lexer output:\n", lex_output, "\n");
+
+console.log("Launching parser:\n");
 let res = parser.parse(file);
 
+console.log("\nas JSON:\n");
 console.log(JSON.stringify(res));
