@@ -24,4 +24,4 @@ console.log("Launching parser:\n");
 let res = parser.parse(file);
 
 console.log("\nas JSON:\n");
-console.log(JSON.stringify(res));
+console.log(JSON.stringify(res, null, 2));

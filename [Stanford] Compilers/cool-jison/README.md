@@ -1,6 +1,11 @@
 Cool grammar is in `cool.y` and `cool.flex`.
 
-cmd:
+Run patches to jison:
+```
+npm run prepare
+```
+
+Run:
 ```
 npm run jison
 node cool.js null_in_code.cl.cool
